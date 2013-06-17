@@ -97,6 +97,8 @@ set(${PROJECT_NAME}_HEADERS_MOC
   v3dView4DInteractor.h
   v3dViewAnnotationInteractor.h
   ${${PROJECT_NAME}_TTK_DEPENDENT_HEADERS_MOC}
+  graphics/v3dGraphicsView.h
+  graphics/v3dGraphicsScene.h
   )
 
 set(${PROJECT_NAME}_HEADERS
@@ -117,6 +119,8 @@ set(${PROJECT_NAME}_SOURCES
   annotations/v3dViewAnnIntImageMaskHelper.cpp
   annotations/v3dViewAnnIntSeedPointHelper.cpp
   annotations/vtkSeedPointHandle.cpp
+  graphics/v3dGraphicsView.cpp
+  graphics/v3dGraphicsScene.cpp  
   ${${PROJECT_NAME}_TTK_DEPENDENT_SOURCES}
   )
 

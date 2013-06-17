@@ -54,11 +54,18 @@
 #include <vtkImageViewCollection.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkPiecewiseFunction.h>
-#include <QVTKWidget.h>
+#include <QVTKGraphicsItem.h>
 
 #include <QtGui>
 #include <QMenu>
 #include <QMouseEvent>
+
+
+//---------------------------------Graphics-----------------------------------
+#include "graphics/v3dGraphicsView.h"
+#include "graphics/v3dGraphicsScene.h"
+#include <vtkGenericOpenGLRenderWindow.h>
+
 
 //=============================================================================
 // Construct a QVector3d from pointer-to-double
@@ -267,6 +274,13 @@ public:
         return is2dOrientation ( this->orientation );
     }
 
+
+    v3dGraphicsView    *graphicsView;
+    v3dGraphicsScene *graphicsScene;
+    QVTKGraphicsItem *vtkWidget;
+
+
+
     vtkRenderer *renderer2d;
     vtkRenderer *renderer3d;
     vtkSmartPointer<vtkRenderer> overlayRenderer2d;
@@ -279,17 +293,15 @@ public:
 
     v3dViewObserver *observer;
 
-    vtkRenderWindow *renWin;
-
-    QWidget    *widget;
+    vtkGenericOpenGLRenderWindow *renWin;
     QSlider    *slider;
+
     //QPushButton *anchorButton;
     QPushButton *linkButton;
     QPushButton *linkWLButton;
     QPushButton *playButton;
     QPushButton *closeButton;
     QPushButton *fullScreenButton;
-    QVTKWidget *vtkWidget;
     QString orientation;
 
     dtkAbstractData *data;
@@ -412,13 +424,25 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     QMainWindow * mainWindow = dynamic_cast< QMainWindow * >(
         qApp->property( "MainWindow" ).value< QObject * >() );
 
-    d->widget = new QWidget( mainWindow );
+//    QGLWidget *glWidget = new QGLWidget(mainWindow);
+//    glWidget->setFormat(*(new QGLFormat()));
+//    d->graphicsView = new v3dGraphicsView(glWidget);
 
-    d->slider = new QSlider ( Qt::Horizontal, d->widget );
+    QGLWidget * viewport = new QGLWidget(QGLFormat(QGL::SampleBuffers));
+    viewport->makeCurrent();
+
+    d->graphicsView = new v3dGraphicsView(mainWindow);
+    d->graphicsView->setViewport(viewport);
+    d->graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
+    d->graphicsScene = new v3dGraphicsScene(d->graphicsView);
+    d->graphicsView->setScene(d->graphicsScene);
+
+    d->slider = new QSlider ( Qt::Horizontal, d->graphicsView );
     d->slider->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Fixed );
     d->slider->setFocusPolicy ( Qt::NoFocus );
 
-//    d->anchorButton = new QPushButton ( d->widget );
+//    d->anchorButton = new QPushButton ( d->graphicsView );
 //    d->anchorButton->setIcon ( QIcon ( ":/icons/anchor.png" ) );
 //    //d->anchorButton->setText("a");
 //    d->anchorButton->setCheckable ( true );
@@ -430,7 +454,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
 //    connect ( d->anchorButton, SIGNAL ( clicked ( bool ) ), this, SIGNAL ( becomeDaddy ( bool ) ) );
 
-    d->linkButton = new QPushButton ( d->widget );
+    d->linkButton = new QPushButton ( d->graphicsView );
     d->linkButton->setIcon (d->linkIcon );
     d->linkButton->setToolTip(tr("Link the position with other views"));
     d->linkButton->setCheckable ( true );
@@ -443,7 +467,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     connect ( d->linkButton, SIGNAL ( clicked ( bool ) ), this, SLOT ( setLinkPosition ( bool ) ) );
     connect ( d->linkButton, SIGNAL ( clicked ( bool ) ), this, SLOT ( setLinkCamera ( bool ) ) );
 
-    d->linkWLButton = new QPushButton ( d->widget );
+    d->linkWLButton = new QPushButton ( d->graphicsView );
 //    d->linkWLButton->setIcon ( QIcon ( ":/icons/link_wl.png" ) );
     d->linkWLButton->setIcon ( d->linkWLIcon);
     d->linkWLButton->setToolTip(tr("Link the window/level with other views"));
@@ -456,7 +480,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
     connect ( d->linkWLButton, SIGNAL ( clicked ( bool ) ), this, SLOT ( setLinkWindowing ( bool ) ) );
 
-    d->fullScreenButton = new QPushButton ( d->widget );
+    d->fullScreenButton = new QPushButton ( d->graphicsView );
     d->fullScreenButton->setIcon (d->maximizeIcon);
     d->fullScreenButton->setToolTip(tr("(Un)Maximize the view"));
     d->fullScreenButton->setCheckable ( true );
@@ -468,7 +492,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
     connect ( d->fullScreenButton, SIGNAL ( clicked ( bool ) ), this, SIGNAL ( fullScreen ( bool ) ) );
 
-    d->playButton = new QPushButton ( d->widget );
+    d->playButton = new QPushButton ( d->graphicsView );
     d->playButton->setIcon(d->playIcon);
     d->playButton->setToolTip(tr("Play through the slices") );
     d->playButton->setCheckable ( true );
@@ -480,7 +504,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
     connect ( d->playButton, SIGNAL ( clicked ( bool ) ), this, SLOT ( play ( bool ) ) );
 
-    d->closeButton = new QPushButton ( d->widget );
+    d->closeButton = new QPushButton ( d->graphicsView );
     d->closeButton->setIcon(QIcon(":/icons/whitecross.svg"));
     d->closeButton->setToolTip(tr("Close View"));
     d->closeButton->setCheckable ( false );
@@ -492,16 +516,20 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
     connect ( d->closeButton, SIGNAL ( clicked() ), this, SIGNAL ( closing() ) );
 
-    QButtonGroup *toolButtonGroup = new QButtonGroup ( d->widget );
+    QButtonGroup *toolButtonGroup = new QButtonGroup ( d->graphicsView );
 //    toolButtonGroup->addButton ( d->anchorButton );
     toolButtonGroup->addButton ( d->linkButton );
     toolButtonGroup->setExclusive ( false );
 
-    d->vtkWidget = new QVTKWidget ( d->widget );
-    d->vtkWidget->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Minimum );
-    d->vtkWidget->setFocusPolicy ( Qt::NoFocus );
+    //QGLContext * glContext = reinterpret_cast<QGLContext*>( glWidget->context() );
+    d->vtkWidget = new QVTKGraphicsItem (new QGLContext(QGLFormat()));
+    d->graphicsScene->addItem(d->vtkWidget);
 
-    d->renWin = vtkRenderWindow::New();
+    //d->vtkWidget->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Minimum );
+    //d->vtkWidget->setFocusPolicy ( Qt::NoFocus );
+
+
+    d->renWin = vtkGenericOpenGLRenderWindow::New();
     d->renWin->StereoCapableWindowOn();
     d->renWin->SetStereoTypeToCrystalEyes();
     // if(qApp->arguments().contains("--stereo"))
@@ -524,11 +552,11 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     toolsLayout->addWidget ( d->fullScreenButton );
     toolsLayout->addWidget ( d->closeButton );
 
-    QVBoxLayout *layout = new QVBoxLayout ( d->widget );
+    QVBoxLayout *layout = new QVBoxLayout ( d->graphicsView );
     layout->setContentsMargins ( 0, 0, 0, 0 );
     layout->setSpacing ( 0 );
     layout->addLayout ( toolsLayout );
-    layout->addWidget ( d->vtkWidget );
+    layout->addWidget ( d->graphicsView );
 
     //d->view3d->SetRenderWindow(d->vtkWidget->GetRenderWindow());
     d->view3d->SetRenderWindowInteractor ( d->renWin->GetInteractor() );
@@ -655,7 +683,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
     connect ( d->slider,       SIGNAL ( valueChanged ( int ) ),            this, SLOT ( onZSliderValueChanged ( int ) ) );
 
-    connect ( d->widget, SIGNAL ( destroyed() ), this, SLOT ( widgetDestroyed() ) );
+    connect ( d->graphicsView, SIGNAL ( destroyed() ), this, SLOT ( widgetDestroyed() ) );
 }
 
 v3dView::~v3dView()
@@ -689,17 +717,17 @@ v3dView::~v3dView()
 
     d->observer->Delete();
 
-    if ( d->widget )
+    if ( d->graphicsView )
     {
-        if ( !d->widget->parent() )
+        if ( !d->graphicsView->parent() )
         {
             // If the widget has no parent then delete now.
-            delete d->widget;
+            delete d->graphicsView;
         }
         else
         {
             // this can only be used if an event loop is (still) running.
-            d->widget->deleteLater();
+            d->graphicsView->deleteLater();
         }
     }
 
@@ -1074,12 +1102,12 @@ void *v3dView::data()
 
 QWidget *v3dView::receiverWidget()
 {
-    return d->vtkWidget;
+    return d->graphicsView;
 }
 
 QWidget *v3dView::widget()
 {
-    return d->widget;
+    return d->graphicsView;
 }
 
 void v3dView::play ( bool start )
@@ -1969,7 +1997,7 @@ void v3dView::enableInteraction()
     if ( this->property ( "Orientation" ) != "3D" )
         return;
 
-    d->widget->setAttribute ( Qt::WA_TransparentForMouseEvents, false );
+    d->graphicsView->setAttribute ( Qt::WA_TransparentForMouseEvents, false );
 }
 
 void v3dView::disableInteraction()
@@ -1979,7 +2007,7 @@ void v3dView::disableInteraction()
 
     // d->window->GetInteractor()->Disable();
 
-    d->widget->setAttribute ( Qt::WA_TransparentForMouseEvents, true );
+    d->graphicsView->setAttribute ( Qt::WA_TransparentForMouseEvents, true );
 }
 
 void v3dView::bounds ( float& xmin, float& xmax, float& ymin, float& ymax, float& zmin, float& zmax )
@@ -2227,7 +2255,7 @@ double v3dView::cameraZoom()
 
 void v3dView::close()
 {
-    d->widget->close();
+    d->graphicsView->close();
     medAbstractView::close();
 }
 
@@ -2325,7 +2353,7 @@ void v3dView::onOpacityChanged ( double opacity, int layer )
 
 void v3dView::widgetDestroyed()
 {
-    d->widget = NULL;
+    d->graphicsView = NULL;
 }
 
 medAbstractViewCoordinates * v3dView::coordinates()

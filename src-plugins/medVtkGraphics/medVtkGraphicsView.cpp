@@ -17,10 +17,13 @@
 #include <QGLWidget>
 #include <QGLFormat>
 #include <QResizeEvent>
+#include <QDebug>
 
+#include "vtkRenderWindowInteractor.h"
 #include "QVTKWidget2.h"
 #include "vtkGenericOpenGLRenderWindow.h"
 #include "medVtkGraphicsScene.h"
+#include "vtkCommand.h"
 
 class medVtkGraphicsViewPrivate
 {
@@ -48,6 +51,9 @@ medVtkGraphicsView::medVtkGraphicsView(QWidget *parent) :
     this->setBackgroundBrush (QColor(0,0,0));
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setFrameStyle(QFrame::NoFrame);
+    this->setMouseTracking(false);
+    this->setCacheMode(CacheNone);
     
     this->setAcceptDrops(false);
 }
@@ -78,5 +84,77 @@ void medVtkGraphicsView::resizeEvent(QResizeEvent *event)
         scene()->setSceneRect(QRect(QPoint(0, 0), event->size()));
     
     QGraphicsView::resizeEvent(event);
-    d->viewport->GetRenderWindow()->SetSize(event->size().width(), event->size().height());
+//    d->viewport->GetRenderWindow()->SetSize(event->size().width(), event->size().height());
+    
+    if(vtkRenderWindow * renWin = d->viewport->GetRenderWindow() )
+    {
+        // give the size to the interactor and vtk window
+        renWin->SetSize(this->width(), this->height());
+
+        // The renderwindow doesn't set the interactor size, so we
+        // need to do it.
+        if(renWin->GetInteractor())
+        {
+            renWin->GetInteractor()->SetSize(this->width(), this->height());
+        }
+    }
+}
+
+void medVtkGraphicsView::mousePressEvent(QMouseEvent *event)
+{   
+    qDebug() << __PRETTY_FUNCTION__;
+    
+    switch(event->button())
+    {
+    case Qt::LeftButton:
+        d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::LeftButtonPressEvent, event);
+        break;
+
+    case Qt::MidButton:
+        d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::MiddleButtonPressEvent, event);
+        break;
+
+    case Qt::RightButton:
+        d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::RightButtonPressEvent, event);
+        break;
+
+    default:
+        break;
+    }
+    
+    QGraphicsView::mousePressEvent(event);
+}
+
+void medVtkGraphicsView::mouseMoveEvent(QMouseEvent *event)
+{   
+    qDebug() << __PRETTY_FUNCTION__;
+    
+    d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::MouseMoveEvent, event);
+    
+    QGraphicsView::mouseMoveEvent(event);
+}
+
+void medVtkGraphicsView::mouseReleaseEvent(QMouseEvent *event)
+{   
+    qDebug() << __PRETTY_FUNCTION__;
+    
+    // invoke appropriate vtk event
+    switch(event->button()) {
+    case Qt::LeftButton:
+         d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::LeftButtonReleaseEvent, event);
+        break;
+
+    case Qt::MidButton:
+         d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::MiddleButtonReleaseEvent, event);
+        break;
+
+    case Qt::RightButton:
+         d->viewport->GetRenderWindow()->GetInteractor()->InvokeEvent(vtkCommand::RightButtonReleaseEvent, event);
+        break;
+
+    default:
+        break;
+    }
+    
+    QGraphicsView::mouseReleaseEvent(event);
 }

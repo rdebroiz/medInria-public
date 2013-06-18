@@ -444,13 +444,13 @@ bool medViewContainer::open(dtkAbstractData * data)
     if( newView)
     {
         //container empty, or multi with no extendable view
-        view = qobject_cast<medAbstractView*>(dtkAbstractViewFactory::instance()->createSmartPointer("v3dView"));
+        view = qobject_cast<medAbstractView*>(dtkAbstractViewFactory::instance()->createSmartPointer("medVtkGraphics"));
         connect (this, SIGNAL(sliceSelected(int)), view, SLOT(setSlider(int)));
     }
 
     if( view.isNull() )
     {
-        qWarning() << "medViewContainer: Unable to create a v3dView";
+        qWarning() << "medViewContainer: Unable to create a medVtkGraphics";
         return false;
     }
 

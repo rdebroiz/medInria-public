@@ -18,6 +18,8 @@
 #include "medVtkGraphicsPluginExport.h"
 
 class medVtkGraphicsViewPrivate;
+class QGraphicsWidget;
+
 
 class MEDVTKGRAPHICSPLUGIN_EXPORT medVtkGraphicsView : public QGraphicsView
 {
@@ -26,6 +28,11 @@ class MEDVTKGRAPHICSPLUGIN_EXPORT medVtkGraphicsView : public QGraphicsView
 public:
     medVtkGraphicsView(QWidget *parent = 0);
     virtual ~medVtkGraphicsView();
+
+    void setGraphicsWidget(QGraphicsWidget *graphicsWidget);
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 private:
     medVtkGraphicsViewPrivate *d;

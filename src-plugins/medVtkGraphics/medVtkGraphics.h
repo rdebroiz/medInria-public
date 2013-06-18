@@ -21,7 +21,12 @@
 
 class medVtkGraphicsPrivate;
 class medAbstractViewCoordinates;
-
+class v3dViewObserver;
+class vtkImageView;
+class vtkImageView2D;
+class vtkImageView3D;
+class vtkRenderer;
+class vtkRenderWindowInteractor;
 
 class MEDVTKGRAPHICSPLUGIN_EXPORT medVtkGraphics : public medAbstractView
 {
@@ -58,6 +63,28 @@ public:
 
     void close();
 
+    /**
+     * Returns pointers to internal instances of vtkImageView2D/3D.
+     */
+    vtkImageView2D *view2d();
+    vtkImageView3D *view3d();
+    
+    /**
+     * Returns a pointer to the current view, being 2D or 3D.
+     */
+    vtkImageView *currentView();
+
+    /**
+     * Returns the vtkRenderWindowInteractor instance.
+     */
+    vtkRenderWindowInteractor *interactor();
+
+    /**
+     * Access methods to vtkRenderer members.
+     */
+    vtkRenderer *renderer2d();
+    vtkRenderer *renderer3d();
+    
     medAbstractViewCoordinates * coordinates();
 
 public slots:
@@ -82,6 +109,8 @@ private:
      bool SetView(const char* type,dtkAbstractData* data);
      template <typename IMAGE>
      bool SetViewInputWithConversion(const char* type,const char* newtype,dtkAbstractData* data,const int layer);
+     
+     friend class v3dViewObserver;
 };
 
 dtkAbstractView *createmedVtkGraphics();

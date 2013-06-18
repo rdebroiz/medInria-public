@@ -17,6 +17,8 @@
 #include <QGraphicsScene>
 #include "medVtkGraphicsPluginExport.h"
 
+#include <QtOpenGL/QGLContext>
+
 class medVtkGraphicsScenePrivate;
 
 class MEDVTKGRAPHICSPLUGIN_EXPORT medVtkGraphicsScene : public QGraphicsScene
@@ -24,7 +26,7 @@ class MEDVTKGRAPHICSPLUGIN_EXPORT medVtkGraphicsScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    medVtkGraphicsScene(QObject *parent = 0);
+    medVtkGraphicsScene(QGLContext* ctx, QObject *parent = 0);
     virtual ~medVtkGraphicsScene();
 
 private:

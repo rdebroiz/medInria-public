@@ -29,10 +29,14 @@ public:
     medVtkGraphicsView(QWidget *parent = 0);
     virtual ~medVtkGraphicsView();
 
-    void setGraphicsWidget(QGraphicsWidget *graphicsWidget);
-
 protected:
+    void drawBackground(QPainter* p, const QRectF& r);
+    
     void resizeEvent(QResizeEvent *event);
+    
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 private:
     medVtkGraphicsViewPrivate *d;

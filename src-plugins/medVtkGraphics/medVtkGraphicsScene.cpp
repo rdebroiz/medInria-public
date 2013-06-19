@@ -13,13 +13,22 @@
 
 #include "medVtkGraphicsScene.h"
 
-medVtkGraphicsScene::medVtkGraphicsScene(QObject *parent) : QGraphicsScene(parent)
-{
+#include <QtGui>
 
+class medVtkGraphicsScenePrivate
+{
+public:
+    QGLContext* context;
+};
+
+medVtkGraphicsScene::medVtkGraphicsScene(QGLContext* ctx, QObject *parent) 
+    : QGraphicsScene(parent), d(new medVtkGraphicsScenePrivate)
+{
+    d->context = ctx;
 }
 
 medVtkGraphicsScene::~medVtkGraphicsScene()
 {
-
+    delete d;
 }
 

@@ -1462,7 +1462,6 @@ void v3dView::onMouseInteractionPropertySet ( const QString &value )
     if ( value == "Zooming" )
     {
         d->collection->SyncSetLeftButtonInteractionStyle ( vtkInteractorStyleImageView2D::InteractionTypeZoom );
-        d->vtkWidget->setFocus(); // to able rbZoom from first click.
     }
 
     if ( value == "Windowing" )

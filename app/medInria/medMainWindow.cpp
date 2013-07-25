@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
-
+ 
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -116,10 +116,10 @@ public:
     medQuickAccessMenu * quickAccessWidget;
     bool quickAccessVisible;
     bool controlPressed;
-
+    
     medQuickAccessMenu *shortcutAccessWidget;
     bool shortcutAccessVisible;
-
+    
     QToolButton *screenshotButton;
 };
 
@@ -168,11 +168,6 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     connect(d->browserArea,SIGNAL(load(const QString&)),this,SLOT(load(const QString&)));
     connect(d->browserArea,SIGNAL(open(const medDataIndex&)),this,SLOT(open(const medDataIndex&)));
 
-    // Composer area
-
-    d->composerArea = new medComposerArea(this);
-    d->composerArea->setObjectName("Composer");
-
     //  Workspace area.
 
     d->workspaceArea = new medWorkspaceArea ( this );
@@ -189,10 +184,9 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     d->stack->addWidget ( d->homepageArea );
     d->stack->addWidget ( d->browserArea );
     d->stack->addWidget ( d->workspaceArea );
-    d->stack->addWidget (d->composerArea);
 
     connect(d->browserArea, SIGNAL(openRequested(const medDataIndex&, int)), this, SLOT(open(const medDataIndex&, int)));
-
+    
     //  Setup quick access menu
 
     d->quickAccessButton = new medQuickAccessPushButton ( this );
@@ -212,7 +206,6 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     connect(d->quickAccessWidget, SIGNAL(homepageSelected()), this, SLOT(switchToHomepageArea()));
     connect(d->quickAccessWidget, SIGNAL(browserSelected()), this, SLOT(switchToBrowserArea()));
     connect(d->quickAccessWidget, SIGNAL(workspaceSelected(QString)), this, SLOT(showWorkspace(QString)));
-    connect(d->quickAccessWidget, SIGNAL(composerSelected()), this, SLOT(switchToComposerArea()));
 
     d->quickAccessVisible = false;
     d->quickAccessAnimation = new QPropertyAnimation ( d->quickAccessWidget, "pos",this );
@@ -225,11 +218,10 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     connect(d->shortcutAccessWidget, SIGNAL(homepageSelected()), this, SLOT(switchToHomepageArea()));
     connect(d->shortcutAccessWidget, SIGNAL(browserSelected()), this, SLOT(switchToBrowserArea()));
     connect(d->shortcutAccessWidget, SIGNAL(workspaceSelected(QString)), this, SLOT(showWorkspace(QString)));
-    connect(d->shortcutAccessWidget, SIGNAL(composerSelected()), this, SLOT(switchToComposerArea()));
-
+    
     d->shortcutAccessVisible = false;
     d->controlPressed = false;
-
+    
     //Add quit button
     QIcon quitIcon;
     quitIcon.addPixmap(QPixmap(":/icons/quit.png"), QIcon::Normal);
@@ -322,7 +314,6 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     QObject::connect ( d->homepageArea, SIGNAL ( showBrowser() ), this, SLOT ( switchToBrowserArea() ) );
     QObject::connect ( d->homepageArea, SIGNAL ( showWorkspace ( QString ) ), this, SLOT ( showWorkspace ( QString ) ) );
     QObject::connect ( d->homepageArea,SIGNAL ( showSettings() ), this, SLOT ( onEditSettings() ) );
-    QObject::connect (d->homepageArea, SIGNAL(showComposer()), this, SLOT(switchToComposerArea()));
 
     this->setCentralWidget ( d->stack );
 
@@ -369,14 +360,14 @@ void medMainWindow::keyPressEvent( QKeyEvent *event )
         d->controlPressed = true;
         return;
     }
-
+    
     if ((event->key() == Qt::Key_Shift)&&(d->controlPressed))
     {
         if (!d->shortcutAccessVisible)
             this->showShortcutAccess();
 
         d->shortcutAccessWidget->updateCurrentlySelectedRight();
-
+        
         return;
     }
 
@@ -401,7 +392,7 @@ void medMainWindow::keyReleaseEvent( QKeyEvent * event )
         }
         d->controlPressed = false;
     }
-
+    
     QMainWindow::keyReleaseEvent(event);
 }
 
@@ -447,22 +438,24 @@ void medMainWindow::setStartup(const AreaType areaIndex,const QStringList& filen
 
 void medMainWindow::switchToArea(const AreaType areaIndex) {
     switch (areaIndex) {
-    case HomePage:
-        this->switchToHomepageArea();
-        break;
-    case Browser:
-        this->switchToBrowserArea();
-        break;
-    case WorkSpace:
-        this->switchToWorkspaceArea();
-        break;
-    case Composer:
-        this->switchToComposerArea();
-        break;
-    default:
-        this->switchToHomepageArea();
-        break;
-    }
+        case 0:
+            this->switchToHomepageArea();
+            break;
+
+        case 1:
+            this->switchToBrowserArea();
+            break;
+
+        case 2: {
+            this->switchToWorkspaceArea();
+            break;
+        }
+
+        default:
+            this->switchToHomepageArea();
+            break;
+        }
+
 }
 
 void medMainWindow::resizeEvent ( QResizeEvent* event )
@@ -508,7 +501,7 @@ void medMainWindow::captureScreenshot()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save screenshot as"),
                                                     QDir::home().absolutePath(),
                                                     QString(), 0, QFileDialog::HideNameFilterDetails);
-
+    
     QByteArray format = fileName.right(fileName.lastIndexOf('.')).toUpper().toAscii();
     if ( ! QImageWriter::supportedImageFormats().contains(format) )
         format = "PNG";
@@ -516,7 +509,7 @@ void medMainWindow::captureScreenshot()
     QImage transparentImage = screenshot.toImage();
     QImage outImage(transparentImage.size(), QImage::Format_RGB32);
     outImage.fill(QColor(Qt::black).rgb());
-
+    
     QPainter painter(&outImage);
     painter.drawImage(0,0,transparentImage);
     outImage.save(fileName, format.constData());
@@ -562,33 +555,17 @@ void medMainWindow::switchToHomepageArea()
     d->quickAccessButton->setMinimumWidth(170);
     if (d->quickAccessVisible)
         this->hideQuickAccess();
-
+    
     if (d->shortcutAccessVisible)
         this->hideShortcutAccess();
 
     d->stack->setCurrentWidget ( d->homepageArea );
     d->homepageArea->onShowInfo();
-
+    
     d->screenshotButton->setEnabled(false);
 
     if ( d->homepageArea->getAnimation() )
         d->homepageArea->getAnimation()->start();
-}
-
-void medMainWindow::switchToComposerArea(void)
-{
-    d->shortcutAccessWidget->updateSelected("Composer");
-    d->quickAccessWidget->updateSelected("Composer");
-
-    d->quickAccessButton->setText(tr("Workspace: Composer"));
-    d->quickAccessButton->setMinimumWidth(170);
-
-    if (d->quickAccessVisible) this->hideQuickAccess();
-    if (d->shortcutAccessVisible) this->hideShortcutAccess();
-
-    d->stack->setCurrentWidget(d->composerArea);
-
-    d->screenshotButton->setEnabled(false);
 }
 
 void medMainWindow::switchToBrowserArea()
@@ -616,7 +593,7 @@ void medMainWindow::switchToWorkspaceArea()
 {
     if (d->quickAccessVisible)
         this->hideQuickAccess();
-
+    
     if (d->shortcutAccessVisible)
         this->hideShortcutAccess();
 
@@ -709,14 +686,14 @@ void medMainWindow::showShortcutAccess()
         this->hideShortcutAccess();
         return;
     }
-
+    
     d->shortcutAccessWidget->reset(true);
     d->shortcutAccessVisible = true;
 
     QPoint menuPosition = this->mapToGlobal(this->rect().topLeft());
     menuPosition.setX(menuPosition.rx() + (this->rect().width() - d->shortcutAccessWidget->width()) / 2);
     menuPosition.setY(menuPosition.ry() + (this->rect().height() - d->shortcutAccessWidget->height()) / 2);
-
+    
     d->shortcutAccessWidget->setProperty ( "pos", menuPosition );
     d->shortcutAccessWidget->show();
     d->shortcutAccessWidget->setFocus();
@@ -730,7 +707,7 @@ void medMainWindow::hideShortcutAccess()
 {
     if (!d->shortcutAccessVisible)
         return;
-
+    
     d->shortcutAccessWidget->setMouseTracking(false);
     d->shortcutAccessVisible = false;
     d->shortcutAccessWidget->setProperty ( "pos", QPoint ( 0 , -500 ) );
@@ -748,11 +725,11 @@ int medMainWindow::saveModified( void )
 
     if(indexes.isEmpty())
         return QDialog::Accepted;
-
+    
     medSaveModifiedDialog *saveDialog = new medSaveModifiedDialog(this);
     saveDialog->show();
     saveDialog->exec();
-
+    
     return saveDialog->result();
 }
 
@@ -800,7 +777,7 @@ void medMainWindow::availableSpaceOnStatusBar()
     QPoint workspaceButton_topRight = d->quickAccessButton->mapTo(d->statusBar, d->quickAccessButton->rect().topRight());
     QPoint screenshotButton_topLeft = d->screenshotButton->mapTo(d->statusBar, d->screenshotButton->rect().topLeft());
     //Available space = space between the spacing after workspace button and the spacing before screenshot button
-    int space = (screenshotButton_topLeft.x()-d->statusBarLayout->spacing()) -  (workspaceButton_topRight.x()+d->statusBarLayout->spacing());
+    int space = (screenshotButton_topLeft.x()-d->statusBarLayout->spacing()) -  (workspaceButton_topRight.x()+d->statusBarLayout->spacing()); 
     d->statusBar->setAvailableSpace(space);
 }
 
@@ -884,13 +861,13 @@ void medMainWindow::closeEvent(QCloseEvent *event)
         }
 
     }
-
+    
     if (this->saveModified() != QDialog::Accepted)
     {
         event->ignore();
         return;
     }
-
+    
     this->hide();
     event->accept();
 
@@ -974,4 +951,24 @@ void medMainWindow::registerToFactories()
     //Register annotations
     dtkAbstractDataFactory * datafactory = dtkAbstractDataFactory::instance();
     datafactory->registerDataType( medSeedPointAnnotationData::s_identifier(), dtkAbstractDataCreateFunc<medSeedPointAnnotationData> );
+}
+
+bool medMainWindow::eventFilter(QObject * obj, QEvent *ev)
+{
+    if (ev->type() == QEvent::KeyPress)
+    {
+        QKeyEvent * keyEvent = static_cast<QKeyEvent*>(ev);
+        this->keyPressEvent(keyEvent);
+    }
+
+    if (ev->type()==QEvent::KeyRelease)
+    {
+        QKeyEvent * keyEvent = static_cast<QKeyEvent*>(ev);
+        this->keyReleaseEvent(keyEvent);
+    }
+    
+    // For the time being, We do not use this function to filter but only to send event to the MainWindow.
+    // Therefore, we always return false;
+
+    return false; 
 }

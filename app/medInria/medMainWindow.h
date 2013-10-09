@@ -39,6 +39,9 @@ public:
 
 signals:
     void sliceSelected(int slice);
+    void mainWindowActivated();
+    void mainWindowDeactivated();
+
 
 public slots:
     void setWallScreen(const bool full);
@@ -144,6 +147,8 @@ protected:
     int saveModified();
 
     bool eventFilter(QObject * obj, QEvent *ev);
+
+    bool event(QEvent * e);
 
     /**
      * all initial registering should be done here

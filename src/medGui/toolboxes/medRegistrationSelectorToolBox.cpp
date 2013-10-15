@@ -376,7 +376,9 @@ void medRegistrationSelectorToolBox::onToolBoxChosen(int index)
     connect (toolbox, SIGNAL (failure()),this,SLOT(enableSelectorToolBox()));
 
     if (!d->undoRedoProcess && !d->undoRedoToolBox)
+    {
         connect(toolbox,SIGNAL(success()),this,SLOT(handleOutput()));
+    }
 }
 
 /** 
@@ -535,7 +537,7 @@ void medRegistrationSelectorToolBox::onSaveTrans()
 
 // TODO CHANGE COMMENTARY
 //! If the registration has ended well, it sets the output's metaData and reset the movingView and fuseView with the registered image.
-void medRegistrationSelectorToolBox::handleOutput(typeOfOperation type,QString algoName)
+void medRegistrationSelectorToolBox::handleOutput(typeOfOperation type, QString algoName)
 {   
     dtkSmartPointer<dtkAbstractData> output(NULL); //initialisation : UGLY but necessary
     
@@ -594,7 +596,7 @@ void medRegistrationSelectorToolBox::handleOutput(typeOfOperation type,QString a
     {   
         d->movingData = output;
 
-        d->movingView->setData(output,0);
+        d->movingView->setData(output, 0);
         // calling reset() will reset all the view parameters (position - zoom - window/level) to default
         d->movingView->reset();
         d->movingView->update();
@@ -706,6 +708,7 @@ void medRegistrationSelectorToolBox::onViewRemoved(dtkAbstractView* view)
     }
     else if(closedView == d->fixedView)
     {
+
         d->fixedData = NULL;
 
         if(d->movingData)
@@ -721,6 +724,7 @@ void medRegistrationSelectorToolBox::onViewRemoved(dtkAbstractView* view)
         }
     }
 
+    emit viewRemoved();
     d->fuseView->blockSignals(false);
 
 //    d->fuseView->reset();

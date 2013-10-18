@@ -573,7 +573,8 @@ void medRegistrationSelectorToolBox::handleOutput(typeOfOperation type, QString 
     {
         if (newDescription.lastIndexOf(" registered") != -1)
             newDescription.remove(newDescription.lastIndexOf(" registered"),newDescription.size()-1);
-        return;
+        if(!d->fixedData || !d->movingData)
+            return;
     }
 
     foreach(QString metaData, d->fixedData->metaDataList())
@@ -716,7 +717,7 @@ void medRegistrationSelectorToolBox::onViewRemoved(dtkAbstractView* view)
             d->movingView->windowLevel(window, level);
             d->fuseView->removeOverlay(0);
             d->fuseView->setData(d->movingData, 0);
-            d->fuseView->onWindowingChanged(window, level);
+//            d->fuseView->onWindowingChanged(window, level);
 
         }
         else

@@ -717,8 +717,8 @@ void medRegistrationSelectorToolBox::onViewRemoved(dtkAbstractView* view)
             d->movingView->windowLevel(window, level);
             d->fuseView->removeOverlay(0);
             d->fuseView->setData(d->movingData, 0);
-//            d->fuseView->onWindowingChanged(window, level);
-
+            d->fuseView->setCurrentLayer(0);
+            d->fuseView->setWindowLevel(window, level);
         }
         else
         {

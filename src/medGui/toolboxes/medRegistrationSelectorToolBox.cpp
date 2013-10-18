@@ -200,7 +200,8 @@ void medRegistrationSelectorToolBox::onFixedImageDropped (const medDataIndex& in
 
     if(!d->fuseView)
     {
-        d->fuseView = dtkAbstractViewFactory::instance()->createSmartPointer("v3dView");
+        dtkSmartPointer<medAbstractView> newView = dtkAbstractViewFactory::instance()->createSmartPointer("v3dView");
+        setFuseView(newView);
         d->fuseView->setProperty("Closable","false");
         emit newFuseView( d->fuseView);
     }
@@ -272,7 +273,8 @@ void medRegistrationSelectorToolBox::onMovingImageDropped (const medDataIndex& i
 
     if(!d->fuseView)
     {
-        d->fuseView = dtkAbstractViewFactory::instance()->createSmartPointer("v3dView");
+        dtkSmartPointer<medAbstractView> newView = dtkAbstractViewFactory::instance()->createSmartPointer("v3dView");
+        setFuseView(newView);
         d->fuseView->setProperty("Closable","false");
         emit newFuseView( d->fuseView);
     }
@@ -737,9 +739,11 @@ void medRegistrationSelectorToolBox::closeCompareView(int layer)
     if(layer == 0)
     {
         d->fixedView->close();
+        d->fixedData = NULL;
     }
     else if(layer == 1)
     {
         d->movingView->close();
+        d->movingData = NULL;
     }
 }

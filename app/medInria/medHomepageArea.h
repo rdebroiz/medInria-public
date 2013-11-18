@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -32,6 +32,7 @@ public:
 
 public slots:
     void onShowBrowser();
+    void onShowComposer();
     void onShowWorkspace(QString workspace);
     void onShowSettings();
     void onShowAbout();
@@ -54,11 +55,10 @@ signals:
     void showHelp();
 
     void showBrowser();
+    void showComposer(void);
     void showViewer();
     void showWorkspace(QString workspace);
 
 private:
     medHomepageAreaPrivate * d;
 };
-
-

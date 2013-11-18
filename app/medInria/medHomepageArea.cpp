@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -157,18 +157,18 @@ medHomepageArea::medHomepageArea ( QWidget * parent ) : QWidget ( parent ), d ( 
     medInriaLabel2->setPixmap ( medLogo );
 
     QTextEdit * aboutTextEdit = new QTextEdit(this);
-    
+
     QString aboutText = QString(tr("<br/><br/>"
                       "medInria %1 is the medical imaging platform developed at "
                       "Inria<br/><br/>"
                       "<center>Inria, Copyright 2013</center>"))
                       .arg(qApp->applicationVersion());
-    
+
 #ifdef MEDINRIA_HAS_REVISIONS
     aboutText += QString::fromLocal8Bit(REVISIONS);
 #endif
 
-    
+
     aboutTextEdit->setHtml (aboutText);
     aboutTextEdit->setFocusPolicy ( Qt::NoFocus );
 
@@ -395,6 +395,17 @@ void medHomepageArea::initPage()
     d->navigationWidget->setLayout ( workspaceButtonsLayout );
     d->navigationWidget->setProperty ( "pos", QPoint ( 100,  100 ) );
     d->navigationWidget->setMinimumHeight ( 55 * ( 1 + workspaceDetails.size() ) );
+
+    medHomepageButton * composerButton = new medHomepageButton ( this );
+    composerButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+    composerButton->setIcon ( QIcon ( ":/icons/folder.png" ) );
+    composerButton->setText ( "Composer" );
+    composerButton->setMinimumHeight ( 40 );
+    composerButton->setMaximumWidth ( 250 );
+    composerButton->setMinimumWidth ( 250 );
+    composerButton->setFocusPolicy ( Qt::NoFocus );
+    workspaceButtonsLayout->addWidget ( composerButton );
+    QObject::connect ( composerButton, SIGNAL ( clicked() ),this, SLOT ( onShowComposer() ) );
 }
 
 QParallelAnimationGroup* medHomepageArea::getAnimation()
@@ -405,6 +416,11 @@ QParallelAnimationGroup* medHomepageArea::getAnimation()
 void medHomepageArea::onShowBrowser()
 {
     emit showBrowser();
+}
+
+void medHomepageArea::onShowComposer()
+{
+    emit showComposer();
 }
 
 void medHomepageArea::onShowWorkspace ( QString workspace )
@@ -454,5 +470,3 @@ void medHomepageArea::onShowSettings()
 
     d->settingsWidget->setFocus();
 }
-
-

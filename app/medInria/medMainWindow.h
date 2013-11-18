@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -16,6 +16,7 @@
 #include <QtGui/QMainWindow>
 #include <QUuid>
 #include <QUrl>
+
 class medDataIndex;
 class medMainWindowPrivate;
 
@@ -25,7 +26,7 @@ class medMainWindow : public QMainWindow
 
 public:
 
-     typedef enum { HomePage, Browser, WorkSpace } AreaType;
+    typedef enum { HomePage, Browser, WorkSpace, Composer } AreaType;
 
      medMainWindow(QWidget *parent = 0);
     ~medMainWindow();
@@ -57,6 +58,7 @@ private slots:
     void switchToBrowserArea();
     void switchToWorkspaceArea();
     void switchToHomepageArea();
+    void switchToComposerArea(void);
 
     void showWorkspace(QString workspace);
     void showQuickAccess();
@@ -135,10 +137,10 @@ protected:
     void closeEvent(QCloseEvent *event);
 
     void mousePressEvent(QMouseEvent * event);
-    
+
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    
+
     int saveModified();
 
     /**
@@ -149,5 +151,3 @@ protected:
 private:
     medMainWindowPrivate *d;
 };
-
-

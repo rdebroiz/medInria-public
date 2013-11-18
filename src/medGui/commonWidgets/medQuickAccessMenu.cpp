@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -58,13 +58,13 @@ void medQuickAccessMenu::keyPressEvent ( QKeyEvent * event )
         this->updateCurrentlySelectedLeft();
         return;
     }
-    
+
     if (event->key() == Qt::Key_Return)
     {
         this->switchToCurrentlySelected();
         return;
     }
-    
+
     QApplication::sendEvent(this->parentWidget(),event);
 }
 
@@ -90,7 +90,7 @@ void medQuickAccessMenu::mouseMoveEvent (QMouseEvent *event)
             break;
         }
     }
-    
+
     QWidget::mouseMoveEvent(event);
 }
 
@@ -100,7 +100,7 @@ void medQuickAccessMenu::mouseMoveEvent (QMouseEvent *event)
 void medQuickAccessMenu::updateSelected (QString workspace)
 {
     currentSelected = 0;
-    
+
     for (int i = 0;i < buttonsList.size();++i)
     {
         if (buttonsList[i]->identifier() == workspace)
@@ -121,22 +121,27 @@ void medQuickAccessMenu::switchToCurrentlySelected()
         emit menuHidden();
         return;
     }
-    
+
     if (currentSelected == 0)
     {
         emit homepageSelected();
         return;
     }
-    
+
     if (currentSelected == 1)
     {
         emit browserSelected();
         return;
     }
 
-    if (currentSelected >= 2)
+    if (currentSelected == 2)
     {
         emit workspaceSelected(buttonsList[currentSelected]->identifier());
+        return;
+    }
+
+    else {
+        emit composerSelected();
         return;
     }
 }
@@ -150,13 +155,13 @@ void medQuickAccessMenu::updateCurrentlySelectedLeft()
     {
         if (currentSelected == 0)
             buttonsList[currentSelected]->setSelected(false);
-        
+
         currentSelected = buttonsList.size() - 1;
         buttonsList[currentSelected]->setSelected(true);
-        
+
         return;
     }
-    
+
     buttonsList[currentSelected]->setSelected(false);
     currentSelected--;
     buttonsList[currentSelected]->setSelected(true);
@@ -179,7 +184,7 @@ void medQuickAccessMenu::updateCurrentlySelectedRight()
     currentSelected++;
     if (currentSelected >= buttonsList.size())
         currentSelected = 0;
-    
+
     buttonsList[currentSelected]->setSelected(true);
 }
 
@@ -201,10 +206,10 @@ void medQuickAccessMenu::reset(bool optimizeLayout)
         unsigned int width = ((QWidget *)this->parent())->size().width();
         unsigned int numberOfWidgetsPerLine = floor((width - 40.0) / 180.0);
         unsigned int optimalSizeLayout = ceil((float)buttonsList.size() / numberOfWidgetsPerLine);
-        
+
         if (backgroundFrame->layout())
             delete backgroundFrame->layout();
-        
+
         if (optimalSizeLayout > 1)
         {
             QGridLayout *layout = new QGridLayout;
@@ -215,15 +220,15 @@ void medQuickAccessMenu::reset(bool optimizeLayout)
                 {
                     layout->addWidget(buttonsList[totalAdded],i,j);
                     ++totalAdded;
-                    
+
                     if (totalAdded == (unsigned int)buttonsList.size())
                         break;
                 }
-                
+
                 if (totalAdded == (unsigned int)buttonsList.size())
                     break;
             }
-            
+
             backgroundFrame->setLayout(layout);
             backgroundFrame->setFixedWidth ( 40 + 180 * numberOfWidgetsPerLine );
             backgroundFrame->setFixedHeight ( 130 * optimalSizeLayout );
@@ -235,11 +240,11 @@ void medQuickAccessMenu::reset(bool optimizeLayout)
             QHBoxLayout *layout = new QHBoxLayout;
             for (int i = 0;i < buttonsList.size();++i)
                 layout->addWidget(buttonsList[i]);
-            
+
             backgroundFrame->setLayout(layout);
             backgroundFrame->setFixedWidth ( 40 + 180 * buttonsList.size() );
             backgroundFrame->setFixedHeight ( 130 );
-            
+
             this->setFixedWidth ( 40 + 180 * buttonsList.size() );
             this->setFixedHeight ( 130 );
         }
@@ -252,14 +257,14 @@ void medQuickAccessMenu::reset(bool optimizeLayout)
 void medQuickAccessMenu::mouseSelectWidget(unsigned int identifier)
 {
     unsigned int newSelection = identifier;
-    
+
     if (newSelection == (unsigned int)currentSelected)
         return;
-    
+
     if (currentSelected >= 0)
         buttonsList[currentSelected]->setSelected(false);
-    
-    buttonsList[newSelection]->setSelected(true);    
+
+    buttonsList[newSelection]->setSelected(true);
     currentSelected = newSelection;
 }
 
@@ -274,7 +279,7 @@ void medQuickAccessMenu::createVerticalQuickAccessMenu()
     QVBoxLayout * workspaceButtonsLayout = new QVBoxLayout;
     workspaceButtonsLayout->setMargin(0);
     workspaceButtonsLayout->setSpacing ( 0 );
-    
+
     //Setup quick access menu title
     QLabel * workspaceLabel = new QLabel ( tr("<b>Switch to workspaces</b>") );
     workspaceLabel->setMaximumWidth(300);
@@ -288,7 +293,7 @@ void medQuickAccessMenu::createVerticalQuickAccessMenu()
                                   border-top-width: 8px;\
                                   border-bottom-width: 0px;");
     workspaceButtonsLayout->addWidget ( workspaceLabel );
-    
+
     //Setup homepage access button
     medHomepagePushButton * homeButton = new medHomepagePushButton ( this );
     homeButton->setText("Home");
@@ -303,7 +308,7 @@ void medQuickAccessMenu::createVerticalQuickAccessMenu()
     workspaceButtonsLayout->addWidget ( homeButton );
     QObject::connect ( homeButton, SIGNAL ( clicked() ), this, SIGNAL ( homepageSelected() ) );
     buttonsList.push_back(homeButton);
-    
+
     //Setup browser access button
     medHomepagePushButton * browserButton = new medHomepagePushButton ( this );
     browserButton->setCursor(Qt::PointingHandCursor);
@@ -318,7 +323,7 @@ void medQuickAccessMenu::createVerticalQuickAccessMenu()
     workspaceButtonsLayout->addWidget ( browserButton );
     QObject::connect ( browserButton, SIGNAL ( clicked() ),this, SIGNAL ( browserSelected()) );
     buttonsList.push_back(browserButton);
-    
+
     //Dynamically setup workspaces access button
     foreach ( QString id, workspaceDetails.keys() )
     {
@@ -337,6 +342,27 @@ void medQuickAccessMenu::createVerticalQuickAccessMenu()
         QObject::connect ( button, SIGNAL ( clicked ( QString ) ),this, SIGNAL ( workspaceSelected ( QString ) ) );
         buttonsList.push_back(button);
     }
+
+// ///////////////////////////////////////////////////////////////////
+//
+// ///////////////////////////////////////////////////////////////////
+
+    medHomepagePushButton * composerButton = new medHomepagePushButton ( this );
+    composerButton->setCursor(Qt::PointingHandCursor);
+    composerButton->setStyleSheet("border: 0px;");
+    composerButton->setIcon ( QIcon ( ":/icons/folder.png" ) );
+    composerButton->setText ( "Composer" );
+    composerButton->setFixedHeight ( 40 );
+    composerButton->setMaximumWidth ( 250 );
+    composerButton->setMinimumWidth ( 250 );
+    composerButton->setIdentifier("Composer");
+    composerButton->setFocusPolicy ( Qt::NoFocus );
+    workspaceButtonsLayout->addWidget ( composerButton );
+    QObject::connect ( composerButton, SIGNAL ( clicked() ),this, SIGNAL ( composerSelected()) );
+    buttonsList.push_back(composerButton);
+
+// ///////////////////////////////////////////////////////////////////
+
     workspaceButtonsLayout->addStretch();
     this->setMinimumHeight ( 20 + 40 * ( 2 + workspaceDetails.size() ) );
     this->setLayout(workspaceButtonsLayout);
@@ -355,9 +381,9 @@ void medQuickAccessMenu::createHorizontalQuickAccessMenu()
     QHBoxLayout *mainWidgetLayout = new QHBoxLayout;
     mainWidgetLayout->setMargin(0);
     mainWidgetLayout->setSpacing ( 0 );
-    
+
     QHBoxLayout * shortcutAccessLayout = new QHBoxLayout;
-    
+
     medHomepagePushButton * smallHomeButton = new medHomepagePushButton ( this );
     smallHomeButton->setFixedHeight ( 100 );
     smallHomeButton->setFixedWidth ( 160 );
@@ -370,7 +396,7 @@ void medQuickAccessMenu::createHorizontalQuickAccessMenu()
     shortcutAccessLayout->addWidget (smallHomeButton);
     QObject::connect ( smallHomeButton, SIGNAL ( clicked() ), this, SIGNAL ( homepageSelected() ) );
     buttonsList.push_back(smallHomeButton);
-    
+
     //Setup browser access button
     medHomepagePushButton * smallBrowserButton = new medHomepagePushButton ( this );
     smallBrowserButton->setCursor(Qt::PointingHandCursor);
@@ -399,7 +425,25 @@ void medQuickAccessMenu::createHorizontalQuickAccessMenu()
         QObject::connect ( button, SIGNAL ( clicked ( QString ) ),this, SIGNAL ( workspaceSelected ( QString ) ) );
         buttonsList.push_back(button);
     }
-    
+
+// ///////////////////////////////////////////////////////////////////
+// Composer acces menu
+// ///////////////////////////////////////////////////////////////////
+
+    medHomepagePushButton * smallComposerButton = new medHomepagePushButton ( this );
+    smallComposerButton->setCursor(Qt::PointingHandCursor);
+    smallComposerButton->setStyleSheet("border-radius: 5px;font-size:12px;color: #ffffff;background-image: url(:icons/database.png) no-repeat;");
+    smallComposerButton->setFixedHeight ( 100 );
+    smallComposerButton->setFixedWidth ( 160 );
+    smallComposerButton->setFocusPolicy ( Qt::NoFocus );
+    smallComposerButton->setText("Composer");
+    smallComposerButton->setIdentifier("Composer");
+    shortcutAccessLayout->addWidget ( smallComposerButton );
+    QObject::connect ( smallComposerButton, SIGNAL ( clicked() ),this, SIGNAL ( composerSelected()) );
+    buttonsList.push_back(smallComposerButton);
+
+// ///////////////////////////////////////////////////////////////////
+
     backgroundFrame->setLayout(shortcutAccessLayout);
     backgroundFrame->setFixedWidth ( 40 + 180 * ( 2 + workspaceDetails.size() ) );
     backgroundFrame->setFixedHeight ( 240 );

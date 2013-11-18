@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 10
+ *     Update #: 11
  */
 
 /* Change Log:
@@ -55,7 +55,7 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
 
     d->nodes = QList<QString>(dtkComposerFactory::nodes());
     d->descriptions = QHash<QString, QString>(dtkComposerFactory::descriptions());
-    // d->tags = QHash<QString, QStringList>(dtkComposerFactory::tags());
+    d->tags = QHash<QString, QStringList>(dtkComposerFactory::tags());
     d->types = QHash<QString, QString>(dtkComposerFactory::types());
 
     // Extend attributes

@@ -144,6 +144,8 @@ target_link_libraries(${PROJECT_NAME}
   dtkScript
   dtkGui
   dtkVr
+  dtkComposer
+  medComposer
   medGui
   medSql
   medPacs)

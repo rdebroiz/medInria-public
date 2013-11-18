@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 18
+ *     Update #: 24
  */
 
 /* Change Log:
@@ -13,6 +13,7 @@
  */
 
 #include "medComposerFactory.h"
+#include "medComposerNodeFiltering.h"
 #include "medComposerNodeView.h"
 
 #include <dtkCore/dtkAbstractView.h>
@@ -58,6 +59,11 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
 
     // Extend attributes
 
+    d->nodes << "Filtering";
+    d->descriptions["Filtering"] = "<p>Filtering process that filters according the plugin one chooses.</p>";
+    d->tags["Filtering"] = QStringList() << "filtering";
+    d->types["Filtering"] = "medFiltering";
+
     d->nodes << "View";
     d->descriptions["View"] = "<p>medAbstractView.</p>";
     d->tags["View"] = QStringList() << "view";
@@ -73,6 +79,9 @@ medComposerFactory::~medComposerFactory(void)
 
 dtkComposerNode *medComposerFactory::create(const QString& type)
 {
+    if(type == "medFiltering")
+        return new medComposerNodeFiltering;
+
     if(type == "medAbstractView")
         return new medComposerNodeView;
 

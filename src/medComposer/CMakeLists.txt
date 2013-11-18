@@ -3,9 +3,9 @@
 ## Author: 
 ## Created: Mon Nov 18 10:44:24 2013 (+0100)
 ## Version: 
-## Last-Updated: Mon Nov 18 12:33:14 2013 (+0100)
-##           By: hacker
-##     Update #: 34
+## Last-Updated: lun. nov. 18 14:03:26 2013 (+0100)
+##           By: Thibaud Kloczko
+##     Update #: 36
 ######################################################################
 ## 
 ### Change Log:
@@ -23,10 +23,12 @@ set(${PROJECT_NAME}_HEADERS_MOC
 
 set(${PROJECT_NAME}_HEADERS
   medComposerFactory.h
+  medComposerNodeFiltering.h
   medComposerNodeView.h)
 
 set(${PROJECT_NAME}_SOURCES
   medComposerFactory.cpp
+  medComposerNodeFiltering.cpp
   medComposerNodeView.cpp)
 
 ## ###################################################################

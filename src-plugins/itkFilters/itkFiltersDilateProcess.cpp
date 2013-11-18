@@ -46,11 +46,16 @@ itkFiltersDilateProcess::~itkFiltersDilateProcess( void )
 {
 }
 
+QString itkFiltersDilateProcess::identifier(void) const
+{
+    return QString("itkFiltersDilateProcess");
+}
+
 //-------------------------------------------------------------------------------------------
 
 bool itkFiltersDilateProcess::registered( void )
 {
-    return dtkAbstractProcessFactory::instance()->registerProcessType("itkDilateProcess", createitkFiltersDilateProcess);
+    return dtkAbstractProcessFactory::instance()->registerProcessType("itkFiltersDilateProcess", createitkFiltersDilateProcess, "dtkAbstractProcess");
 }
 
 //-------------------------------------------------------------------------------------------
@@ -60,8 +65,22 @@ void itkFiltersDilateProcess::setParameter(double data, int channel)
     if (channel != 0)
         return;
     
+    this->setRadius(data);
+
+    // DTK_D(itkFiltersDilateProcess);
+    // d->radius = data;
+}
+
+double itkFiltersDilateProcess::radius(void) const
+{
+    DTK_D(const itkFiltersDilateProcess);
+    return d->radius;
+}
+
+void itkFiltersDilateProcess::setRadius(double radius)
+{
     DTK_D(itkFiltersDilateProcess);
-    d->radius = data;
+    d->radius = radius;
 }
 
 //-------------------------------------------------------------------------------------------

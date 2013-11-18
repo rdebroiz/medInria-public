@@ -49,6 +49,7 @@ medComposerNodeImage::medComposerNodeImage(void) : dtkComposerNodeLeafData(), d(
     d->dataReader = NULL;
 
     this->appendReceiver(&(d->receiver_filename));
+    this->appendReceiver(&(d->receiver_image));
 
     this->appendEmitter(&(d->emitter_image));
 }
@@ -72,7 +73,7 @@ QString medComposerNodeImage::abstractDataType(void) const
 
 void medComposerNodeImage::run(void)
 {
-    QString filename = *d->receiver_filename.data();
+    QString filename;
 
     if(!d->receiver_filename.isEmpty()) {
         filename = *(d->receiver_filename.data());
@@ -85,7 +86,7 @@ void medComposerNodeImage::run(void)
         QList<QString> readers = dtkAbstractDataFactory::instance()->readers();
 
         if ( readers.size() == 0 ) {
-            dtkWarn() <<  "No image readers found";
+            qDebug() <<  "No image readers found";
             return;
         }
 
@@ -111,12 +112,15 @@ void medComposerNodeImage::run(void)
                 qDebug() << "Read success";
             else
                 qDebug() << "Read failure";
+        } else {
+            qDebug() << "no reader !";
         }
+
     } else  if (!d->receiver_image.isEmpty()) {
         medAbstractDataImage *image = d->receiver_image.data();
         d->emitter_image.setData(image);
     } else {
-        dtkWarn() << Q_FUNC_INFO << " No port connected";
+        qDebug() << Q_FUNC_INFO << " No port connected";
     }
 
 }
@@ -136,8 +140,8 @@ QString medComposerNodeImage::inputLabelHint(int port)
     switch (port) {
     case 0:
         return "file";
-        /*case 1:
-            return "rhs";*/
+    case 1:
+        return "image";
     default:
         return dtkComposerNodeLeaf::inputLabelHint(port);
     }

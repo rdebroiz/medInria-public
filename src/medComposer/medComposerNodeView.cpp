@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 28
+ *     Update #: 29
  */
 
 /* Change Log:
@@ -67,7 +67,7 @@ QString medComposerNodeView::abstractViewType(void) const
 void medComposerNodeView::run(void)
 {
     foreach(medAbstractDataImage *image, d->receiver_image.allData())
-        d->view->setData(image);
+        d->view->setData(image,0);
 
     d->view->widget()->show();
 }

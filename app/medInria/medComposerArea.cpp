@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 153
+ *     Update #: 156
  */
 
 /* Change Log:
@@ -184,7 +184,7 @@ void medComposerArea::setdw(QStatusBar *status)
 
 bool medComposerArea::compositionOpen(void)
 {
-    QFileDialog *dialog = new QFileDialog(this, tr("Open composition"), QDir::homePath(), QString("dtk composition (*.dtk)"));
+    QFileDialog *dialog = new QFileDialog(this, tr("Open composition"), QDir::homePath(), QString("medinria composition (*.med)"));
     dialog->setStyleSheet("background-color: none ; color: none;");
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
     dialog->setFileMode(QFileDialog::AnyFile);
@@ -204,7 +204,7 @@ bool medComposerArea::compositionSave(void)
 {
     bool status;
 
-    if(d->current_composition.isEmpty() || d->current_composition == "untitled.dtk")
+    if(d->current_composition.isEmpty() || d->current_composition == "untitled.med")
         status = this->compositionSaveAs();
     else
         status = d->composer->save();
@@ -220,16 +220,16 @@ bool medComposerArea::compositionSaveAs(void)
     bool status = false;
 
     QStringList nameFilters;
-    nameFilters <<  "Ascii composition (*.dtk)";
-    nameFilters << "Binary composition (*.dtk)";
+    nameFilters <<  "Ascii composition (*.med)";
+    nameFilters << "Binary composition (*.med)";
 
-    QFileDialog dialog(this, "Save composition as ...", QDir::homePath(), QString("dtk composition (*.dtk)"));
+    QFileDialog dialog(this, "Save composition as ...", QDir::homePath(), QString("medinria composition (*.med)"));
     dialog.setStyleSheet("background-color: none ; color: none;");
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setConfirmOverwrite(true);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.setNameFilters(nameFilters);
-    dialog.setDefaultSuffix("dtk");
+    dialog.setDefaultSuffix("med");
 
     if(dialog.exec()) {
 
@@ -261,7 +261,7 @@ bool medComposerArea::compositionSaveAs(const QString& file, dtkComposerWriter::
 
 bool medComposerArea::compositionInsert(void)
 {
-    QFileDialog *dialog = new QFileDialog(this, tr("Insert composition"), QDir::homePath(), QString("dtk composition (*.dtk)"));
+    QFileDialog *dialog = new QFileDialog(this, tr("Insert composition"), QDir::homePath(), QString("medinria composition (*.med)"));
     dialog->setStyleSheet("background-color: none ; color: none;");
     dialog->setAcceptMode(QFileDialog::AcceptOpen);
     dialog->setFileMode(QFileDialog::AnyFile);

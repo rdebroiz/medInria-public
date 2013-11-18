@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 18
+ *     Update #: 19
  */
 
 /* Change Log:
@@ -59,7 +59,7 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
     // Extend attributes
 
     d->nodes << "View";
-    d->descriptions["View"] = "<p>medAbstractView.</p>";
+    d->descriptions["View"] = "<p>medAbstractView</p>";
     d->tags["View"] = QStringList() << "view";
     d->types["View"] = "medAbstractView";
 }

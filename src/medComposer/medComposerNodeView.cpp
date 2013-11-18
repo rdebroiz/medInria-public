@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 26
+ *     Update #: 28
  */
 
 /* Change Log:
@@ -74,7 +74,7 @@ void medComposerNodeView::run(void)
 
 QString medComposerNodeView::type(void)
 {
-    return "v3dView";
+    return "medAbstractView";
 }
 
 QString medComposerNodeView::titleHint(void)

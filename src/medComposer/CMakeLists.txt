@@ -1,11 +1,6 @@
 ### CMakeLists.txt ---
 ## 
-## Author: 
-## Created: Mon Nov 18 10:44:24 2013 (+0100)
-## Version: 
-## Last-Updated: lun. nov. 18 14:03:26 2013 (+0100)
-##           By: Thibaud Kloczko
-##     Update #: 36
+## Author: Thibaud Kloczko
 ######################################################################
 ## 
 ### Change Log:
@@ -19,16 +14,19 @@ project(medComposer)
 ## #################################################################
 
 set(${PROJECT_NAME}_HEADERS_MOC
+  medComposerNodeImage.h
   medComposerFactory.h)
 
 set(${PROJECT_NAME}_HEADERS
   medComposerFactory.h
   medComposerNodeFiltering.h
+  medComposerNodeImage.h
   medComposerNodeView.h)
 
 set(${PROJECT_NAME}_SOURCES
   medComposerFactory.cpp
   medComposerNodeFiltering.cpp
+  medComposerNodeImage.cpp
   medComposerNodeView.cpp)
 
 ## ###################################################################
@@ -50,6 +48,7 @@ target_link_libraries(${PROJECT_NAME}
     ${QT_LIBRARIES}
     dtkCore
     dtkComposer
+    dtkGui
     dtkLog)
 
 ## ###################################################################

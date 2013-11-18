@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 26
+ *     Update #: 33
  */
 
 /* Change Log:
@@ -67,14 +67,14 @@ QString medComposerNodeView::abstractViewType(void) const
 void medComposerNodeView::run(void)
 {
     foreach(medAbstractDataImage *image, d->receiver_image.allData())
-        d->view->setData(image);
+        d->view->setData(image,0);
 
     d->view->widget()->show();
 }
 
 QString medComposerNodeView::type(void)
 {
-    return "v3dView";
+    return "medAbstractView";
 }
 
 QString medComposerNodeView::titleHint(void)
@@ -95,4 +95,9 @@ QString medComposerNodeView::inputLabelHint(int port)
 QString medComposerNodeView::outputLabelHint(int port)
 {
     return dtkComposerNodeLeaf::outputLabelHint(port);
+}
+
+QWidget *medComposerNodeView::widget(void)
+{
+    return d->view->widget();
 }

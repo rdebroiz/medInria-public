@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -27,10 +27,10 @@
 #include <medMetaDataKeys.h>
 #include <medAbstractAnnotationViewInteractor.h>
 
+#include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkCamera.h>
 #include <vtkCommand.h>
 #include <vtkRenderer.h>
-#include <vtkRenderWindow.h>
 #include <vtkLookupTableManager.h>
 #include <vtkTransferFunctionPresets.h>
 #include <vtkColorTransferFunction.h>
@@ -52,7 +52,10 @@
 #include <vtkImageViewCollection.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkPiecewiseFunction.h>
-#include <QVTKWidget.h>
+
+#include <QVTKInteractor.h>
+#include <QVTKWidget2.h>
+#include <QVTKGraphicsItem.h>
 
 #include <QtGui>
 #include <QMenu>
@@ -277,8 +280,6 @@ public:
 
     v3dViewObserver *observer;
 
-    vtkRenderWindow *renWin;
-
     QWidget    *widget;
     QSlider    *slider;
     //QPushButton *anchorButton;
@@ -287,7 +288,7 @@ public:
     QPushButton *playButton;
     QPushButton *closeButton;
     QPushButton *fullScreenButton;
-    QVTKWidget *vtkWidget;
+    QVTKWidget2 *vtkWidget;
     QString orientation;
 
     dtkAbstractData *data;
@@ -309,6 +310,8 @@ public:
     static medLinkIcon linkIcon;
     static medLinkWLIcon linkWLIcon;
     static medMaximizeIcon maximizeIcon;
+
+    QGraphicsItem *item;
 };
 
 
@@ -326,6 +329,8 @@ medMaximizeIcon v3dViewPrivate::maximizeIcon;
 
 v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 {
+    d->item = NULL;
+
     if ( d->nextColorIndex < 0 )
     {
         d->nextColorIndex = 0;
@@ -402,7 +407,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     d->view3d->ShadeOn();
 
     d->currentView = d->view2d;
-    
+
     vtkInteractorStyleTrackballCamera2 *interactorStyle = vtkInteractorStyleTrackballCamera2::New();
     d->view3d->SetInteractorStyle ( interactorStyle );
     interactorStyle->Delete();
@@ -495,21 +500,20 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     toolButtonGroup->addButton ( d->linkButton );
     toolButtonGroup->setExclusive ( false );
 
-    d->vtkWidget = new QVTKWidget ( d->widget );
+    d->vtkWidget = new QVTKWidget2 ( d->widget );
     d->vtkWidget->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Minimum );
     d->vtkWidget->setFocusPolicy ( Qt::NoFocus );
 
-    d->renWin = vtkRenderWindow::New();
-    d->renWin->StereoCapableWindowOn();
-    d->renWin->SetStereoTypeToCrystalEyes();
+    vtkGenericOpenGLRenderWindow *window = d->vtkWidget->GetRenderWindow();
+    Q_UNUSED(window);
+    // window->StereoCapableWindowOn();
+    // window->SetStereoTypeToCrystalEyes();
     // if(qApp->arguments().contains("--stereo"))
     //     renwin->SetStereoRender(1);
 
     // Necessary options for depth-peeling
-    d->renWin->SetAlphaBitPlanes(1);
-    d->renWin->SetMultiSamples(0);
-
-    d->vtkWidget->SetRenderWindow ( d->renWin );
+    // window->SetAlphaBitPlanes(1);
+    // window->SetMultiSamples(0);
 
     QHBoxLayout *toolsLayout = new QHBoxLayout;
     toolsLayout->setContentsMargins ( 0, 0, 0, 0 );
@@ -529,12 +533,12 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     layout->addWidget ( d->vtkWidget );
 
     //d->view3d->SetRenderWindow(d->vtkWidget->GetRenderWindow());
-    d->view3d->SetRenderWindowInteractor ( d->renWin->GetInteractor() );
-    d->view3d->SetRenderWindow ( d->renWin );
+    d->view3d->SetRenderWindowInteractor ( d->vtkWidget->GetInteractor() );
+    d->view3d->SetRenderWindow ( d->vtkWidget->GetRenderWindow());
     d->view3d->UnInstallInteractor();
-    d->renWin->RemoveRenderer ( d->renderer3d );
+    d->vtkWidget->GetRenderWindow()->RemoveRenderer ( d->renderer3d );
 
-    d->view2d->SetRenderWindow ( d->renWin ); // set the interactor as well
+    d->view2d->SetRenderWindow ( d->vtkWidget->GetRenderWindow() ); // set the interactor as well
     //d->view2d->SetRenderWindowInteractor(d->vtkWidget->GetRenderWindow()->GetInteractor());
 
     d->collection = vtkImageViewCollection::New();
@@ -667,15 +671,15 @@ v3dView::~v3dView()
     d->renderer2d->SetRenderWindow ( NULL );
     d->renderer3d->SetRenderWindow ( NULL );
 
-    d->renWin->RemoveRenderer ( d->renderer2d );
-    d->renWin->RemoveRenderer ( d->renderer3d );
+    d->vtkWidget->GetRenderWindow()->RemoveRenderer ( d->renderer2d );
+    d->vtkWidget->GetRenderWindow()->RemoveRenderer ( d->renderer3d );
 
     d->view2d->SetRenderWindow ( NULL );
     d->view2d->SetRenderWindowInteractor ( NULL );
     d->view3d->SetRenderWindow ( NULL );
     d->view3d->SetRenderWindowInteractor ( NULL );
 
-    d->renWin->Delete();
+    d->vtkWidget->GetRenderWindow()->Delete();
 
     d->view2d->Delete();
     d->renderer2d->Delete();
@@ -775,7 +779,7 @@ vtkImageView *v3dView::currentView()
 
 vtkRenderWindowInteractor *v3dView::interactor()
 {
-    return d->renWin->GetInteractor();
+    return d->vtkWidget->GetRenderWindow()->GetInteractor();
 }
 
 vtkRenderer *v3dView::renderer2d()
@@ -1089,6 +1093,20 @@ QWidget *v3dView::widget()
     return d->widget;
 }
 
+QGraphicsItem *v3dView::item(void)
+{
+    if(!d->item) {
+        QGraphicsRectItem *item = new QGraphicsRectItem(QRect(0, 0, 600, 600));
+        item->setBrush(QColor(Qt::black));
+        d->item = item;
+
+        // d->item = new QVTKGraphicsItem(const_cast<QGLContext *>(QGLContext::currentContext()));
+        // d->item->SetRenderWindow(d->vtkWidget->GetRenderWindow());
+    }
+
+    return d->item;
+}
+
 void v3dView::play ( bool start )
 {
     d->timeline->setFrameRange ( d->slider->minimum(), d->slider->maximum() );
@@ -1147,7 +1165,7 @@ void v3dView::onOrientationPropertySet ( const QString &value )
         d->currentView->SetRenderWindow ( 0 );
 
         // d->currentView->GetInteractorStyle()->RemoveObserver(d->observer);
-        d->renWin->RemoveRenderer ( d->currentView->GetRenderer() );
+        d->vtkWidget->GetRenderWindow()->RemoveRenderer ( d->currentView->GetRenderer() );
     }
 
     if ( value=="3D" )
@@ -1206,7 +1224,7 @@ void v3dView::onOrientationPropertySet ( const QString &value )
         return;
     }
 
-    d->currentView->SetRenderWindow ( d->renWin );
+    d->currentView->SetRenderWindow ( d->vtkWidget->GetRenderWindow() );
 
     //d->currentView->InstallInteractor();
     //d->currentView->AddObserver(vtkImageView::CurrentPointChangedEvent, d->observer, 15);
@@ -1323,7 +1341,7 @@ void v3dView::onShowScalarBarPropertySet ( const QString &value )
 {
     if ( value == "true" )
         d->collection->SyncSetShowScalarBar(true);
-    
+
     if ( value == "false" )
         d->collection->SyncSetShowScalarBar(false);
 }
@@ -1723,7 +1741,7 @@ void v3dView::onMetaDataSet ( const QString &key, const QString &value )
 void v3dView::onMenu3DVRTriggered()
 {
     if ( qApp->arguments().contains ( "--stereo" ) )
-        d->renWin->SetStereoRender ( 1 );
+        d->vtkWidget->GetRenderWindow()->SetStereoRender ( 1 );
 
     this->setProperty ( "3DMode", "VR" );
     this->setProperty ( "Orientation", "3D" );
@@ -1733,7 +1751,7 @@ void v3dView::onMenu3DVRTriggered()
 void v3dView::onMenu3DMPRTriggered()
 {
     if ( qApp->arguments().contains ( "--stereo" ) )
-        d->renWin->SetStereoRender ( 1 );
+        d->vtkWidget->GetRenderWindow()->SetStereoRender ( 1 );
 
     this->setProperty ( "3DMode",      "MPR" );
     this->setProperty ( "Orientation", "3D" );
@@ -1743,7 +1761,7 @@ void v3dView::onMenu3DMPRTriggered()
 void v3dView::onMenu3DMaxIPTriggered()
 {
     if ( qApp->arguments().contains ( "--stereo" ) )
-        d->renWin->SetStereoRender ( 1 );
+        d->vtkWidget->GetRenderWindow()->SetStereoRender ( 1 );
 
     this->setProperty ( "3DMode", "MIP - Maximum" );
     this->setProperty ( "Orientation", "3D" );
@@ -1753,7 +1771,7 @@ void v3dView::onMenu3DMaxIPTriggered()
 void v3dView::onMenu3DMinIPTriggered()
 {
     if ( qApp->arguments().contains ( "--stereo" ) )
-        d->renWin->SetStereoRender ( 1 );
+        d->vtkWidget->GetRenderWindow()->SetStereoRender ( 1 );
 
     this->setProperty ( "3DMode", "MIP - Minimum" );
     this->setProperty ( "Orientation", "3D" );
@@ -1763,7 +1781,7 @@ void v3dView::onMenu3DMinIPTriggered()
 void v3dView::onMenu3DOffTriggered()
 {
     if ( qApp->arguments().contains ( "--stereo" ) )
-        d->renWin->SetStereoRender ( 1 );
+        d->vtkWidget->GetRenderWindow()->SetStereoRender ( 1 );
 
     this->setProperty ( "3DMode", "Off" );
     d->view3d->Render();

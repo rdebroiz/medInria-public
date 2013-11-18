@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 140
+ *     Update #: 153
  */
 
 /* Change Log:
@@ -60,11 +60,16 @@ medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
     d = new medComposerAreaPrivate;
 
     d->button_open = new QPushButton("Open");
+    d->button_open->setObjectName("left");
     d->button_save = new QPushButton("Save");
+    d->button_save->setObjectName("center");
     d->button_save_as = new QPushButton("Save As");
+    d->button_save_as->setObjectName("center");
     d->button_insert = new QPushButton("Insert");
+    d->button_insert->setObjectName("right");
 
     QHBoxLayout *f_layout = new QHBoxLayout;
+    f_layout->setSpacing(0);
     f_layout->addWidget(d->button_open);
     f_layout->addWidget(d->button_save);
     f_layout->addWidget(d->button_save_as);
@@ -104,9 +109,12 @@ medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
 // ///////////////////////////////////////////////////////////////////
 
     d->button_start = new QPushButton("Start");
+    d->button_start->setObjectName("left");
     d->button_stop = new QPushButton("Stop");
+    d->button_stop->setObjectName("right");
 
     QHBoxLayout *c_layout = new QHBoxLayout;
+    c_layout->setSpacing(0);
     c_layout->addWidget(d->button_start);
     c_layout->addWidget(d->button_stop);
 
@@ -149,9 +157,9 @@ medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
     inner->addWidget(middle);
     inner->addWidget(right);
     inner->setSizes(QList<int>()
-                    << 200
+                    << 300
                     << 1000
-                    << 200);
+                    << 300);
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

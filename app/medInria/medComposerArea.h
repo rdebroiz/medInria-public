@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 10
+ *     Update #: 14
  */
 
 /* Change Log:
@@ -17,6 +17,8 @@
 #include <QtCore>
 #include <QtGui>
 
+#include <dtkComposer/dtkComposerWriter.h>
+
 class medComposerArea : public QWidget
 {
     Q_OBJECT
@@ -27,6 +29,15 @@ public:
 
     void setup(QStatusBar *status);
     void setdw(QStatusBar *status);
+
+public slots:
+    bool compositionOpen(void);
+    bool compositionOpen(const QString& file);
+    bool compositionSave(void);
+    bool compositionSaveAs(void);
+    bool compositionSaveAs(const QString& file, dtkComposerWriter::Type type = dtkComposerWriter::Ascii);
+    bool compositionInsert(void);
+    bool compositionInsert(const QString& file);
 
 private:
     class medComposerAreaPrivate *d;

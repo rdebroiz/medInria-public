@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 50
+ *     Update #: 51
  */
 
 /* Change Log:
@@ -97,7 +97,7 @@ medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
     inner->addWidget(right);
     inner->setSizes(QList<int>()
                     << 200
-                    << this->size().width()-200-200
+                    << 1000
                     << 200);
 
     QVBoxLayout *layout = new QVBoxLayout(this);

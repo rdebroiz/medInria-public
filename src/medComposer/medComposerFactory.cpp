@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 11
+ *     Update #: 18
  */
 
 /* Change Log:
@@ -13,6 +13,7 @@
  */
 
 #include "medComposerFactory.h"
+#include "medComposerNodeView.h"
 
 #include <dtkCore/dtkAbstractView.h>
 #include <dtkCore/dtkAbstractViewFactory.h>
@@ -37,10 +38,7 @@ public:
 
 void medComposerFactoryPrivate::initialize(void)
 {
-    // if(!dtkAbstractViewFactory::instance()->registerViewType("medView", createMedView))
-    //     dtkWarn() << "Unable to register medView type";
 
-    // qRegisterMetaType<medView>("medView");
 }
 
 // /////////////////////////////////////////////////////////////////
@@ -60,10 +58,10 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
 
     // Extend attributes
 
-    // d->nodes << "View";
-    // d->descriptions["View"] = "<p>medView.</p>";
-    // d->tags["View"] = QStringList() << "view";
-    // d->types["View"] = "medView";
+    d->nodes << "View";
+    d->descriptions["View"] = "<p>medAbstractView.</p>";
+    d->tags["View"] = QStringList() << "view";
+    d->types["View"] = "medAbstractView";
 }
 
 medComposerFactory::~medComposerFactory(void)
@@ -75,8 +73,8 @@ medComposerFactory::~medComposerFactory(void)
 
 dtkComposerNode *medComposerFactory::create(const QString& type)
 {
-    // if(type == "medView")
-    //     return new medComposerNodeView;
+    if(type == "medAbstractView")
+        return new medComposerNodeView;
 
     return dtkComposerFactory::create(type);
 }

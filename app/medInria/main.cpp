@@ -222,6 +222,8 @@ int main(int argc,char* argv[]) {
     application.setActivationWindow(&mainwindow);
     application.setMainWindow(&mainwindow);
 
+    mainwindow.raise();
+
     //  Start main loop.
     const int status = application.exec();
 

@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 29
+ *     Update #: 33
  */
 
 /* Change Log:
@@ -95,4 +95,9 @@ QString medComposerNodeView::inputLabelHint(int port)
 QString medComposerNodeView::outputLabelHint(int port)
 {
     return dtkComposerNodeLeaf::outputLabelHint(port);
+}
+
+QWidget *medComposerNodeView::widget(void)
+{
+    return d->view->widget();
 }

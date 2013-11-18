@@ -11,7 +11,7 @@
  *
  */
 
-#ifndef COMPOSERNODEIMAGEH
+#ifndef COMPOSERNODEIMAGE_H
 #define COMPOSERNODEIMAGE_H
 
 #include <dtkComposer/dtkComposerNodeLeaf.h>

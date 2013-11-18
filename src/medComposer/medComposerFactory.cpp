@@ -1,11 +1,6 @@
 /* medComposerFactory.cpp ---
  *
- * Author:
- * Created: Mon Nov 18 10:49:57 2013 (+0100)
- * Version:
- * Last-Updated:
- *           By:
- *     Update #: 26
+ * Author: Julien Wintz
  */
 
 /* Change Log:
@@ -60,7 +55,7 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
     // Extend attributes
 
     d->nodes << "View";
-    d->descriptions["View"] = "<p>medAbstractView.</p>";
+    d->descriptions["View"] = "<p>medAbstractView</p>";
     d->tags["View"] = QStringList() << "view";
     d->types["View"] = "medAbstractView";
 

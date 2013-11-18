@@ -223,6 +223,7 @@ int main(int argc,char* argv[]) {
     application.setMainWindow(&mainwindow);
 
     mainwindow.raise();
+    mainwindow.activateWindow();
 
     //  Start main loop.
     const int status = application.exec();

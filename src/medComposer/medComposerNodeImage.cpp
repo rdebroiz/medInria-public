@@ -1,15 +1,154 @@
 /* medComposerNodeImage.cpp ---
  *
- * Author:
- * Created: Mon Nov 18 12:16:56 2013 (+0100)
- * Version:
- * Last-Updated:
- *           By:
- *     Update #: 2
+ * Author: Nicolas Niclausse
  */
 
-/* Change Log:
+/* Commentary:
+ *
+ */
+
+/* Change log:
  *
  */
 
 #include "medComposerNodeImage.h"
+
+#include <medCore/medAbstractDataImage.h>
+
+#include <dtkComposer/dtkComposerTransmitterEmitter.h>
+#include <dtkComposer/dtkComposerTransmitterReceiver.h>
+
+#include <dtkCore/dtkAbstractDataFactory.h>
+//#include <dtkCore/dtkAbstractProcess.h>
+
+
+
+// /////////////////////////////////////////////////////////////////
+// sislComposerNodeSplineBlenderPrivate declaration
+// /////////////////////////////////////////////////////////////////
+
+class medComposerNodeImagePrivate
+{
+public:
+    dtkSmartPointer<dtkAbstractDataReader> dataReader;
+
+public:
+    dtkComposerTransmitterReceiver<QString> receiver_filename;
+    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_image;
+
+public:
+    dtkComposerTransmitterEmitter<medAbstractDataImage> emitter_image;
+};
+
+// /////////////////////////////////////////////////////////////////
+// sislComposerNodeSplineBlender implementation
+// /////////////////////////////////////////////////////////////////
+
+medComposerNodeImage::medComposerNodeImage(void) : dtkComposerNodeLeafData(), d(new medComposerNodeImagePrivate)
+{
+    d->dataReader = NULL;
+
+    this->appendReceiver(&(d->receiver_filename));
+
+    this->appendEmitter(&(d->emitter_image));
+}
+
+medComposerNodeImage::~medComposerNodeImage(void)
+{
+    delete d;
+
+    d = NULL;
+}
+
+bool medComposerNodeImage::isAbstractData(void) const
+{
+    return false;
+}
+
+QString medComposerNodeImage::abstractDataType(void) const
+{
+    return "medAbstractDataImage";
+}
+
+void medComposerNodeImage::run(void)
+{
+    QString filename = *d->receiver_filename.data();
+
+    if(!d->receiver_filename.isEmpty()) {
+        filename = *(d->receiver_filename.data());
+    }
+
+    if (!d->receiver_filename.isEmpty() && !(filename.isEmpty())) {
+
+        bool read = false;
+
+        QList<QString> readers = dtkAbstractDataFactory::instance()->readers();
+
+        if ( readers.size() == 0 ) {
+            dtkWarn() <<  "No image readers found";
+            return;
+        }
+
+        // cycle through readers to see if the last used reader can handle the file
+        dtkSmartPointer<dtkAbstractDataReader> tempdataReader = NULL;
+
+        for (int i=0; i<readers.size(); i++) {
+            tempdataReader = dtkAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
+            if (tempdataReader->canRead(filename)) {
+                /*d->lastSuccessfulReaderDescription = dataReader->identifier();*/
+                tempdataReader->enableDeferredDeletion(false);
+                d->dataReader = tempdataReader;
+                break;
+            }
+        }
+
+        if(d->dataReader)
+        {
+            read = d->dataReader->read(filename);
+            d->emitter_image.setData(dynamic_cast<medAbstractDataImage *>(d->dataReader->data()));
+
+            if(read)
+                qDebug() << "Read success";
+            else
+                qDebug() << "Read failure";
+        }
+    } else  if (!d->receiver_image.isEmpty()) {
+        medAbstractDataImage *image = d->receiver_image.data();
+        d->emitter_image.setData(image);
+    } else {
+        dtkWarn() << Q_FUNC_INFO << " No port connected";
+    }
+
+}
+
+QString medComposerNodeImage::type(void)
+{
+    return "medAbstractDataImage";
+}
+
+QString medComposerNodeImage::titleHint(void)
+{
+    return "ImageReader";
+}
+
+QString medComposerNodeImage::inputLabelHint(int port)
+{
+    switch (port) {
+    case 0:
+        return "file";
+        /*case 1:
+            return "rhs";*/
+    default:
+        return dtkComposerNodeLeaf::inputLabelHint(port);
+    }
+}
+
+QString medComposerNodeImage::outputLabelHint(int port)
+{
+    switch (port) {
+    case 0:
+        return "image";
+    default:
+        return dtkComposerNodeLeaf::outputLabelHint(port);
+    }
+}

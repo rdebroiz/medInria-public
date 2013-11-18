@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 18
+ *     Update #: 26
  */
 
 /* Change Log:
@@ -13,6 +13,7 @@
  */
 
 #include "medComposerFactory.h"
+#include "medComposerNodeImage.h"
 #include "medComposerNodeView.h"
 
 #include <dtkCore/dtkAbstractView.h>
@@ -62,6 +63,11 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
     d->descriptions["View"] = "<p>medAbstractView.</p>";
     d->tags["View"] = QStringList() << "view";
     d->types["View"] = "medAbstractView";
+
+    d->nodes << "Image";
+    d->descriptions["Image"] = "<p>medAbstractImage.</p>";
+    d->tags["Image"] = QStringList() << "image" << "reader";
+    d->types["Image"] = "medAbstractDataImage";
 }
 
 medComposerFactory::~medComposerFactory(void)
@@ -75,6 +81,9 @@ dtkComposerNode *medComposerFactory::create(const QString& type)
 {
     if(type == "medAbstractView")
         return new medComposerNodeView;
+
+    if(type == "medAbstractDataImage")
+        return new medComposerNodeImage;
 
     return dtkComposerFactory::create(type);
 }

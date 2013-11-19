@@ -321,7 +321,6 @@ QTextEdit
     background: $EDITION_BACKGROUND;
 }
 
-
 /*******************************************************************************
     QDateEdit
  *******************************************************************************/
@@ -339,14 +338,14 @@ QDateEdit::down-arrow
 /*******************************************************************************
      QSpinBox QDoubleSpinBox
  *******************************************************************************/
-QSpinBox, QDoubleSpinBox
+QSpinBox, QDoubleSpinBox, QDateTimeEdit
 {
     color: $EDITION_COLOR;
     background: $EDITION_BACKGROUND;
     min-height: 20px;
 }
 
-QSpinBox::up-button, QDoubleSpinBox::up-button
+QSpinBox::up-button, QDoubleSpinBox::up-button, QDateTimeEdit::up-button
 {
     subcontrol-origin: border;
     subcontrol-position: top right; 
@@ -354,22 +353,22 @@ QSpinBox::up-button, QDoubleSpinBox::up-button
     background: $PUSH_BUTTON_BACKGROUND;
 }
 
-QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover
+QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover, QDateTimeEdit::up-button:hover
 {
     background: $PUSH_BUTTON_HOVER_BACKGROUND;
 }
 
-QSpinBox::up-arrow, QDoubleSpinBox::up-arrow
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow, QDateTimeEdit::up-arrow
 {
     image: url(:/pixmaps/arrow-top.png);
 }
 
-QSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:disabled
+QSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:disabled, QDateTimeEdit::up-arrow:disabled
 {
     image: url(:/pixmaps/arrow-top-disabled.png);
 }
 
-QSpinBox::down-button, QDoubleSpinBox::down-button
+QSpinBox::down-button, QDoubleSpinBox::down-button, QDateTimeEdit::down-button
 {
     subcontrol-origin: border;
     subcontrol-position: bottom right;
@@ -377,17 +376,17 @@ QSpinBox::down-button, QDoubleSpinBox::down-button
     background: $PUSH_BUTTON_BACKGROUND;
 }
 
-QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover
+QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover, QDateTimeEdit::down-button:hover
 {
     background: $PUSH_BUTTON_HOVER_BACKGROUND;
 }
 
-QSpinBox::down-arrow, QDoubleSpinBox::down-arrow
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow, QDateTimeEdit::down-arrow
 {
     image: url(:/pixmaps/arrow-bot.png);
 }
 
-QSpinBox::down-arrow:disabled, QDoubleSpinBox::down-arrow::disabled
+QSpinBox::down-arrow:disabled, QDoubleSpinBox::down-arrow::disabled, QDateTimeEdit::down-arrow:disabled
 {
     image: url(:/pixmaps/arrow-bot-disabled.png);
 }

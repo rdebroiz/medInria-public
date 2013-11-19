@@ -21,7 +21,11 @@
 #include <dtkComposer/dtkComposerEvaluatorSlave.h>
 
 #include <dtkDistributed/dtkDistributedCommunicator.h>
+
+#if defined(DTK_HAVE_MPI) && defined(DTK_BUILD_MPI)
 #include <dtkDistributed/dtkDistributedCommunicatorMpi.h>
+#endif
+
 #include <dtkDistributed/dtkDistributedCommunicatorTcp.h>
 
 #include <QtCore>
@@ -58,7 +62,11 @@ int main(int argc, char **argv)
 
     dtkPluginManager::instance()->initialize();
 
+#if defined(DTK_HAVE_MPI) && defined(DTK_BUILD_MPI)
     dtkDistributedCommunicatorMpi *communicator =  new dtkDistributedCommunicatorMpi;
+#else
+    dtkDistributedCommunicatorTcp *communicator =  new dtkDistributedCommunicatorTcp;
+#endif
     communicator->initialize();
 
     dtkComposerEvaluatorSlave *slave = new dtkComposerEvaluatorSlave;

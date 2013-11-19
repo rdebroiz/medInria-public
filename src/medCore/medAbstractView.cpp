@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -149,6 +149,13 @@ void medAbstractView::getTransferFunctions( QList<double> & scalars,
 QWidget *medAbstractView::receiverWidget(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
+
+    return NULL;
+}
+
+QGraphicsWidget *medAbstractView::item(QGLContext *context)
+{
+    Q_UNUSED(context);
 
     return NULL;
 }

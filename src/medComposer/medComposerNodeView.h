@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 13
+ *     Update #: 18
  */
 
 /* Change Log:
@@ -41,7 +41,7 @@ public:
     QString outputLabelHint(int port);
 
 public:
-    QGraphicsItem *item(void);
+    QGraphicsWidget *widget(QGLContext *context);
 
  private:
     medComposerNodeViewPrivate *d;

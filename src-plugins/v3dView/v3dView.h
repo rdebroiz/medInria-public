@@ -90,8 +90,7 @@ public:
 
     QWidget *receiverWidget();
     QWidget *widget();
-
-    QGraphicsItem *item(void);
+    QGraphicsWidget *item(QGLContext *context);
 
     void close();
 

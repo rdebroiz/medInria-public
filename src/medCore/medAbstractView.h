@@ -16,6 +16,8 @@
 #include <dtkCore/dtkAbstractView.h>
 #include <dtkCore/dtkSmartPointer.h>
 
+#include <QtOpenGL>
+
 #include "medCoreExport.h"
 
 class medAbstractViewPrivate;
@@ -67,9 +69,7 @@ public:
 
     virtual QWidget *receiverWidget();
 
-    virtual QGraphicsItem *item(void) {
-        return NULL;
-    }
+    virtual QGraphicsWidget *item(QGLContext *context);
 
     /**
        Set the view slice.

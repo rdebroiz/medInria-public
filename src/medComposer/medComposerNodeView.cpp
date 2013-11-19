@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 37
+ *     Update #: 46
  */
 
 /* Change Log:
@@ -95,7 +95,9 @@ QString medComposerNodeView::outputLabelHint(int port)
     return dtkComposerNodeLeaf::outputLabelHint(port);
 }
 
-QGraphicsItem *medComposerNodeView::item(void)
+QGraphicsWidget *medComposerNodeView::widget(QGLContext *context)
 {
-    return d->view->item();
+    qDebug() << Q_FUNC_INFO << "Requesting decoration";
+
+    return d->view->item(context);
 }

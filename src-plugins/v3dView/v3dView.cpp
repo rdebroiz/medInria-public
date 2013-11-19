@@ -311,7 +311,7 @@ public:
     static medLinkWLIcon linkWLIcon;
     static medMaximizeIcon maximizeIcon;
 
-    QGraphicsItem *item;
+    QGraphicsWidget *item;
 };
 
 
@@ -1093,15 +1093,16 @@ QWidget *v3dView::widget()
     return d->widget;
 }
 
-QGraphicsItem *v3dView::item(void)
+QGraphicsWidget *v3dView::item(QGLContext *context)
 {
-    if(!d->item) {
-        QGraphicsRectItem *item = new QGraphicsRectItem(QRect(0, 0, 600, 600));
-        item->setBrush(QColor(Qt::black));
-        d->item = item;
+    qDebug() << Q_FUNC_INFO << "Requesting decoration";
 
-        // d->item = new QVTKGraphicsItem(const_cast<QGLContext *>(QGLContext::currentContext()));
-        // d->item->SetRenderWindow(d->vtkWidget->GetRenderWindow());
+    if(!d->item) {
+        QVTKGraphicsItem *item = new QVTKGraphicsItem(context);
+        item->GetRenderWindow()->AddRenderer(d->renderer2d);
+
+        d->item = item;
+        d->item->resize(600, 600);
     }
 
     return d->item;

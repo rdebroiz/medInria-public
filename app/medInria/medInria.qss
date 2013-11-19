@@ -4,9 +4,9 @@
 ;; Copyright (C) 2008 - Julien Wintz, Inria.
 ;; Created: Fri May 21 09:46:29 2010 (+0200)
 ;; Version: $Id$
-;; Last-Updated: mar. nov. 19 11:12:23 2013 (+0100)
-;;           By: Nicolas Niclausse
-;;     Update #: 57
+;; Last-Updated: Tue Nov 19 14:43:39 2013 (+0100)
+;;           By: hacker
+;;     Update #: 86
 */
 
 /* Commentary:
@@ -1640,16 +1640,27 @@ dtkTagCloud:!active {
     background-color: #666666;
 }
 
-dtkToolBoxItem QComboBox, QLabel, QLineEdit, QSpinBox, QDoubleSpinBox {
+/* ***************************************************************** */
+
+dtkDistributor {
+  background: #313131;
+}
+
+dtkToolBoxItem {
   font-size: 13px;
+  background: #313131;
+  color: #ffffff;
+}
+
+dtkToolBoxItem QLabel {
+  color: #ffffff;
 }
 
 dtkToolBoxItem::tab {
-  border-top: 0px transparent;
-  border-bottom: 0px transparent;
-  border-right: 3px transparent;
-  border-left: 3px transparent;
-  color: #000000;
+  background-color: #444444;
+  border: 1px solid #999999;
+  border-radius: 4px;
+  color: #ffffff;
   min-height: 27px;
   min-width: 30px;
   font-size: 13px;
@@ -1657,5 +1668,7 @@ dtkToolBoxItem::tab {
 }
 
 dtkToolBoxItem::tab:selected {
-/*    border-image: url(:numGui/pixmaps/numInspectorButton-pressed.png) 0 3 0 3;*/
+  background-color: #666666;
+  border: 1px solid #999999;
+  border-radius: 4px;
 }

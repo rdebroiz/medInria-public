@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 14
+ *     Update #: 16
  */
 
 /* Change Log:
@@ -19,7 +19,7 @@
 
 #include <dtkComposer/dtkComposerWriter.h>
 
-class medComposerArea : public QWidget
+class medComposerArea : public QFrame
 {
     Q_OBJECT
 

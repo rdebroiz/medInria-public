@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 168
+ *     Update #: 174
  */
 
 /* Change Log:
@@ -58,7 +58,7 @@ public:
 //
 // ///////////////////////////////////////////////////////////////////
 
-medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
+medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
 {
     d = new medComposerAreaPrivate;
 
@@ -173,6 +173,8 @@ medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(inner);
+
+    this->setStyleSheet("background-color: #313131;");
 }
 
 medComposerArea::~medComposerArea(void)

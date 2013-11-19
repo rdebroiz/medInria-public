@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 174
+ *     Update #: 228
  */
 
 /* Change Log:
@@ -19,7 +19,9 @@
 
 #include <dtkComposer/dtkComposer.h>
 #include <dtkComposer/dtkComposerCompass.h>
+#include <dtkComposer/dtkComposerControls.h>
 #include <dtkComposer/dtkComposerFactoryView.h>
+#include <dtkComposer/dtkComposerScene.h>
 #include <dtkComposer/dtkComposerSceneModel.h>
 #include <dtkComposer/dtkComposerSceneNodeEditor.h>
 #include <dtkComposer/dtkComposerSceneView.h>
@@ -48,6 +50,15 @@ public:
     QPushButton *button_save;
     QPushButton *button_save_as;
     QPushButton *button_insert;
+
+public:
+    QPushButton *button_flag_blue;
+    QPushButton *button_flag_gray;
+    QPushButton *button_flag_green;
+    QPushButton *button_flag_orange;
+    QPushButton *button_flag_pink;
+    QPushButton *button_flag_red;
+    QPushButton *button_flag_yellow;
 
 public:
     QPushButton *button_start;
@@ -110,6 +121,53 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
     d->nodes->setDark();
 
 // ///////////////////////////////////////////////////////////////////
+//
+// ///////////////////////////////////////////////////////////////////
+
+    d->button_flag_blue = new QPushButton(this);
+    d->button_flag_blue->setObjectName("left");
+    d->button_flag_blue->setIcon(d->composer->scene()->flagAsBlueAction()->icon());
+    d->button_flag_gray = new QPushButton(this);
+    d->button_flag_gray->setObjectName("center");
+    d->button_flag_gray->setIcon(d->composer->scene()->flagAsGrayAction()->icon());
+    d->button_flag_green = new QPushButton(this);
+    d->button_flag_green->setObjectName("center");
+    d->button_flag_green->setIcon(d->composer->scene()->flagAsGreenAction()->icon());
+    d->button_flag_orange = new QPushButton(this);
+    d->button_flag_orange->setObjectName("center");
+    d->button_flag_orange->setIcon(d->composer->scene()->flagAsOrangeAction()->icon());
+    d->button_flag_pink = new QPushButton(this);
+    d->button_flag_pink->setObjectName("center");
+    d->button_flag_pink->setIcon(d->composer->scene()->flagAsPinkAction()->icon());
+    d->button_flag_red = new QPushButton(this);
+    d->button_flag_red->setObjectName("center");
+    d->button_flag_red->setIcon(d->composer->scene()->flagAsRedAction()->icon());
+    d->button_flag_yellow = new QPushButton(this);
+    d->button_flag_yellow->setObjectName("right");
+    d->button_flag_yellow->setIcon(d->composer->scene()->flagAsYellowAction()->icon());
+
+    QHBoxLayout *n_layout = new QHBoxLayout;
+    n_layout->setSpacing(0);
+    n_layout->addWidget(d->button_flag_blue);
+    n_layout->addWidget(d->button_flag_gray);
+    n_layout->addWidget(d->button_flag_green);
+    n_layout->addWidget(d->button_flag_orange);
+    n_layout->addWidget(d->button_flag_pink);
+    n_layout->addWidget(d->button_flag_red);
+    n_layout->addWidget(d->button_flag_yellow);
+
+    QFrame *n_menu = new QFrame(this);
+    n_menu->setLayout(n_layout);
+
+    connect(d->button_flag_blue, SIGNAL(clicked()), d->composer->scene()->flagAsBlueAction(), SLOT(trigger()));
+    connect(d->button_flag_gray, SIGNAL(clicked()), d->composer->scene()->flagAsGrayAction(), SLOT(trigger()));
+    connect(d->button_flag_green, SIGNAL(clicked()), d->composer->scene()->flagAsGreenAction(), SLOT(trigger()));
+    connect(d->button_flag_orange, SIGNAL(clicked()), d->composer->scene()->flagAsOrangeAction(), SLOT(trigger()));
+    connect(d->button_flag_pink, SIGNAL(clicked()), d->composer->scene()->flagAsPinkAction(), SLOT(trigger()));
+    connect(d->button_flag_red, SIGNAL(clicked()), d->composer->scene()->flagAsRedAction(), SLOT(trigger()));
+    connect(d->button_flag_yellow, SIGNAL(clicked()), d->composer->scene()->flagAsYellowAction(), SLOT(trigger()));
+
+// ///////////////////////////////////////////////////////////////////
 
     d->button_start = new QPushButton("Start");
     d->button_start->setObjectName("left");
@@ -137,8 +195,12 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
 
     left->addWidget(f_menu);
     left->addWidget(c_menu);
+    left->addWidget(n_menu);
     left->addWidget(d->nodes);
     left->addWidget(distributor);
+
+    dtkComposerControls *controls = new dtkComposerControls(this);
+    controls->setScene(d->composer->scene());
 
     dtkSplitter *right = new dtkSplitter(this);
     right->setOrientation(Qt::Vertical);
@@ -146,11 +208,7 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
     right->addWidget(d->editor);
     right->addWidget(d->stack);
     right->addWidget(d->composer->compass());
-    right->setSizes(QList<int>()
-                    << this->size().height()/4
-                    << this->size().height()/4
-                    << this->size().height()/4
-                    << this->size().height()/4);
+    right->addWidget(controls);
 
     QWidget *middle = new QWidget(this);
 

@@ -49,6 +49,8 @@ include(${ITK_USE_FILE})
 set(${PROJECT_NAME}_HEADERS_MOC
   v3dDataPlugin.h
   v3dDataImage.h
+  v3dDataImageDeserializer.h
+  v3dDataImageSerializer.h
   v3dDataFibers.h
   v3dDataFibersReader.h
   v3dDataFibersWriter.h)
@@ -59,6 +61,8 @@ set(${PROJECT_NAME}_HEADERS
 set(${PROJECT_NAME}_SOURCES
   v3dDataPlugin.cpp
   v3dDataImage.cpp
+  v3dDataImageDeserializer.cpp
+  v3dDataImageSerializer.cpp
   v3dDataFibers.cpp
   v3dDataFibersReader.cpp
   v3dDataFibersWriter.cpp)

@@ -145,6 +145,7 @@ target_link_libraries(${PROJECT_NAME}
   dtkGui
   dtkVr
   dtkComposer
+  dtkDistributed
   medComposer
   medGui
   medSql

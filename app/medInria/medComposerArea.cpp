@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 156
+ *     Update #: 168
  */
 
 /* Change Log:
@@ -15,6 +15,7 @@
 #include "medComposerArea.h"
 
 #include <dtkGui/dtkSplitter.h>
+#include <dtkGui/dtkToolBox.h>
 
 #include <dtkComposer/dtkComposer.h>
 #include <dtkComposer/dtkComposerCompass.h>
@@ -24,6 +25,8 @@
 #include <dtkComposer/dtkComposerSceneView.h>
 #include <dtkComposer/dtkComposerStackView.h>
 #include <dtkComposer/dtkComposerView.h>
+
+#include <dtkDistributed/dtkDistributor.h>
 
 #include <medComposer/medComposerFactory.h>
 
@@ -124,13 +127,18 @@ medComposerArea::medComposerArea(QWidget *parent) : QWidget(parent)
     connect(d->button_start, SIGNAL(clicked()), d->composer, SLOT(run()));
     connect(d->button_stop,  SIGNAL(clicked()), d->composer, SLOT(stop()));
 
+    dtkDistributor *distributor = new dtkDistributor(this);
+    distributor->setApplication("medSlave");
+
     // -- Layout
 
     dtkSplitter *left = new dtkSplitter(this);
     left->setOrientation(Qt::Vertical);
+
     left->addWidget(f_menu);
     left->addWidget(c_menu);
     left->addWidget(d->nodes);
+    left->addWidget(distributor);
 
     dtkSplitter *right = new dtkSplitter(this);
     right->setOrientation(Qt::Vertical);

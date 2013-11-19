@@ -5,7 +5,7 @@
  * Version:
  * Last-Updated:
  *           By:
- *     Update #: 228
+ *     Update #: 236
  */
 
 /* Change Log:
@@ -74,16 +74,11 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
     d = new medComposerAreaPrivate;
 
     d->button_open = new QPushButton("Open");
-    d->button_open->setObjectName("left");
     d->button_save = new QPushButton("Save");
-    d->button_save->setObjectName("center");
     d->button_save_as = new QPushButton("Save As");
-    d->button_save_as->setObjectName("center");
     d->button_insert = new QPushButton("Insert");
-    d->button_insert->setObjectName("right");
 
     QHBoxLayout *f_layout = new QHBoxLayout;
-    f_layout->setSpacing(0);
     f_layout->addWidget(d->button_open);
     f_layout->addWidget(d->button_save);
     f_layout->addWidget(d->button_save_as);
@@ -100,6 +95,7 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
     d->composer = new dtkComposer;
     d->composer->setFactory(new medComposerFactory);
     d->composer->view()->setCacheMode(QGraphicsView::CacheBackground);
+    d->composer->compass()->setBackgroundBrush(QColor("#222222"));
 
     d->editor = new dtkComposerSceneNodeEditor(this);
     d->editor->setScene(d->composer->scene());
@@ -125,29 +121,21 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
 // ///////////////////////////////////////////////////////////////////
 
     d->button_flag_blue = new QPushButton(this);
-    d->button_flag_blue->setObjectName("left");
     d->button_flag_blue->setIcon(d->composer->scene()->flagAsBlueAction()->icon());
     d->button_flag_gray = new QPushButton(this);
-    d->button_flag_gray->setObjectName("center");
     d->button_flag_gray->setIcon(d->composer->scene()->flagAsGrayAction()->icon());
     d->button_flag_green = new QPushButton(this);
-    d->button_flag_green->setObjectName("center");
     d->button_flag_green->setIcon(d->composer->scene()->flagAsGreenAction()->icon());
     d->button_flag_orange = new QPushButton(this);
-    d->button_flag_orange->setObjectName("center");
     d->button_flag_orange->setIcon(d->composer->scene()->flagAsOrangeAction()->icon());
     d->button_flag_pink = new QPushButton(this);
-    d->button_flag_pink->setObjectName("center");
     d->button_flag_pink->setIcon(d->composer->scene()->flagAsPinkAction()->icon());
     d->button_flag_red = new QPushButton(this);
-    d->button_flag_red->setObjectName("center");
     d->button_flag_red->setIcon(d->composer->scene()->flagAsRedAction()->icon());
     d->button_flag_yellow = new QPushButton(this);
-    d->button_flag_yellow->setObjectName("right");
     d->button_flag_yellow->setIcon(d->composer->scene()->flagAsYellowAction()->icon());
 
     QHBoxLayout *n_layout = new QHBoxLayout;
-    n_layout->setSpacing(0);
     n_layout->addWidget(d->button_flag_blue);
     n_layout->addWidget(d->button_flag_gray);
     n_layout->addWidget(d->button_flag_green);
@@ -175,7 +163,6 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
     d->button_stop->setObjectName("right");
 
     QHBoxLayout *c_layout = new QHBoxLayout;
-    c_layout->setSpacing(0);
     c_layout->addWidget(d->button_start);
     c_layout->addWidget(d->button_stop);
 
@@ -231,8 +218,6 @@ medComposerArea::medComposerArea(QWidget *parent) : QFrame(parent)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(inner);
-
-    this->setStyleSheet("background-color: #313131;");
 }
 
 medComposerArea::~medComposerArea(void)

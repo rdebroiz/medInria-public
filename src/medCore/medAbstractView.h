@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
-
+ 
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -23,6 +23,7 @@
 class medAbstractViewPrivate;
 
 class medAbstractViewCoordinates;
+class medViewBackend;
 
 class QColor;
 
@@ -186,6 +187,8 @@ public:
 
     //! Get the coordinates helper
     virtual medAbstractViewCoordinates * coordinates() = 0;
+
+    virtual medViewBackend * backend() const;
 
 signals:
     /**
@@ -367,4 +370,8 @@ protected:
 
 private:
     medAbstractViewPrivate *d;
+};
+
+// derive and implement if you need to provide access to your backend
+class medViewBackend {
 };

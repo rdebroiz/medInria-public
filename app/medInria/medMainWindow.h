@@ -141,8 +141,6 @@ protected:
     void mousePressEvent(QMouseEvent * event);
     int saveModified();
 
-    bool eventFilter(QObject * obj, QEvent *ev);
-
     bool event(QEvent * e);
 
     /**

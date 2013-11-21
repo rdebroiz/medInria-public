@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013. All rights reserved.
  See LICENSE.txt for details.
-
+ 
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -16,7 +16,6 @@
 #include <QtGui/QMainWindow>
 #include <QUuid>
 #include <QUrl>
-
 class medDataIndex;
 class medMainWindowPrivate;
 
@@ -140,10 +139,6 @@ protected:
     void closeEvent(QCloseEvent *event);
 
     void mousePressEvent(QMouseEvent * event);
-
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
-
     int saveModified();
 
     bool eventFilter(QObject * obj, QEvent *ev);
@@ -158,3 +153,5 @@ protected:
 private:
     medMainWindowPrivate *d;
 };
+
+

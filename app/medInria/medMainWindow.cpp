@@ -331,6 +331,12 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     d->workspaceArea->setupWorkspace ( "Visualization" );
 
     connect ( qApp, SIGNAL ( aboutToQuit() ), this, SLOT ( close() ) );
+
+    QShortcut * quickAccessShortcut = new QShortcut(QKeySequence(tr("Ctrl+Space")),
+                                                    this,
+                                                    SLOT(showShortcutAccess()),
+                                                    SLOT(showShortcutAccess()),
+                                                    Qt::ApplicationShortcut);
 }
 
 medMainWindow::~medMainWindow()
@@ -351,6 +357,8 @@ void medMainWindow::mousePressEvent ( QMouseEvent* event )
  */
 void medMainWindow::keyPressEvent( QKeyEvent *event )
 {
+    return QMainWindow::keyPressEvent(event);
+
 #ifdef Q_OS_MAC
     if (event->key() == Qt::Key_Meta)
 #else
@@ -379,6 +387,7 @@ void medMainWindow::keyPressEvent( QKeyEvent *event )
  */
 void medMainWindow::keyReleaseEvent( QKeyEvent * event )
 {
+    return QMainWindow::keyReleaseEvent(event);
 #ifdef Q_OS_MAC
     if (event->key() == Qt::Key_Meta)
 #else
@@ -457,6 +466,7 @@ void medMainWindow::switchToArea(const AreaType areaIndex) {
         }
 
 }
+
 
 void medMainWindow::resizeEvent ( QResizeEvent* event )
 {
@@ -681,6 +691,8 @@ void medMainWindow::hideQuickAccess()
  */
 void medMainWindow::showShortcutAccess()
 {
+    qDebug() << "Bordel de merde";
+
     if ( d->shortcutAccessVisible )
     {
         this->hideShortcutAccess();
@@ -698,6 +710,7 @@ void medMainWindow::showShortcutAccess()
     d->shortcutAccessWidget->show();
     d->shortcutAccessWidget->setFocus();
     d->shortcutAccessWidget->setMouseTracking(true);
+    d->shortcutAccessWidget->grabKeyboard();
 }
 
 /**
@@ -708,6 +721,7 @@ void medMainWindow::hideShortcutAccess()
     if (!d->shortcutAccessVisible)
         return;
     
+    d->shortcutAccessWidget->releaseKeyboard();
     d->shortcutAccessWidget->setMouseTracking(false);
     d->shortcutAccessVisible = false;
     d->shortcutAccessWidget->setProperty ( "pos", QPoint ( 0 , -500 ) );

@@ -664,7 +664,7 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
 
     connect ( d->widget, SIGNAL ( destroyed() ), this, SLOT ( widgetDestroyed() ) );
 
-    d->backend.reset(new medVtkViewBackend(d->view2d));
+    d->backend.reset(new medVtkViewBackend(d->view2d,d->view3d));
 }
 
 v3dView::~v3dView()
@@ -2351,6 +2351,14 @@ medAbstractViewCoordinates * v3dView::coordinates()
     return this;
 }
 
+<<<<<<< HEAD
+=======
+medViewBackend * v3dView::backend() const
+{
+    return d->backend.data();
+}
+
+>>>>>>> adds a vtkImageView3d as a variable of the medVtkViewBackend, corrects an error in implementation
 QPointF v3dView::worldToDisplay( const QVector3D & worldVec ) const
 {
     // The following code is implemented without calling ren->SetWorldPoint,

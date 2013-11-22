@@ -20,6 +20,8 @@
 #include <dtkCore/dtkAbstractProcess.h>
 #include <dtkCore/dtkAbstractProcessFactory.h>
 
+#include <medCore/medAbstractDataImage.h>
+
 
 // /////////////////////////////////////////////////////////////////
 // medComposerNodeFilteringPrivate interface
@@ -31,10 +33,10 @@ public:
     dtkAbstractProcess *filtering;
 
 public:
-    dtkComposerTransmitterReceiver<dtkAbstractData> receiver_data;
+    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_data;
 
 public:
-    dtkComposerTransmitterEmitter<dtkAbstractData> emitter_data;
+    dtkComposerTransmitterEmitter<medAbstractDataImage> emitter_data;
 
 public:
     qlonglong index;
@@ -122,7 +124,7 @@ void medComposerNodeFiltering::run()
             return;
         }
 
-        dtkAbstractData *data = d->receiver_data.data();
+        medAbstractDataImage *data = d->receiver_data.data();
 
         if (!data) {
             dtkError() << Q_FUNC_INFO << "Input data is not allocated";
@@ -134,7 +136,7 @@ void medComposerNodeFiltering::run()
 
         d->index = d->filtering->run();
 
-        d->emitter_data.setData(d->filtering->output());
+        d->emitter_data.setData(dynamic_cast<medAbstractDataImage *>(d->filtering->output()));
 
     } else {
 

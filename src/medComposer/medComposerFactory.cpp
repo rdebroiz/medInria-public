@@ -10,6 +10,7 @@
 #include "medComposerFactory.h"
 #include "medComposerNodeFiltering.h"
 #include "medComposerNodeImage.h"
+#include "medComposerNodeImageWriter.h"
 #include "medComposerNodeView.h"
 
 #include <dtkCore/dtkAbstractView.h>
@@ -69,6 +70,11 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
     d->descriptions["Image"] = "<p>medAbstractImage.</p>";
     d->tags["Image"] = QStringList() << "image" << "reader";
     d->types["Image"] = "medAbstractDataImage";
+
+    d->nodes << "Writer";
+    d->descriptions["Writer"] = "<p>medAbstractImage.</p>";
+    d->tags["Writer"] = QStringList() << "image" << "writer";
+    d->types["Writer"] = "medDataImageWriter";
 }
 
 medComposerFactory::~medComposerFactory(void)
@@ -88,6 +94,9 @@ dtkComposerNode *medComposerFactory::create(const QString& type)
 
     if(type == "medAbstractDataImage")
         return new medComposerNodeImage;
+
+    if(type == "medDataImageWriter")
+        return new medComposerNodeImageWriter;
 
     return dtkComposerFactory::create(type);
 }

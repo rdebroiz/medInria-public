@@ -21,12 +21,14 @@ set(${PROJECT_NAME}_HEADERS
   medComposerFactory.h
   medComposerNodeFiltering.h
   medComposerNodeImage.h
+  medComposerNodeImageWriter.h
   medComposerNodeView.h)
 
 set(${PROJECT_NAME}_SOURCES
   medComposerFactory.cpp
   medComposerNodeFiltering.cpp
   medComposerNodeImage.cpp
+  medComposerNodeImageWriter.cpp
   medComposerNodeView.cpp)
 
 ## ###################################################################

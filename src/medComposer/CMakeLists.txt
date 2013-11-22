@@ -47,11 +47,16 @@ add_library(${PROJECT_NAME} SHARED
   ${${PROJECT_NAME}_SOURCES_WRAP})
 
 target_link_libraries(${PROJECT_NAME}
-    ${QT_LIBRARIES}
+    ${QT_LIBRARIES})
+
+target_link_libraries(${PROJECT_NAME}
     dtkCore
     dtkComposer
     dtkGui
     dtkLog)
+
+target_link_libraries(${PROJECT_NAME}
+    medCore)
 
 ## ###################################################################
 ## Source tree layout

@@ -22,7 +22,6 @@
 
 #include <medCore/medAbstractDataImage.h>
 
-
 // /////////////////////////////////////////////////////////////////
 // medComposerNodeFilteringPrivate interface
 // /////////////////////////////////////////////////////////////////
@@ -33,10 +32,10 @@ public:
     dtkAbstractProcess *filtering;
 
 public:
-    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_data;
+    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_image;
 
 public:
-    dtkComposerTransmitterEmitter<medAbstractDataImage> emitter_data;
+    dtkComposerTransmitterEmitter<medAbstractDataImage> emitter_image;
 
 public:
     qlonglong index;
@@ -49,9 +48,9 @@ public:
 
 medComposerNodeFiltering::medComposerNodeFiltering(void) : dtkComposerNodeLeafProcess(), d(new medComposerNodeFilteringPrivate)
 {
-    this->appendReceiver(&(d->receiver_data));
+    this->appendReceiver(&(d->receiver_image));
 
-    this->appendEmitter(&(d->emitter_data));
+    this->appendEmitter(&(d->emitter_image));
 
     d->filtering = NULL;
 }
@@ -78,7 +77,7 @@ QString medComposerNodeFiltering::inputLabelHint(int port)
 {
     switch (port) {
     case 0:
-        return "data";
+        return "image";
     default:
         return dtkComposerNodeLeaf::inputLabelHint(port);
     }
@@ -88,7 +87,7 @@ QString medComposerNodeFiltering::outputLabelHint(int port)
 {
     switch (port) {
     case 0:
-        return "data";
+        return "image";
     default:
         return dtkComposerNodeLeaf::outputLabelHint(port);
     }
@@ -116,31 +115,31 @@ dtkAbstractProcess *medComposerNodeFiltering::process(void) const
 
 void medComposerNodeFiltering::run()
 {
-    if (!d->receiver_data.isEmpty()) {
+    if (!d->receiver_image.isEmpty()) {
 
         if (!d->filtering){
             dtkWarn() << Q_FUNC_INFO << "No process instantiated, abort:" << this->currentImplementation();
-            d->emitter_data.clearData();
+            d->emitter_image.clearData();
             return;
         }
 
-        medAbstractDataImage *data = d->receiver_data.data();
+        medAbstractDataImage *image = qobject_cast<medAbstractDataImage *>(d->receiver_image.data());
 
-        if (!data) {
-            dtkError() << Q_FUNC_INFO << "Input data is not allocated";
+        if (!image) {
+            dtkError() << Q_FUNC_INFO << "Input image is not allocated";
             return;
         }
 
 
-        d->filtering->setInput(data);
+        d->filtering->setInput(image);
 
         d->index = d->filtering->run();
 
-        d->emitter_data.setData(dynamic_cast<medAbstractDataImage *>(d->filtering->output()));
+        d->emitter_image.setData(qobject_cast<medAbstractDataImage *>(d->filtering->output()));
 
     } else {
 
         dtkWarn() << Q_FUNC_INFO << "The input are not all set. Nothing is done.";
-        d->emitter_data.clearData();
+        d->emitter_image.clearData();
     }
 }

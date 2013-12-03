@@ -69,6 +69,7 @@ add_subdirectory(medComposer)
 set(${PROJECT_NAME}_INCLUDE_DIRS
   ${medCore_INCLUDE_DIRS}
   ${medGui_INCLUDE_DIRS}
+  ${medPacs_INCLUDE_DIRS}
   ${medTest_INCLUDE_DIRS}
   ${medSql_INCLUDE_DIRS}
   ${vtkInria_INCLUDE_DIRS}

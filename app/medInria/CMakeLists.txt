@@ -148,6 +148,7 @@ target_link_libraries(${PROJECT_NAME}
   dtkDistributed
   medComposer
   medGui
+  medCore
   medSql
   medPacs)
 

@@ -58,7 +58,7 @@ add_subdirectory(medLogForwarder)
 add_subdirectory(medImageIO) 
 add_subdirectory(medRegistration)
 
-add_subdirectory(vtkInria)
+add_subdirectory(medVtkInria)
 
 add_subdirectory(medComposer)
 

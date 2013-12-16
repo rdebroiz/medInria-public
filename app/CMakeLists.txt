@@ -1,4 +1,4 @@
-#######################################################################
+################################################################################
 #
 # medInria
 #
@@ -9,9 +9,9 @@
 #  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 #  PURPOSE.
 #
-#######################################################################
+################################################################################
 
-add_subdirectory(medPluginGenerator)
 add_subdirectory(medInria)
+add_subdirectory(medPluginGenerator)
 add_subdirectory(medServer)
 add_subdirectory(medSlave)

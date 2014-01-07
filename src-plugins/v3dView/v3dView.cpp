@@ -22,7 +22,6 @@
 #include <dtkCore/dtkAbstractViewInteractor.h>
 
 #include <medMessageController.h>
-#include <medSettingsManager.h>
 #include <medAbstractDataImage.h>
 #include <medMetaDataKeys.h>
 
@@ -382,17 +381,6 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     }
 
     d->setPropertyFunctions["Closable"] = &v3dView::onClosablePropertySet;
-    d->setPropertyFunctions["Orientation"] =  &v3dView::onOrientationPropertySet;
-    d->setPropertyFunctions["ShowScalarBar"] = &v3dView::onShowScalarBarPropertySet;
-    d->setPropertyFunctions["ShowAxis"] = &v3dView::onShowAxisPropertySet;
-    d->setPropertyFunctions["ShowRuler"] = &v3dView::onShowRulerPropertySet;
-    d->setPropertyFunctions["ShowAnnotations"] = &v3dView::onShowAnnotationsPropertySet;
-    d->setPropertyFunctions["MouseInteraction"] = &v3dView::onMouseInteractionPropertySet;
-    d->setPropertyFunctions["3DMode"] = &v3dView::on3DModePropertySet;
-    d->setPropertyFunctions["Renderer"] = &v3dView::onRendererPropertySet;
-    d->setPropertyFunctions["Cropping"] = &v3dView::onCroppingPropertySet;
-    d->setPropertyFunctions["ZoomMode"] = &v3dView::onZoomModePropertySet;
-    d->setPropertyFunctions["DepthPeeling"] = &v3dView::onDepthPeelingPropertySet;
 
     d->data       = 0;
     d->imageData  = 0;
@@ -590,29 +578,6 @@ v3dView::v3dView() : medAbstractView(), d ( new v3dViewPrivate )
     // set property to actually available presets
     QStringList lut = this->getAvailableTransferFunctionPresets();
     this->addProperty ( "LookupTable",           lut );
-
-    // set default properties
-    this->setProperty ("Orientation",           "Axial");
-    this->setProperty ("ShowScalarBar",         "false");
-    this->setProperty ("ShowAxis",              "false");
-    this->setProperty ("ShowRuler",             "true");
-    this->setProperty ("ShowAnnotations",       "true");
-    this->setProperty ("LookupTable",           "Default");
-
-
-    //get default Mouse interaction from medSettings
-    medSettingsManager * mnger = medSettingsManager::instance();
-    QString mouseInteraction = mnger->value("interactions","mouse",
-                                            "Windowing").toString();
-    this->setProperty ("MouseInteraction", mouseInteraction);
-    this->setProperty ("3DMode",                "MPR");
-#ifdef __APPLE__
-    this->setProperty ( "Renderer", "Ray Cast" );
-#else
-    this->setProperty ( "Renderer", "Default" );
-#endif
-    this->setProperty ( "Cropping", "false" );
-    this->setProperty ( "Preset",   "None" );
 
     this->setProperty ( "Closable",         "true"  );
 
@@ -1056,7 +1021,7 @@ void v3dView::onPropertySet ( const QString &key, const QString &value )
     //this->update();
 }
 
-void v3dView::onOrientationPropertySet ( const QString &value )
+void v3dView::setOrientation ( const QString &value )
 {
     if ( value==d->orientation )
         return;
@@ -1170,7 +1135,7 @@ void v3dView::onOrientationPropertySet ( const QString &value )
     }
 }
 
-void v3dView::on3DModePropertySet ( const QString &value )
+void v3dView::set3DMode ( const QString &value )
 {
     if ( value=="VR" )
     {
@@ -1207,7 +1172,7 @@ void v3dView::on3DModePropertySet ( const QString &value )
     }
 }
 
-void v3dView::onRendererPropertySet ( const QString &value )
+void v3dView::setRenderer ( const QString &value )
 {
     if ( value=="GPU" )
         d->view3d->SetVolumeMapperToGPU();
@@ -1223,9 +1188,9 @@ void v3dView::onRendererPropertySet ( const QString &value )
 }
 
 
-void v3dView::onDepthPeelingPropertySet ( const QString &value )
+void v3dView::setDepthPeeling ( const bool &value )
 {
-    if ( value == "true" )
+    if ( value )
     {
         // Activate depth-peeling to have a proper opacity rendering
         d->renderer3d->SetUseDepthPeeling(1);
@@ -1233,18 +1198,16 @@ void v3dView::onDepthPeelingPropertySet ( const QString &value )
         d->renderer3d->SetOcclusionRatio(0.01);
     }
 
-    if ( value == "false" )
-        d->renderer3d->SetUseDepthPeeling(0);
+    else  d->renderer3d->SetUseDepthPeeling(0);
 }
 
 
-void v3dView::onShowScalarBarPropertySet ( const QString &value )
+void v3dView::showScalarBar ( const bool &value )
 {
-    if ( value == "true" )
+    if ( value )
         d->collection->SyncSetShowScalarBar(true);
     
-    if ( value == "false" )
-        d->collection->SyncSetShowScalarBar(false);
+    else d->collection->SyncSetShowScalarBar(false);
 }
 
 QString v3dView::getLUT ( int layer ) const
@@ -1256,9 +1219,9 @@ QString v3dView::getLUT ( int layer ) const
 
 }
 
-void v3dView::onShowAxisPropertySet ( const QString &value )
+void v3dView::showAxis ( const bool &value )
 {
-    if ( value == "true" )
+    if ( value )
     {
         d->collection->SyncSetShowImageAxis ( 1 );
         if ( d->currentView )
@@ -1267,21 +1230,20 @@ void v3dView::onShowAxisPropertySet ( const QString &value )
         }
     }
 
-    if ( value == "false" )
-        d->collection->SyncSetShowImageAxis ( 0 );
+    else d->collection->SyncSetShowImageAxis ( 0 );
 }
 
-void v3dView::onShowRulerPropertySet ( const QString &value )
+void v3dView::showRuler ( const bool &value )
 {
-    d->collection->SyncSetShowRulerWidget ( ( value == "true" ) );
+    d->collection->SyncSetShowRulerWidget ( value );
 }
 
-void v3dView::onShowAnnotationsPropertySet ( const QString &value )
+void v3dView::showAnnotations ( const bool &value )
 {
-    d->collection->SyncSetShowAnnotations ( ( value == "true" ) );
+    d->collection->SyncSetShowAnnotations ( value );
 }
 
-void v3dView::onMouseInteractionPropertySet ( const QString &value )
+void v3dView::setMouseInteraction ( const QString &value )
 {
     d->collection->SyncSetMiddleButtonInteractionStyle ( vtkInteractorStyleImageView2D::InteractionTypePan );
 
@@ -1310,7 +1272,7 @@ void v3dView::onMouseInteractionPropertySet ( const QString &value )
     }
 }
 
-void v3dView::onZoomModePropertySet ( const QString &value )
+void v3dView::setZoomMode ( const QString &value )
 {
     if ( value=="RubberBand" )
     {
@@ -1332,9 +1294,9 @@ QString v3dView::getPreset ( int layer ) const
         return "Default";
 }
 
-void v3dView::onCroppingPropertySet ( const QString &value )
+void v3dView::setCropping ( const bool &value )
 {
-    if ( value=="true" )
+    if ( value )
     {
         if ( d->view3d->GetBoxWidget()->GetInteractor() ) // avoid VTK warnings
         {
@@ -1619,25 +1581,12 @@ void v3dView::bounds ( float& xmin, float& xmax, float& ymin, float& ymax, float
 
 void v3dView::cameraUp ( double *coordinates )
 {
-    if ( this->property ( "Orientation" ) == "Axial" )
+    if ( d->orientation != "3D" )
     {
         vtkCamera *camera = d->renderer2d->GetActiveCamera();
         camera->GetViewUp ( coordinates );
     }
-
-    if ( this->property ( "Orientation" ) == "Sagittal" )
-    {
-        vtkCamera *camera = d->renderer2d->GetActiveCamera();
-        camera->GetViewUp ( coordinates );
-    }
-
-    if ( this->property ( "Orientation" ) == "Coronal" )
-    {
-        vtkCamera *camera = d->renderer2d->GetActiveCamera();
-        camera->GetViewUp ( coordinates );
-    }
-
-    if ( this->property ( "Orientation" ) == "3D" )
+    else
     {
         vtkCamera *camera = d->renderer3d->GetActiveCamera();
         camera->GetViewUp ( coordinates );
@@ -1646,25 +1595,12 @@ void v3dView::cameraUp ( double *coordinates )
 
 void v3dView::cameraPosition ( double *coordinates )
 {
-    if ( this->property ( "Orientation" ) == "Axial" )
+    if ( d->orientation != "3D" )
     {
         vtkCamera *camera = d->renderer2d->GetActiveCamera();
         camera->GetPosition ( coordinates );
     }
-
-    if ( this->property ( "Orientation" ) == "Sagittal" )
-    {
-        vtkCamera *camera = d->renderer2d->GetActiveCamera();
-        camera->GetPosition ( coordinates );
-    }
-
-    if ( this->property ( "Orientation" ) == "Coronal" )
-    {
-        vtkCamera *camera = d->renderer2d->GetActiveCamera();
-        camera->GetPosition ( coordinates );
-    }
-
-    if ( this->property ( "Orientation" ) == "3D" )
+    else
     {
         vtkCamera *camera = d->renderer3d->GetActiveCamera();
         camera->GetPosition ( coordinates );
@@ -1673,25 +1609,12 @@ void v3dView::cameraPosition ( double *coordinates )
 
 void v3dView::cameraFocalPoint ( double *coordinates )
 {
-    if ( this->property ( "Orientation" ) == "Axial" )
+    if ( d->orientation != "3D" )
     {
         vtkCamera *camera = d->renderer2d->GetActiveCamera();
         camera->GetFocalPoint ( coordinates );
     }
-
-    if ( this->property ( "Orientation" ) == "Coronal" )
-    {
-        vtkCamera *camera = d->renderer2d->GetActiveCamera();
-        camera->GetFocalPoint ( coordinates );
-    }
-
-    if ( this->property ( "Orientation" ) == "Sagittal" )
-    {
-        vtkCamera *camera = d->renderer2d->GetActiveCamera();
-        camera->GetFocalPoint ( coordinates );
-    }
-
-    if ( this->property ( "Orientation" ) == "3D" )
+    else
     {
         vtkCamera *camera = d->renderer3d->GetActiveCamera();
         camera->GetFocalPoint ( coordinates );
@@ -1700,7 +1623,7 @@ void v3dView::cameraFocalPoint ( double *coordinates )
 
 void v3dView::setCameraPosition ( double x, double y, double z )
 {
-    if ( this->property ( "Orientation" ) != "3D" )
+    if ( d->orientation != "3D" )
         return;
 
     vtkCamera *camera = d->renderer3d->GetActiveCamera();
@@ -1714,7 +1637,7 @@ void v3dView::setCameraPosition ( double x, double y, double z )
 
 void v3dView::setCameraClippingRange ( double nearRange, double farRange )
 {
-    if ( this->property ( "Orientation" ) != "3D" )
+    if ( d->orientation != "3D" )
         return;
 
     vtkCamera *camera = d->renderer3d->GetActiveCamera();
@@ -1726,17 +1649,10 @@ QString v3dView::cameraProjectionMode()
 {
     vtkCamera *camera = NULL;
 
-    if ( this->property ( "Orientation" ) == "Axial" )
+    if ( d->orientation != "3D" )
         camera = d->renderer2d->GetActiveCamera();
 
-    if ( this->property ( "Orientation" ) == "Coronal" )
-        camera = d->renderer2d->GetActiveCamera();
-
-    if ( this->property ( "Orientation" ) == "Sagittal" )
-        camera = d->renderer2d->GetActiveCamera();
-
-    if ( this->property ( "Orientation" ) == "3D" )
-        camera = d->renderer3d->GetActiveCamera();
+    else camera = d->renderer3d->GetActiveCamera();
 
     if ( !camera )
         return QString ( "None" );
@@ -1751,17 +1667,10 @@ double v3dView::cameraViewAngle()
 {
     vtkCamera *camera = NULL;
 
-    if ( this->property ( "Orientation" ) == "Axial" )
+    if ( d->orientation != "3D" )
         camera = d->renderer2d->GetActiveCamera();
 
-    if ( this->property ( "Orientation" ) == "Coronal" )
-        camera = d->renderer2d->GetActiveCamera();
-
-    if ( this->property ( "Orientation" ) == "Sagittal" )
-        camera = d->renderer2d->GetActiveCamera();
-
-    if ( this->property ( "Orientation" ) == "3D" )
-        camera = d->renderer3d->GetActiveCamera();
+    else camera = d->renderer3d->GetActiveCamera();
 
     if ( !camera )
         return 0.0;
@@ -1773,17 +1682,10 @@ double v3dView::cameraZoom()
 {
     vtkImageView *view = NULL;
 
-    if ( this->property ( "Orientation" ) == "Axial" )
+    if ( d->orientation != "3D" )
         view = d->view2d;
 
-    if ( this->property ( "Orientation" ) == "Coronal" )
-        view = d->view2d;
-
-    if ( this->property ( "Orientation" ) == "Sagittal" )
-        view = d->view2d;
-
-    if ( this->property ( "Orientation" ) == "3D" )
-        view = d->view3d;
+    else  view = d->view3d;
 
     if ( !view )
         return 1.0;
@@ -2061,5 +1963,5 @@ void v3dView::onMainWindowDeactivated()
 {
     //This function must contains all the different actions that we want to happen in case the software loses the focus
     if (property("ZoomMode")=="RubberBand")
-        onZoomModePropertySet("Normal"); 
+        setZoomMode("Normal");
 }

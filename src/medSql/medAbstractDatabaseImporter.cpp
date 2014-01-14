@@ -403,6 +403,7 @@ void medAbstractDatabaseImporter::importFile ( void )
 
         itPat++;
         itSer++;
+        atLeastOneImportSucceeded = true;
     } // end of the final loop
 
 

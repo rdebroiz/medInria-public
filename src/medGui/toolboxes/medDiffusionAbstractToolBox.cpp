@@ -43,7 +43,7 @@ medDiffusionSelectorToolBox *medDiffusionAbstractToolBox::parentToolBox(void)
 }
 
 
-dtkAbstractData *medDiffusionAbstractToolBox::output() const
+medAbstractData *medDiffusionAbstractToolBox::output() const
 {
     DTK_DEFAULT_IMPLEMENTATION;
     return NULL;

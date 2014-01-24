@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include <dtkCore/dtkAbstractData.h>
+#include <medAbstractData.h>
 #include <dtkCore/dtkAbstractDataFactory.h>
 #include <dtkCore/dtkAbstractProcess.h>
 #include <dtkCore/dtkAbstractProcessFactory.h>
@@ -101,7 +101,7 @@ void medDiffusionSelectorToolBox::onToolBoxChosen(int id)
 
             connect (toolbox, SIGNAL (success()), this, SIGNAL (success()));
             connect (toolbox, SIGNAL (failure()), this, SIGNAL (failure()));
-            connect (toolbox, SIGNAL (newOutput(dtkAbstractData *)), this, SIGNAL (newOutput(dtkAbstractData*)));
+            connect (toolbox, SIGNAL (newOutput(medAbstractData *)), this, SIGNAL (newOutput(medAbstractData*)));
 
             d->toolBoxes[identifier] = toolbox;
         }
@@ -140,7 +140,7 @@ void medDiffusionSelectorToolBox::onToolBoxChosen(int id)
     d->currentToolBox = toolbox;
 }
 
-dtkAbstractData *medDiffusionSelectorToolBox::output(void) const
+medAbstractData *medDiffusionSelectorToolBox::output(void) const
 {
     if (d->currentToolBox)
         return d->currentToolBox->output();

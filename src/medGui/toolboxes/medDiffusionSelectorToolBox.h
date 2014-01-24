@@ -17,7 +17,7 @@
 #include "medGuiExport.h"
 
 class dtkAbstractView;
-class dtkAbstractData;
+class medAbstractData;
 class dtkAbstractProcess;
 class medDiffusionSelectorToolBoxPrivate;
 class medDataIndex;
@@ -29,10 +29,10 @@ public:
      medDiffusionSelectorToolBox(QWidget *parent = 0);
     ~medDiffusionSelectorToolBox();
 
-    dtkAbstractData *output() const;
+    medAbstractData *output() const;
 
 signals:
-    void newOutput(dtkAbstractData * data);
+    void newOutput(medAbstractData * data);
 
 public slots:
     // void run();

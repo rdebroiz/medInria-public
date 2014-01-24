@@ -37,7 +37,7 @@ public:
     void setupViewContainerStack();
 
 public slots:
-    void addToView(dtkAbstractData *data);
+    void addToView(medAbstractData *data);
     void onAddTabClicked();
 
 private:

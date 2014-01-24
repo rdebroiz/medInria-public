@@ -14,7 +14,7 @@
 #include "medDiffusionWorkspace.h"
 
 #include <dtkCore/dtkSmartPointer.h>
-#include <dtkCore/dtkAbstractData.h>
+#include <medAbstractData.h>
 #include <dtkCore/dtkAbstractViewFactory.h>
 #include <dtkCore/dtkAbstractView.h>
 #include <dtkCore/dtkAbstractViewInteractor.h>
@@ -50,8 +50,8 @@ medDiffusionWorkspace::medDiffusionWorkspace(QWidget *parent) : medWorkspace(par
     connect(d->diffusionToolBox, SIGNAL(removeToolBox(medToolBox *)),
             this, SLOT(removeToolBox(medToolBox *)));
 
-    connect(d->diffusionToolBox, SIGNAL(newOutput(dtkAbstractData*)), d->fiberBundlingToolBox, SLOT(setInput(dtkAbstractData*)));
-    connect(d->diffusionToolBox, SIGNAL(newOutput(dtkAbstractData*)), this, SLOT(addToView(dtkAbstractData*)));
+    connect(d->diffusionToolBox, SIGNAL(newOutput(medAbstractData*)), d->fiberBundlingToolBox, SLOT(setInput(medAbstractData*)));
+    connect(d->diffusionToolBox, SIGNAL(newOutput(medAbstractData*)), this, SLOT(addToView(medAbstractData*)));
 
     // -- View toolboxes --
 
@@ -110,7 +110,7 @@ void medDiffusionWorkspace::setupViewContainerStack()
         return;
 }
 
-void medDiffusionWorkspace::addToView(dtkAbstractData * data)
+void medDiffusionWorkspace::addToView(medAbstractData * data)
 {
     if( d->diffusionContainer->view() )
     {

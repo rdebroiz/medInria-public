@@ -13,7 +13,7 @@
 
 #include "medFiberBundlingToolBox.h"
 
-#include <dtkCore/dtkAbstractData.h>
+#include <medAbstractData.h>
 #include <dtkCore/dtkAbstractDataFactory.h>
 #include <dtkCore/dtkAbstractView.h>
 #include <dtkCore/dtkAbstractViewInteractor.h>
@@ -50,7 +50,7 @@ public:
 
     v3dView * view;
     v3dViewFiberInteractor * interactor;
-    dtkSmartPointer<dtkAbstractData> data;
+    dtkSmartPointer<medAbstractData> data;
 };
 
 medFiberBundlingToolBox::medFiberBundlingToolBox(QWidget *parent) : medToolBox(parent), d(new medFiberBundlingToolBoxPrivate)
@@ -178,7 +178,7 @@ bool medFiberBundlingToolBox::registered()
                                                                                    QStringList()<<"fiber"<<"bundling");
 }
 
-void medFiberBundlingToolBox::setData(dtkAbstractData *data)
+void medFiberBundlingToolBox::setData(medAbstractData *data)
 {
     if (!data)
         return;
@@ -297,7 +297,7 @@ void medFiberBundlingToolBox::addBundle (const QString &name, const QColor &colo
 
 void medFiberBundlingToolBox::importROI(const medDataIndex& index)
 {
-    dtkSmartPointer<dtkAbstractData> data = medDataManager::instance()->data(index);
+    dtkSmartPointer<medAbstractData> data = medDataManager::instance()->data(index);
 
     // we accept only ROIs (itkDataImageUChar3)
     if (!data || !d->view || data->identifier() != "itkDataImageUChar3")
@@ -340,7 +340,7 @@ void medFiberBundlingToolBox::clearRoi(void)
         return;
 
     // create dummy mask image
-    dtkAbstractData *data = dtkAbstractDataFactory::instance()->create("itkDataImageUChar3");
+    medAbstractData *data = dtkAbstractDataFactory::instance()->create("itkDataImageUChar3");
     if (d->interactor) {
         d->interactor->setROI(data);
     }
@@ -519,7 +519,7 @@ void medFiberBundlingToolBox::setImage(const QImage& thumbnail)
 }
 
 
-void medFiberBundlingToolBox::setInput(dtkAbstractData *data)
+void medFiberBundlingToolBox::setInput(medAbstractData *data)
 {
     this->setData(data);
 }

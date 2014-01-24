@@ -19,7 +19,7 @@
 class medDiffusionSelectorToolBox;
 class medDiffusionAbstractToolBoxPrivate;
 class dtkAbstractProcess;
-class dtkAbstractData;
+class medAbstractData;
 class dtkPlugin;
 
 class MEDGUI_EXPORT medDiffusionAbstractToolBox : public medToolBox
@@ -33,7 +33,7 @@ public:
 
     virtual QString description() const=0;
 
-    virtual dtkAbstractData *output() const;
+    virtual medAbstractData *output() const;
 
     /**
      * @brief Returns the plugin this custom Toolbox comes from.
@@ -44,7 +44,7 @@ public:
     virtual dtkPlugin *plugin()const = 0 ;
 
 signals:
-     void newOutput(dtkAbstractData * data);
+     void newOutput(medAbstractData * data);
 
 protected slots:
      void processSuccess();

@@ -21,7 +21,7 @@
 
 #include <medAbstractDataImage.h>
 
-#include <dtkCore/dtkAbstractDataFactory.h>
+#include <medAbstractDataFactory.h>
 #include <dtkCore/dtkAbstractDataReader.h>
 #include <dtkCore/dtkAbstractDataWriter.h>
 #include <medAbstractData.h>
@@ -685,7 +685,7 @@ QStringList medAbstractDatabaseImporter::generateThumbnails ( medAbstractData* d
 
 dtkSmartPointer<dtkAbstractDataReader> medAbstractDatabaseImporter::getSuitableReader ( QStringList filename )
 {
-    QList<QString> readers = dtkAbstractDataFactory::instance()->readers();
+    QList<QString> readers = medAbstractDataFactory::instance()->readers();
 
     if ( readers.size() ==0 )
     {
@@ -697,7 +697,7 @@ dtkSmartPointer<dtkAbstractDataReader> medAbstractDatabaseImporter::getSuitableR
     // cycle through readers to see if the last used reader can handle the file
     dtkSmartPointer<dtkAbstractDataReader> dataReader;
     for (int i=0; i<readers.size(); i++) {
-        dataReader = dtkAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
+        dataReader = medAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
         if (d->lastSuccessfulReaderDescription == dataReader->identifier() && dataReader->canRead(filename)) {
             dataReader->enableDeferredDeletion(false);
             return dataReader;
@@ -705,7 +705,7 @@ dtkSmartPointer<dtkAbstractDataReader> medAbstractDatabaseImporter::getSuitableR
     }
 
     for (int i=0; i<readers.size(); i++) {
-        dataReader = dtkAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
+        dataReader = medAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
         if (dataReader->canRead(filename)) {
             d->lastSuccessfulReaderDescription = dataReader->identifier();
             dataReader->enableDeferredDeletion(false);
@@ -724,11 +724,11 @@ dtkSmartPointer<dtkAbstractDataWriter> medAbstractDatabaseImporter::getSuitableW
     if ( !dtkData )
         return NULL;
 
-    QList<QString> writers = dtkAbstractDataFactory::instance()->writers();
+    QList<QString> writers = medAbstractDataFactory::instance()->writers();
     dtkSmartPointer<dtkAbstractDataWriter> dataWriter;
     // first try with the last
     for (int i=0; i<writers.size(); i++) {
-        dataWriter = dtkAbstractDataFactory::instance()->writerSmartPointer(writers[i]);
+        dataWriter = medAbstractDataFactory::instance()->writerSmartPointer(writers[i]);
         if (d->lastSuccessfulWriterDescription==dataWriter->identifier()) {
             if (dataWriter->handled().contains(dtkData->identifier()) && dataWriter->canWrite(filename)) {
 
@@ -742,7 +742,7 @@ dtkSmartPointer<dtkAbstractDataWriter> medAbstractDatabaseImporter::getSuitableW
     // cycle all
     for ( int i=0; i<writers.size(); i++ )
     {
-        dataWriter = dtkAbstractDataFactory::instance()->writerSmartPointer ( writers[i] );
+        dataWriter = medAbstractDataFactory::instance()->writerSmartPointer ( writers[i] );
 
         if (dataWriter->handled().contains(dtkData->identifier()) &&
              dataWriter->canWrite( filename ) ) {
@@ -847,14 +847,14 @@ QString medAbstractDatabaseImporter::determineFutureImageExtensionByDataType ( c
     QString identifier = dtkdata->identifier();
     QString extension = "";
 
-    QList<QString> writers = dtkAbstractDataFactory::instance()->writers();
+    QList<QString> writers = medAbstractDataFactory::instance()->writers();
 
     dtkSmartPointer<dtkAbstractDataWriter> dataWriter;
 
     // first let's try to retrieve extension for writer information
     for ( int i=0; i<writers.size(); i++ )
     {
-        dataWriter = dtkAbstractDataFactory::instance()->writerSmartPointer ( writers[i] );
+        dataWriter = medAbstractDataFactory::instance()->writerSmartPointer ( writers[i] );
 
         if (dataWriter->handled().contains(dtkdata->identifier()) )
         {

@@ -192,6 +192,8 @@ void medAbstractDatabaseImporter::importFile ( void )
     QString currentSeriesUid = "-1";
     QString currentSeriesId = "";
 
+    bool atLeastOneImportSucceeded;
+
     foreach ( QString file, fileList )
     {
         if ( d->isCancelled ) // check if user cancelled the process

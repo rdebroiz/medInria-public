@@ -11,11 +11,11 @@
 
 =========================================================================*/
 
-#include "medBrowserArea.h"
-#include "medComposerArea.h"
-#include "medMainWindow.h"
-#include "medWorkspaceArea.h"
-#include "medHomepageArea.h"
+#include <medBrowserArea.h>
+#include <medMainWindow.h>
+#include <medWorkspaceArea.h>
+#include <medHomepageArea.h>
+#include <medComposerArea.h>
 
 #include <dtkCore/dtkGlobal.h>
 #include <medAbstractDataFactory.h>
@@ -50,15 +50,15 @@
 #include <medSettingsEditor.h>
 #include <medEmptyDbWarning.h>
 
-#include "medSeedPointAnnotationData.h"
+#include <medSeedPointAnnotationData.h>
 
-#include "medVisualizationWorkspace.h"
-#include "medRegistrationWorkspace.h"
-#include "medDiffusionWorkspace.h"
-#include "medFilteringWorkspace.h"
-#include "medSegmentationWorkspace.h"
+#include <medVisualizationWorkspace.h>
+#include <medRegistrationWorkspace.h>
+#include <medDiffusionWorkspace.h>
+#include <medFilteringWorkspace.h>
+#include <medSegmentationWorkspace.h>
 
-#include "medSaveModifiedDialog.h"
+#include <medSaveModifiedDialog.h>
 
 #include <QtGui>
 
@@ -354,58 +354,7 @@ void medMainWindow::mousePressEvent ( QMouseEvent* event )
 {
     QWidget::mousePressEvent ( event );
     this->hideQuickAccess();
-}
-
-/**
- * Key press event reimplementation to handle alt-tab like menu
- */
-void medMainWindow::keyPressEvent( QKeyEvent *event )
-{
-    return QMainWindow::keyPressEvent(event);
-
-#ifdef Q_OS_MAC
-    if (event->key() == Qt::Key_Meta)
-#else
-    if (event->key() == Qt::Key_Control)
-#endif
-    {
-        d->controlPressed = true;
-        return;
-    }
-    
-    if ((event->key() == Qt::Key_Shift)&&(d->controlPressed))
-    {
-        if (!d->shortcutAccessVisible)
-            this->showShortcutAccess();
-
-        d->shortcutAccessWidget->updateCurrentlySelectedRight();
-        return;
-    }
-
-    QMainWindow::keyPressEvent(event);
-}
-
-/**
- * Key release event reimplementation to handle alt-tab like menu
- */
-void medMainWindow::keyReleaseEvent( QKeyEvent * event )
-{
-    return QMainWindow::keyReleaseEvent(event);
-#ifdef Q_OS_MAC
-    if (event->key() == Qt::Key_Meta)
-#else
-    if (event->key() == Qt::Key_Control)
-#endif
-    {
-        if (d->shortcutAccessVisible)
-        {
-            d->shortcutAccessWidget->switchToCurrentlySelected();
-            this->hideShortcutAccess();
-        }
-        d->controlPressed = false;
-    }
-    
-    QMainWindow::keyReleaseEvent(event);
+    this->hideShortcutAccess();
 }
 
 void medMainWindow::readSettings()
@@ -474,7 +423,7 @@ void medMainWindow::switchToArea(const AreaType areaIndex) {
 void medMainWindow::resizeEvent ( QResizeEvent* event )
 {
     QWidget::resizeEvent ( event );
-    d->quickAccessWidget->setProperty ( "pos", QPoint ( 0, this->height() - 30 ));
+    d->quickAccessWidget->move(QPoint ( 0,this->height() - d->quickAccessWidget->height() - 30 ));
     this->hideQuickAccess();
 }
 
@@ -604,7 +553,7 @@ void medMainWindow::switchToBrowserArea()
 
 void medMainWindow::switchToWorkspaceArea()
 {
-    if (d->quickAccessVisible)
+    if (d->quickAccessWidget->isVisible())
         this->hideQuickAccess();
     
     if (d->shortcutAccessVisible)
@@ -663,6 +612,7 @@ void medMainWindow::showQuickAccess()
         this->hideQuickAccess();
         return;
     }
+
     d->quickAccessWidget->reset(false);
     d->quickAccessWidget->setFocus();
     d->quickAccessWidget->setMouseTracking(true);

@@ -19,7 +19,7 @@
 #include <medAbstractImageView.h>
 #include <medAbstractViewCoordinates.h>
 
-#include "v3dViewPluginExport.h"
+#include <v3dViewPluginExport.h>
 
 class QMouseEvent;
 

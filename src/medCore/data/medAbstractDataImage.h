@@ -14,7 +14,7 @@
 #pragma once
 
 #include <typeinfo>
-#include "medCoreExport.h"
+#include <medCoreExport.h>
 #include <medAbstractData.h>
 
 class MEDCORE_EXPORT medAbstractDataImage: public medAbstractData

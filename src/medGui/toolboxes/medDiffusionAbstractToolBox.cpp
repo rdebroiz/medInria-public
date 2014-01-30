@@ -11,10 +11,10 @@
 
 =========================================================================*/
 
-#include "medDiffusionSelectorToolBox.h"
+#include <medDiffusionSelectorToolBox.h>
 
-#include "medDiffusionAbstractToolBox.h"
-#include "medDiffusionAbstractToolBox_p.h"
+#include <medDiffusionAbstractToolBox.h>
+#include <medDiffusionAbstractToolBox_p.h>
 #include <medDataManager.h>
 
 #include <dtkCore/dtkAbstractObject.h>

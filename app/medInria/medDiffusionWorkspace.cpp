@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include "medDiffusionWorkspace.h"
+#include <medDiffusionWorkspace.h>
 
 #include <dtkCore/dtkSmartPointer.h>
 #include <medAbstractData.h>

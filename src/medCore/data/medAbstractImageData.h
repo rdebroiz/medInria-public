@@ -17,16 +17,16 @@
 #include <medCoreExport.h>
 #include <medAbstractData.h>
 
-class MEDCORE_EXPORT medAbstractDataImage: public medAbstractData
+class MEDCORE_EXPORT medAbstractImageData: public medAbstractData
 {
     Q_OBJECT
 
 public:
     typedef std::type_info PixId;
 
-             medAbstractDataImage();
-             medAbstractDataImage(const medAbstractDataImage& other);
-    virtual ~medAbstractDataImage();
+             medAbstractImageData();
+             medAbstractImageData(const medAbstractImageData& other);
+    virtual ~medAbstractImageData();
 
     void *image();
 

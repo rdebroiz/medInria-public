@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include <medAbstractDataImage.h>
+#include <medAbstractImageData.h>
 
 #include <QtGui>
 
@@ -22,87 +22,89 @@
 //  Unneeded in this case.
 
 // /////////////////////////////////////////////////////////////////
-// medAbstractDataImage
+// medAbstractImageData
 // /////////////////////////////////////////////////////////////////
 
-const char* medAbstractDataImage::PixelMeaningMetaData = "PixelMeaning";
+const char* medAbstractImageData::PixelMeaningMetaData = "PixelMeaning";
 
-medAbstractDataImage::medAbstractDataImage(void) : medAbstractData()
+medAbstractImageData::medAbstractImageData(void) : medAbstractData()
 {
-    qDebug() << "constructing medAbstractDataImage";
+    qDebug() << "constructing medAbstractImageData";
+    this->setDataCategory(medData::IMAGE);
 }
 
-medAbstractDataImage::medAbstractDataImage(const medAbstractDataImage& other): medAbstractData(other)
+medAbstractImageData::medAbstractImageData(const medAbstractImageData& other): medAbstractData(other)
 {
+    this->setDataCategory(medData::IMAGE);
 }
 
-medAbstractDataImage::~medAbstractDataImage(void)
+medAbstractImageData::~medAbstractImageData(void)
 {
-    qDebug() << "deleting medAbstractDataImage";
+    qDebug() << "deleting medAbstractImageData";
 }
 
-void *medAbstractDataImage::image(void)
+void *medAbstractImageData::image(void)
 {
     return this->data();
 }
 
-int medAbstractDataImage::Dimension() const
+int medAbstractImageData::Dimension() const
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-const medAbstractDataImage::PixId& medAbstractDataImage::PixelType() const
+const medAbstractImageData::PixId& medAbstractImageData::PixelType() const
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return typeid(void);
 }
 
-int medAbstractDataImage::xDimension(void)
+int medAbstractImageData::xDimension(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-int medAbstractDataImage::yDimension(void)
+int medAbstractImageData::yDimension(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-int medAbstractDataImage::zDimension(void)
+int medAbstractImageData::zDimension(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-int medAbstractDataImage::tDimension(void)
+int medAbstractImageData::tDimension(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 	
     return 0;
 }
 
-int medAbstractDataImage::minRangeValue(void)
+int medAbstractImageData::minRangeValue(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-int medAbstractDataImage::maxRangeValue(void)
+int medAbstractImageData::maxRangeValue(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-int medAbstractDataImage::scalarValueCount(int value)
+int medAbstractImageData::scalarValueCount(int value)
 {
     DTK_DEFAULT_IMPLEMENTATION;
     DTK_UNUSED(value);
@@ -110,14 +112,14 @@ int medAbstractDataImage::scalarValueCount(int value)
     return 0;
 }
 
-int medAbstractDataImage::scalarValueMinCount(void)
+int medAbstractImageData::scalarValueMinCount(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 
     return 0;
 }
 
-int medAbstractDataImage::scalarValueMaxCount(void)
+int medAbstractImageData::scalarValueMaxCount(void)
 {
     DTK_DEFAULT_IMPLEMENTATION;
 

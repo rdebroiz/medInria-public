@@ -28,6 +28,9 @@
 #include <medToolBoxFactory.h>
 #include <medDiffusionSelectorToolBox.h>
 
+#include <medAbstractView.h>
+#include <medAbstractImageView.h>
+
 class medDiffusionWorkspacePrivate
 {
 public:
@@ -112,12 +115,11 @@ void medDiffusionWorkspace::setupViewContainerStack()
 
 void medDiffusionWorkspace::addToView(medAbstractData * data)
 {
-    if( d->diffusionContainer->view() )
-    {
-        d->diffusionContainer->view()->setData(data, 0);
-        d->diffusionContainer->view()->reset();
-        d->diffusionContainer->view()->update();
-    }
+    medAbstractImageView* view = dynamic_cast<medAbstractImageView*>(d->diffusionContainer->view());
+    if(!view)
+        return;
+
+    view->addLayer(data);
 }
 
 void medDiffusionWorkspace::onAddTabClicked()

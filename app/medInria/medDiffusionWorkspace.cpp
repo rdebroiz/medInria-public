@@ -96,7 +96,7 @@ void medDiffusionWorkspace::setupViewContainerStack()
         medSingleViewContainer *singleViewContainer = new medSingleViewContainer ();
 
         //ownership of singleViewContainer is transferred to the stackedWidget.
-        this->stackedViewContainers()->addContainer (identifier(), singleViewContainer);
+        this->stackedViewContainers()->addContainer (identifier());
 
         d->diffusionContainer = singleViewContainer;
 

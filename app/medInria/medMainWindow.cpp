@@ -169,9 +169,7 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
 
     d->browserArea = new medBrowserArea(this);
     d->browserArea->setObjectName("Browser");
-    connect(d->browserArea,SIGNAL(open(const QString&)),this,SLOT(open(const QString&)));
-    connect(d->browserArea,SIGNAL(load(const QString&)),this,SLOT(load(const QString&)));
-    connect(d->browserArea,SIGNAL(open(const medDataIndex&)),this,SLOT(open(const medDataIndex&)));
+
 
     //  Workspace area.
 
@@ -190,8 +188,6 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     d->stack->addWidget ( d->browserArea );
     d->stack->addWidget ( d->workspaceArea );
 
-    connect(d->browserArea, SIGNAL(openRequested(const medDataIndex&, int)), this, SLOT(open(const medDataIndex&, int)));
-    
     //  Setup quick access menu
 
     d->quickAccessButton = new medQuickAccessPushButton ( this );
@@ -234,6 +230,7 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     d->quitButton->setObjectName("quitButton");
     
     connect(d->quitButton, SIGNAL( pressed()), this, SLOT (close()));
+    d->quitButton->setToolTip(tr("Close medInria"));
 
     //  Setup Fullscreen Button
 
@@ -334,6 +331,17 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
 
     d->workspaceArea->setupWorkspace ( "Visualization" );
 
+    connect(medDataSourceManager::instance(), SIGNAL(open(QString)),
+            this, SLOT(open(QString)));
+    connect(medDataSourceManager::instance(), SIGNAL(load(QString)),
+            this, SLOT(load(QString)));
+    connect(medDataSourceManager::instance(), SIGNAL(open(const medDataIndex&)),
+            this, SLOT(open(const medDataIndex&)));
+
+    connect(medDataManager::instance(), SIGNAL(openRequested(const medDataIndex &, int)),
+            this, SLOT(open(const medDataIndex&, int)));
+
+
     connect ( qApp, SIGNAL ( aboutToQuit() ), this, SLOT ( close() ) );
 
     d->shortcutShortcut = new QShortcut(QKeySequence(tr(CONTROL_KEY "+Space")),
@@ -346,7 +354,6 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
 medMainWindow::~medMainWindow()
 {
     delete d;
-
     d = NULL;
 }
 
@@ -543,9 +550,6 @@ void medMainWindow::switchToBrowserArea()
     if (d->shortcutAccessVisible)
         this->hideShortcutAccess();
 
-    d->browserArea->setup ( this->statusBar() );
-    d->workspaceArea->setdw ( this->statusBar() );
-
     d->screenshotButton->setEnabled(false);
 
     d->stack->setCurrentWidget ( d->browserArea );
@@ -555,12 +559,9 @@ void medMainWindow::switchToWorkspaceArea()
 {
     if (d->quickAccessWidget->isVisible())
         this->hideQuickAccess();
-    
+
     if (d->shortcutAccessVisible)
         this->hideShortcutAccess();
-
-    d->browserArea->setdw ( this->statusBar() );
-    d->workspaceArea->setup ( this->statusBar() );
 
     d->screenshotButton->setEnabled(true);
 
@@ -735,7 +736,7 @@ void medMainWindow::availableSpaceOnStatusBar()
     QPoint workspaceButton_topRight = d->quickAccessButton->mapTo(d->statusBar, d->quickAccessButton->rect().topRight());
     QPoint screenshotButton_topLeft = d->screenshotButton->mapTo(d->statusBar, d->screenshotButton->rect().topLeft());
     //Available space = space between the spacing after workspace button and the spacing before screenshot button
-    int space = (screenshotButton_topLeft.x()-d->statusBarLayout->spacing()) -  (workspaceButton_topRight.x()+d->statusBarLayout->spacing()); 
+    int space = (screenshotButton_topLeft.x()-d->statusBarLayout->spacing()) -  (workspaceButton_topRight.x()+d->statusBarLayout->spacing());
     d->statusBar->setAvailableSpace(space);
 }
 
@@ -836,33 +837,12 @@ void medMainWindow::closeEvent(QCloseEvent *event)
     medDataManager::destroy();
 }
 
+//TODO should not be here - RDE
 void medMainWindow::registerToFactories()
 {
     //Register dbController
     medDbControllerFactory::instance()->registerDbController("DbController", createDbController);
     medDbControllerFactory::instance()->registerDbController("NonPersistentDbController", createNonPersistentDbController);
-
-
-#if defined(HAVE_SWIG) && defined(HAVE_PYTHON)
-    // Setting up core python module
-
-    dtkScriptInterpreterPythonModuleManager::instance()->registerInitializer(&init_core);
-    dtkScriptInterpreterPythonModuleManager::instance()->registerCommand(
-        "import core"
-        );
-    dtkScriptInterpreterPythonModuleManager::instance()->registerCommand(
-        "dataFactory    = core.dtkAbstractDataFactory.instance()"
-        );
-    dtkScriptInterpreterPythonModuleManager::instance()->registerCommand(
-        "processFactory = core.dtkAbstractProcessFactory.instance()"
-        );
-    dtkScriptInterpreterPythonModuleManager::instance()->registerCommand(
-        "viewFactory    = core.dtkAbstractViewFactory.instance()"
-        );
-    dtkScriptInterpreterPythonModuleManager::instance()->registerCommand(
-        "pluginManager  = core.dtkPluginManager.instance()"
-        );
-#endif
 
     // Registering different workspaces
     medWorkspaceFactory * viewerWSpaceFactory = medWorkspaceFactory::instance();
@@ -935,4 +915,4 @@ bool medMainWindow::event(QEvent * e)
         break;
     } ;
     return QMainWindow::event(e) ;
-}   
+}

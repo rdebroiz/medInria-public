@@ -16,14 +16,13 @@
 
 #include <QtCore>
 
-#include <medWorkspace.h>
-#include <dtkCore/dtkAbstractViewInteractor.h>
+#include <medAbstractWorkspace.h>
 
-
+class medAbstractData;
 class medTabbedViewContainers;
 class medDiffusionWorkspacePrivate;
 
-class medDiffusionWorkspace : public medWorkspace
+class medDiffusionWorkspace : public medAbstractWorkspace
 {
     Q_OBJECT
 

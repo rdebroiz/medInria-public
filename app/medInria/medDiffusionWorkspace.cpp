@@ -15,14 +15,11 @@
 
 #include <dtkCore/dtkSmartPointer.h>
 #include <medAbstractData.h>
-#include <dtkCore/dtkAbstractViewFactory.h>
-#include <dtkCore/dtkAbstractView.h>
-#include <dtkCore/dtkAbstractViewInteractor.h>
+
 
 #include <medDataManager.h>
 
 #include <medViewContainer.h>
-#include <medSingleViewContainer.h>
 #include <medTabbedViewContainers.h>
 #include <medToolBox.h>
 #include <medToolBoxFactory.h>
@@ -40,7 +37,7 @@ public:
     medViewContainer * diffusionContainer;
 };
 
-medDiffusionWorkspace::medDiffusionWorkspace(QWidget *parent) : medWorkspace(parent), d(new medDiffusionWorkspacePrivate)
+medDiffusionWorkspace::medDiffusionWorkspace(QWidget *parent) : medAbstractWorkspace(parent), d(new medDiffusionWorkspacePrivate)
 {
     d->diffusionContainer = 0;
 
@@ -66,11 +63,11 @@ medDiffusionWorkspace::medDiffusionWorkspace(QWidget *parent) : medWorkspace(par
     }
     foreach(QString toolbox, toolboxNames)
     {
-       addToolBox( medToolBoxFactory::instance()->createToolBox(toolbox, parent) );
+       this->addWorkspaceToolBox(medToolBoxFactory::instance()->createToolBox(toolbox, parent));
     }
 
-    this->addToolBox( d->diffusionToolBox );
-    this->addToolBox( d->fiberBundlingToolBox );
+    this->addWorkspaceToolBox( d->diffusionToolBox );
+    this->addWorkspaceToolBox( d->fiberBundlingToolBox );
 
 }
 
@@ -93,19 +90,19 @@ void medDiffusionWorkspace::setupViewContainerStack()
     //the stack has been instantiated in constructor
     if ( ! this->stackedViewContainers()->count())
     {
-        medSingleViewContainer *singleViewContainer = new medSingleViewContainer ();
+        medViewContainer *viewContainer = new medViewContainer();
 
         //ownership of singleViewContainer is transferred to the stackedWidget.
-        this->stackedViewContainers()->addContainer (identifier());
+        this->stackedViewContainers()->addContainerInTab (identifier());
 
-        d->diffusionContainer = singleViewContainer;
+        d->diffusionContainer = viewContainer;
 
         this->stackedViewContainers()->lockTabs();
         this->stackedViewContainers()->hideTabBar();
     }
     else
     {
-        d->diffusionContainer = this->stackedViewContainers()->container(identifier());
+        d->diffusionContainer = this->currentViewContainer();
         //TODO: maybe clear views here too?
     }
 
@@ -124,9 +121,7 @@ void medDiffusionWorkspace::addToView(medAbstractData * data)
 
 void medDiffusionWorkspace::onAddTabClicked()
 {
-    QString name = this->identifier();
-    QString realName = this->addSingleContainer(name);
-    this->stackedViewContainers()->setContainer(realName);
+    this->stackedViewContainers()->addContainerInTab(this->description());
 }
 
 bool medDiffusionWorkspace::isUsable()

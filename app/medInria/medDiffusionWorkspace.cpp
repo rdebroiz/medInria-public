@@ -39,35 +39,35 @@ public:
 
 medDiffusionWorkspace::medDiffusionWorkspace(QWidget *parent) : medAbstractWorkspace(parent), d(new medDiffusionWorkspacePrivate)
 {
-    d->diffusionContainer = 0;
+//    d->diffusionContainer = 0;
 
-    d->diffusionToolBox =  new medDiffusionSelectorToolBox(parent);
+//    d->diffusionToolBox =  new medDiffusionSelectorToolBox(parent);
 
-    d->fiberBundlingToolBox = medToolBoxFactory::instance()->createToolBox("medFiberBundlingToolBox", parent);
+//    d->fiberBundlingToolBox = medToolBoxFactory::instance()->createToolBox("medFiberBundlingToolBox", parent);
 
-    connect(d->diffusionToolBox, SIGNAL(addToolBox(medToolBox *)),
-            this, SLOT(addToolBox(medToolBox *)));
-    connect(d->diffusionToolBox, SIGNAL(removeToolBox(medToolBox *)),
-            this, SLOT(removeToolBox(medToolBox *)));
+//    connect(d->diffusionToolBox, SIGNAL(addToolBox(medToolBox *)),
+//            this, SLOT(addToolBox(medToolBox *)));
+//    connect(d->diffusionToolBox, SIGNAL(removeToolBox(medToolBox *)),
+//            this, SLOT(removeToolBox(medToolBox *)));
 
-    connect(d->diffusionToolBox, SIGNAL(newOutput(medAbstractData*)), d->fiberBundlingToolBox, SLOT(setInput(medAbstractData*)));
-    connect(d->diffusionToolBox, SIGNAL(newOutput(medAbstractData*)), this, SLOT(addToView(medAbstractData*)));
+//    connect(d->diffusionToolBox, SIGNAL(newOutput(medAbstractData*)), d->fiberBundlingToolBox, SLOT(setInput(medAbstractData*)));
+//    connect(d->diffusionToolBox, SIGNAL(newOutput(medAbstractData*)), this, SLOT(addToView(medAbstractData*)));
 
-    // -- View toolboxes --
+//    // -- View toolboxes --
 
-    QList<QString> toolboxNames = medToolBoxFactory::instance()->toolBoxesFromCategory("view");
-    if(toolboxNames.contains("medViewPropertiesToolBox"))
-    {
-        // we want the medViewPropertiesToolBox to be the first "view" toolbox
-        toolboxNames.move(toolboxNames.indexOf("medViewPropertiesToolBox"),0);
-    }
-    foreach(QString toolbox, toolboxNames)
-    {
-       this->addWorkspaceToolBox(medToolBoxFactory::instance()->createToolBox(toolbox, parent));
-    }
+//    QList<QString> toolboxNames = medToolBoxFactory::instance()->toolBoxesFromCategory("view");
+//    if(toolboxNames.contains("medViewPropertiesToolBox"))
+//    {
+//        // we want the medViewPropertiesToolBox to be the first "view" toolbox
+//        toolboxNames.move(toolboxNames.indexOf("medViewPropertiesToolBox"),0);
+//    }
+//    foreach(QString toolbox, toolboxNames)
+//    {
+//       this->addWorkspaceToolBox(medToolBoxFactory::instance()->createToolBox(toolbox, parent));
+//    }
 
-    this->addWorkspaceToolBox( d->diffusionToolBox );
-    this->addWorkspaceToolBox( d->fiberBundlingToolBox );
+//    this->addWorkspaceToolBox( d->diffusionToolBox );
+//    this->addWorkspaceToolBox( d->fiberBundlingToolBox );
 
 }
 
@@ -87,27 +87,27 @@ QString medDiffusionWorkspace::description() const {
 
 void medDiffusionWorkspace::setupViewContainerStack()
 {
-    //the stack has been instantiated in constructor
-    if ( ! this->stackedViewContainers()->count())
-    {
-        medViewContainer *viewContainer = new medViewContainer();
+//    //the stack has been instantiated in constructor
+//    if ( ! this->stackedViewContainers()->count())
+//    {
+//        medViewContainer *viewContainer = new medViewContainer();
 
-        //ownership of singleViewContainer is transferred to the stackedWidget.
-        this->stackedViewContainers()->addContainerInTab (identifier());
+//        //ownership of singleViewContainer is transferred to the stackedWidget.
+//        this->stackedViewContainers()->addContainerInTab (identifier());
 
-        d->diffusionContainer = viewContainer;
+//        d->diffusionContainer = viewContainer;
 
-        this->stackedViewContainers()->lockTabs();
-        this->stackedViewContainers()->hideTabBar();
-    }
-    else
-    {
-        d->diffusionContainer = this->currentViewContainer();
-        //TODO: maybe clear views here too?
-    }
+//        this->stackedViewContainers()->lockTabs();
+//        this->stackedViewContainers()->hideTabBar();
+//    }
+//    else
+//    {
+//        d->diffusionContainer = this->currentViewContainer();
+//        //TODO: maybe clear views here too?
+//    }
 
-    if ( ! d->diffusionContainer)
-        return;
+//    if ( ! d->diffusionContainer)
+//        return;
 }
 
 void medDiffusionWorkspace::addToView(medAbstractData * data)

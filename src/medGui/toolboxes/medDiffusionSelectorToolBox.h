@@ -38,7 +38,7 @@ public slots:
     // void run();
     void clear();
 
-    void onToolBoxChosen(int id);
+    void changeCurrentToolBox(int id);
 
 private:
     medDiffusionSelectorToolBoxPrivate *d;

@@ -73,7 +73,7 @@ medDiffusionSelectorToolBox::medDiffusionSelectorToolBox(QWidget *parent) : medT
         i++;
     }
 
-    connect(d->tractographyMethodCombo, SIGNAL(activated(int)), this, SLOT(onToolBoxChosen(int)));
+    connect(d->tractographyMethodCombo, SIGNAL(activated(int)), this, SLOT(changeCurrentToolBox(int)));
 
     this->setTitle( tr("Tractography") );
     this->addWidget(tractographyPage);
@@ -85,7 +85,7 @@ medDiffusionSelectorToolBox::~medDiffusionSelectorToolBox(void)
     d = NULL;
 }
 
-void medDiffusionSelectorToolBox::onToolBoxChosen(int id)
+void medDiffusionSelectorToolBox::changeCurrentToolBox(int id)
 {
     medDiffusionAbstractToolBox *toolbox = NULL;
     //get identifier for toolbox.

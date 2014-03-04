@@ -1,24 +1,23 @@
 /*=========================================================================
 
- medInria
+medInria
 
- Copyright (c) INRIA 2013. All rights reserved.
- See LICENSE.txt for details.
- 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.
+Copyright (c) INRIA 2013. All rights reserved.
+See LICENSE.txt for details.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
 
 =========================================================================*/
 
 #pragma once
 
-#include <medToolBox.h>
-#include <medGuiExport.h>
+#include "medToolBox.h"
+#include "medGuiExport.h"
 
-class dtkAbstractView;
-class medAbstractData;
 class dtkAbstractProcess;
+class dtkAbstractView;
+class medAbstractDataImage;
 class medDiffusionSelectorToolBoxPrivate;
 class medDataIndex;
 
@@ -26,23 +25,40 @@ class MEDGUI_EXPORT medDiffusionSelectorToolBox : public medToolBox
 {
     Q_OBJECT
 public:
-     medDiffusionSelectorToolBox(QWidget *parent = 0);
+    enum SelectorType
+    {
+        Estimation = 0,
+        ScalarMaps,
+        Tractography
+    };
+
+     medDiffusionSelectorToolBox(QWidget *parent = 0, SelectorType type = Estimation);
     ~medDiffusionSelectorToolBox();
 
-    medAbstractData *output() const;
+    void setInputImage(medAbstractDataImage *data);
+    void clearInput();
 
-signals:
-    void newOutput(medAbstractData * data);
+    void setProcessParameters(dtkAbstractProcess *process);
 
 public slots:
-    // void run();
     void clear();
 
-    void changeCurrentToolBox(int id);
+    void selectInputImage(const medDataIndex& index);
+    void setInputGradientFile();
+    void createProcess();
+
+    void chooseToolBox(int id);
+    void resetButtons();
+
+signals:
+    void processRequested(QString, QString);
+    void processCancelled();
+
+protected:
+    void checkInputGradientDirections();
 
 private:
     medDiffusionSelectorToolBoxPrivate *d;
-
 };
 
 

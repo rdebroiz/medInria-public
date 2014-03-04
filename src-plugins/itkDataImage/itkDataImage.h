@@ -250,7 +250,29 @@ public:
         Q_UNUSED(value);
     }
 
-    // derived from medAbstractDataImage
+    // derived from medAbstractImageData
+
+
+    medAbstractImageData::MatrixType orientationMatrix()
+    {
+       medAbstractImageData::MatrixType orientationMatrix;
+
+       if (!d->image)
+           return orientationMatrix;
+
+       for (unsigned int i = 0;i < DIM;++i)
+       {
+           std::vector <double> orientationVector(DIM,0);
+           for(unsigned int j = 0;j < DIM;++j)
+               orientationVector[j] = d->image->GetDirection()(i,j);
+
+           orientationMatrix.push_back(orientationVector);
+       }
+
+       return orientationMatrix;
+    }
+
+
 
     int xDimension() {
         if (d->image.IsNull())

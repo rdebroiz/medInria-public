@@ -15,7 +15,7 @@ PURPOSE.
 
 #include <QtCore>
 
-#include <medWorkspace.h>
+#include <medAbstractWorkspace.h>
 
 #include <dtkCore/dtkSmartPointer.h>
 #include <dtkCore/dtkAbstractProcess.h>
@@ -24,7 +24,7 @@ PURPOSE.
 class dtkAbstractView;
 class medDiffusionWorkspacePrivate;
 
-class medDiffusionWorkspace : public medWorkspace
+class medDiffusionWorkspace : public medAbstractWorkspace
 {
     Q_OBJECT
 
@@ -54,7 +54,7 @@ public slots:
     /**
 * @brief Adds a new tab to a workspace
 *
-* Re-implemented, replaces default implementation in medWorkspace
+* Re-implemented, replaces default implementation in medAbstractWorkspace
 */
     void onAddTabClicked();
 

@@ -50,6 +50,7 @@ class MEDVTKINRIA_EXPORT vtkFiberDataSet : public vtkMultiBlockDataSet
   vtkPolyData *GetFibers();
   
   void AddBundle    (const std::string &name, vtkPolyData *bundle, double color[3]);
+  void ChangeBundleName(const std::string &oldName, const std::string &newName);
   void RemoveBundle (const std::string &name);
 
   /**

@@ -1,57 +1,29 @@
 /*=========================================================================
 
- medInria
+medInria
 
- Copyright (c) INRIA 2013. All rights reserved.
- See LICENSE.txt for details.
- 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.
+Copyright (c) INRIA 2013. All rights reserved.
+See LICENSE.txt for details.
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
 
 =========================================================================*/
 
-#include <medDiffusionSelectorToolBox.h>
+#include "medDiffusionAbstractToolBox.h"
 
-#include <medDiffusionAbstractToolBox.h>
-#include <medDiffusionAbstractToolBox_p.h>
-#include <medDataManager.h>
-
-#include <dtkCore/dtkAbstractObject.h>
-
-medDiffusionAbstractToolBox::medDiffusionAbstractToolBox(QWidget *parent) : medToolBox(parent), d(new medDiffusionAbstractToolBoxPrivate)
+medDiffusionAbstractToolBox::medDiffusionAbstractToolBox(QWidget *parent) : medToolBox(parent)
 {
-    d->parent  = NULL;
-    connect(this, SIGNAL(success()), this, SLOT(processSuccess()));
 }
 
-medDiffusionAbstractToolBox::~medDiffusionAbstractToolBox(void)
+medDiffusionAbstractToolBox::~medDiffusionAbstractToolBox()
 {
-    delete d;
-
-    d = NULL;
 }
 
-void medDiffusionAbstractToolBox::setDiffusionToolBox(medDiffusionSelectorToolBox *toolBox)
+medDiffusionScalarMapsAbstractToolBox::medDiffusionScalarMapsAbstractToolBox(QWidget *parent) : medDiffusionAbstractToolBox(parent)
 {
-    d->parent = toolBox;
 }
 
-medDiffusionSelectorToolBox *medDiffusionAbstractToolBox::parentToolBox(void)
+medDiffusionScalarMapsAbstractToolBox::~medDiffusionScalarMapsAbstractToolBox()
 {
-    return d->parent;
-}
-
-
-medAbstractData *medDiffusionAbstractToolBox::output() const
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-    return NULL;
-}
-
-
-void medDiffusionAbstractToolBox::processSuccess()
-{
-    medDataManager::instance()->importNonPersistent ( this->output());
-    emit newOutput(this->output());
 }

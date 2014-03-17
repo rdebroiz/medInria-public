@@ -625,7 +625,7 @@ void medMainWindow::closeEvent(QCloseEvent *event)
     }
     if(this->saveModified() != QDialog::Accepted)
     {
-        event->ignore();
+        event->accept();
         return;
     }
     this->hide();

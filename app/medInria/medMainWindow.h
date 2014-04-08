@@ -99,6 +99,8 @@ private slots:
      */
     void showMaximized();
 
+    void adjustContainersSize();
+
 protected:
     void closeEvent(QCloseEvent *event);
     void mousePressEvent(QMouseEvent * event);

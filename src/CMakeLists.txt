@@ -1,21 +1,3 @@
-#######################################################################
-#
-# medInria
-#
-# Copyright (c) INRIA 2013. All rights reserved.
-# See LICENSE.txt for details.
-# 
-#  This software is distributed WITHOUT ANY WARRANTY; without even
-#  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-#  PURPOSE.
-#
-#######################################################################
-
-add_subdirectory(medCore)
-add_subdirectory(medGui)
-add_subdirectory(medSql)
-add_subdirectory(medPacs)
-add_subdirectory(medTest)
 ################################################################################
 #
 # medInria

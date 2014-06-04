@@ -160,13 +160,14 @@ void medQuickAccessMenu::switchToCurrentlySelected()
         return;
     }
 
-    if (currentSelected >= 2)
+    if (currentSelected >= 2 && currentSelected <= 6)
     {
         emit workspaceSelected(buttonsList[currentSelected]->identifier());
         return;
     }
 
-    else {
+    else
+    {
         emit composerSelected();
         return;
     }

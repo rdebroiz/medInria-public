@@ -4,11 +4,11 @@
 #include <dtkComposer/dtkComposerTransmitterReceiver.h>
 
 
-#include <dtkCore/dtkAbstractDataFactory.h>
+#include <medAbstractDataFactory.h>
 #include <dtkCore/dtkAbstractProcess.h>
 
 
-#include <medCore/medAbstractDataImage.h>
+#include <medAbstractImageData.h>
 
 #include <dtkMath/dtkVector.h>
 
@@ -20,7 +20,7 @@ class medComposerNodeImageWriterPrivate
 {
 
 public:
-    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_image;
+    dtkComposerTransmitterReceiver<medAbstractImageData> receiver_image;
     dtkComposerTransmitterReceiver<QString> receiver_file;
 
 public:
@@ -61,7 +61,13 @@ void medComposerNodeImageWriter::run(void)
     bool written = false;
     QString filename = *d->receiver_file.data();
     dtkAbstractData* imData = d->receiver_image.data();
-    QList<QString> writers = dtkAbstractDataFactory::instance()->writers();
+    if(!imData)
+    {
+        qWarning() << "attempt to write NULL data";
+        return;
+    }
+
+    QList<QString> writers = medAbstractDataFactory::instance()->writers();
 
     if ( writers.size() ==0 )
     {
@@ -72,8 +78,9 @@ void medComposerNodeImageWriter::run(void)
     dtkSmartPointer<dtkAbstractDataWriter> dataWriter = NULL;
     dtkSmartPointer<dtkAbstractDataWriter> tempdataWriter = NULL;
 
-    for (int i=0; i<writers.size(); i++) {
-        tempdataWriter = dtkAbstractDataFactory::instance()->writerSmartPointer(writers[i]);
+    for (int i=0; i<writers.size(); i++)
+    {
+        tempdataWriter = medAbstractDataFactory::instance()->writerSmartPointer(writers[i]);
         if (tempdataWriter->handled().contains(imData->identifier()) && tempdataWriter->canWrite(filename))
         {
             tempdataWriter->enableDeferredDeletion(false);

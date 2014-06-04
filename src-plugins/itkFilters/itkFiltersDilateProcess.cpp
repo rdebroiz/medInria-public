@@ -44,6 +44,7 @@ itkFiltersDilateProcess::itkFiltersDilateProcess(const itkFiltersDilateProcess& 
 
 itkFiltersDilateProcess::~itkFiltersDilateProcess( void )
 {
+
 }
 
 QString itkFiltersDilateProcess::identifier(void) const

@@ -14,14 +14,16 @@
 
 #include "medComposerNodeView.h"
 
-#include <medCore/medAbstractDataImage.h>
-#include <medCore/medAbstractView.h>
+#include <medAbstractImageData.h>
+#include <medAbstractView.h>
 
 #include <dtkComposer/dtkComposerTransmitterEmitter.h>
 #include <dtkComposer/dtkComposerTransmitterReceiver.h>
 
 #include <dtkCore/dtkAbstractViewFactory.h>
 #include <dtkCore/dtkAbstractView.h>
+
+#include <medAbstractLayeredView.h>
 
 // /////////////////////////////////////////////////////////////////
 // medComposerNodeViewPrivate declaration
@@ -33,7 +35,7 @@ public:
     medAbstractView *view;
 
 public:
-    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_image;
+    dtkComposerTransmitterReceiver<medAbstractImageData> receiver_image;
 };
 
 // /////////////////////////////////////////////////////////////////
@@ -66,8 +68,13 @@ QString medComposerNodeView::abstractViewType(void) const
 
 void medComposerNodeView::run(void)
 {
-    foreach(medAbstractDataImage *image, d->receiver_image.allData())
-        d->view->setData(image, 0);
+    foreach(medAbstractImageData *image, d->receiver_image.allData())
+    {
+        medAbstractLayeredView *layerdView = dynamic_cast<medAbstractLayeredView *>(d->view);
+        if(layerdView)
+            layerdView->addLayer(image);
+    }
+
 }
 
 QString medComposerNodeView::type(void)
@@ -98,6 +105,7 @@ QString medComposerNodeView::outputLabelHint(int port)
 QGraphicsWidget *medComposerNodeView::widget(QGLContext *context)
 {
     qDebug() << Q_FUNC_INFO << "Requesting decoration";
-
-    return d->view->item(context);
+    return NULL;
+    // TODO graphicsWidget for view ? ;) - RDE
+//    return d->view->item(context);
 }

@@ -124,11 +124,14 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     d->homepageArea = new medHomepageArea( this );
     d->homepageArea->setObjectName("medHomePageArea");
 
+    d->composerArea = new medComposerArea(this);
+
     //  Stack
     d->stack = new QStackedWidget(this);
     d->stack->addWidget(d->homepageArea);
     d->stack->addWidget(d->browserArea);
     d->stack->addWidget(d->workspaceArea);
+    d->stack->addWidget(d->composerArea);
 
     //  Setup quick access menu
     d->quickAccessButton = new medQuickAccessPushButton ( this );
@@ -149,6 +152,8 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     connect(d->quickAccessWidget, SIGNAL(homepageSelected()), this, SLOT(switchToHomepageArea()));
     connect(d->quickAccessWidget, SIGNAL(browserSelected()), this, SLOT(switchToBrowserArea()));
     connect(d->quickAccessWidget, SIGNAL(workspaceSelected(QString)), this, SLOT(showWorkspace(QString)));
+    connect(d->quickAccessWidget, SIGNAL(composerSelected()), this, SLOT(switchToComposerArea()));
+
 
     d->shortcutAccessWidget = new medQuickAccessMenu( false, this );
     d->shortcutAccessWidget->setFocusPolicy(Qt::ClickFocus);
@@ -158,6 +163,7 @@ medMainWindow::medMainWindow ( QWidget *parent ) : QMainWindow ( parent ), d ( n
     connect(d->shortcutAccessWidget, SIGNAL(homepageSelected()), this, SLOT(switchToHomepageArea()));
     connect(d->shortcutAccessWidget, SIGNAL(browserSelected()), this, SLOT(switchToBrowserArea()));
     connect(d->shortcutAccessWidget, SIGNAL(workspaceSelected(QString)), this, SLOT(showWorkspace(QString)));
+    connect(d->shortcutAccessWidget, SIGNAL(composerSelected()), this, SLOT(switchToComposerArea()));
 
     d->shortcutAccessVisible = false;
     d->controlPressed = false;
@@ -479,6 +485,39 @@ void medMainWindow::switchToWorkspaceArea()
 
     d->screenshotButton->setEnabled(true);
     d->stack->setCurrentWidget(d->workspaceArea);
+
+//    // Dialog window to recall users if database is empty
+//    // but only if the warning is enabled in medSettings
+//    bool showWarning = medSettingsManager::instance()->value(
+//                "system",
+//                "showEmptyDbWarning",
+//                QVariant(true)).toBool();
+//    if ( showWarning )
+//    {
+//        QList<medDataIndex> indexes = medDatabaseNonPersistentController::instance()->availableItems();
+//        QList<medDataIndex> patients = medDatabaseController::instance()->patients();
+//        if( indexes.isEmpty() )
+//            if( patients.isEmpty())
+//            {
+//                medEmptyDbWarning* msgBox = new medEmptyDbWarning(this);
+//                msgBox->exec();
+//            }
+//    }
+}
+
+void medMainWindow::switchToComposerArea()
+{
+
+    if(d->currentArea == d->composerArea)
+        return;
+
+    d->currentArea = d->composerArea;
+
+    this->hideQuickAccess();
+    this->hideShortcutAccess();
+
+    d->screenshotButton->setEnabled(true);
+    d->stack->setCurrentWidget(d->composerArea);
 
     // Dialog window to recall users if database is empty
     // but only if the warning is enabled in medSettings

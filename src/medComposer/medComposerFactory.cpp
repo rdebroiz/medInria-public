@@ -69,7 +69,7 @@ medComposerFactory::medComposerFactory(void) : dtkComposerFactory(), d(new medCo
     d->nodes << "Image";
     d->descriptions["Image"] = "<p>medAbstractImage.</p>";
     d->tags["Image"] = QStringList() << "image" << "reader";
-    d->types["Image"] = "medAbstractDataImage";
+    d->types["Image"] = "medAbstractImageData";
 
     d->nodes << "Writer";
     d->descriptions["Writer"] = "<p>medAbstractImage.</p>";
@@ -92,7 +92,7 @@ dtkComposerNode *medComposerFactory::create(const QString& type)
     if(type == "medAbstractView")
         return new medComposerNodeView;
 
-    if(type == "medAbstractDataImage")
+    if(type == "medAbstractImageData")
         return new medComposerNodeImage;
 
     if(type == "medDataImageWriter")

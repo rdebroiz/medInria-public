@@ -67,7 +67,7 @@ private slots:
     void switchToBrowserArea();
     void switchToWorkspaceArea();
     void switchToHomepageArea();
-    void switchToComposerArea(void);
+    void switchToComposerArea();
 
     void showWorkspace(QString workspace);
     void showQuickAccess();

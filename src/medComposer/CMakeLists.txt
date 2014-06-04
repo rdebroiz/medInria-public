@@ -1,77 +1,97 @@
-### CMakeLists.txt ---
-## 
-## Author: Thibaud Kloczko
-######################################################################
-## 
-### Change Log:
-## 
-######################################################################
+################################################################################
+#
+# medInria
+#
+# Copyright (c) INRIA 2013. All rights reserved.
+# See LICENSE.txt for details.
+#
+#  This software is distributed WITHOUT ANY WARRANTY; without even
+#  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+#  PURPOSE.
+#
+################################################################################
 
 project(medComposer)
 
-## #################################################################
-## Sources
-## #################################################################
+## #############################################################################
+## List Sources
+## #############################################################################
 
-set(${PROJECT_NAME}_HEADERS_MOC
-  medComposerNodeImage.h
-  medComposerFactory.h)
+list_source_files(${PROJECT_NAME}
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  )
 
-set(${PROJECT_NAME}_HEADERS
-  medComposerFactory.h
-  medComposerNodeFiltering.h
-  medComposerNodeImage.h
-  medComposerNodeImageWriter.h
-  medComposerNodeView.h)
+## #############################################################################
+## include directorie.
+## #############################################################################
 
-set(${PROJECT_NAME}_SOURCES
-  medComposerFactory.cpp
-  medComposerNodeFiltering.cpp
-  medComposerNodeImage.cpp
-  medComposerNodeImageWriter.cpp
-  medComposerNodeView.cpp)
+list_header_directories_to_include(${PROJECT_NAME}
+  ${${PROJECT_NAME}_HEADERS}
+  )
 
-## ###################################################################
-## Build rules
-## ###################################################################
+include_directories(${${PROJECT_NAME}_INCLUDE_DIRS}
+  ${medCore_INCLUDE_DIRS}
+  )
 
-add_definitions(${QT_DEFINITIONS})
 
-qt4_wrap_cpp(${PROJECT_NAME}_SOURCES_MOC ${${PROJECT_NAME}_HEADERS_MOC})
+## #############################################################################
+## Precompile headers
+## #############################################################################
+
+if(MEDINRIA_USE_PRECOMPILED_HEADERS)
+  add_precompiled_header(${PROJECT_NAME}_PCH
+    ${MEDPCH_H}
+    ${MEDPCH_CPP}
+    ${${PROJECT_NAME}_SOURCES}
+    )
+endif()
+
+
+## #############################################################################
+## add library
+## #############################################################################
 
 add_library(${PROJECT_NAME} SHARED
-  ${${PROJECT_NAME}_SOURCES}
-  ${${PROJECT_NAME}_SOURCES_PCH}
-  ${${PROJECT_NAME}_SOURCES_MOC}
-  ${${PROJECT_NAME}_HEADERS}
-  ${${PROJECT_NAME}_SOURCES_WRAP})
+  ${${PROJECT_NAME}_CFILES}
+  ${${PROJECT_NAME}_PCH}
+  )
+
+
+## #############################################################################
+## Link
+## #############################################################################
 
 target_link_libraries(${PROJECT_NAME}
-    ${QT_LIBRARIES})
-
-target_link_libraries(${PROJECT_NAME}
+    ${QT_LIBRARIES}
     dtkCore
     dtkComposer
     dtkGui
-    dtkLog)
+    dtkLog
+    medCore
+    )
 
-target_link_libraries(${PROJECT_NAME}
-    medCore)
+if (WIN32) #TODO is that for the memory management thing ?
+  target_link_libraries(${PROJECT_NAME} psapi.lib)
+endif()
 
-## ###################################################################
-## Source tree layout
-## ###################################################################
 
-source_group("Header Files" REGULAR_EXPRESSION .*\\.h\$)
-source_group("Generated Files" FILES ${${PROJECT_NAME}_SOURCES_MOC})
+## #############################################################################
+## install
+## #############################################################################
 
-## #################################################################
-## Installation
-## #################################################################
+set_lib_install_rules(${PROJECT_NAME}
+  ${${PROJECT_NAME}_HEADERS}
+  )
 
-install(FILES ${${PROJECT_NAME}_HEADERS} DESTINATION include/${PROJECT_NAME})
-install(FILES ${${PROJECT_NAME}_MODULES} DESTINATION modules)
-install(TARGETS ${PROJECT_NAME}
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib)
+
+## #############################################################################
+## Build tests
+## #############################################################################
+
+if(MEDINRIA_BUILD_TESTS)
+  add_subdirectory(tests)
+  add_subdirectory(parameters/tests)
+  #add_subdirectory(view/tests)
+  #add_subdirectory(data/tests)
+  #add_subdirectory(process/tests)
+endif()

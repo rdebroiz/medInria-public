@@ -13,12 +13,12 @@
 
 #include "medComposerNodeImage.h"
 
-#include <medCore/medAbstractDataImage.h>
+#include <medAbstractImageData.h>
 
 #include <dtkComposer/dtkComposerTransmitterEmitter.h>
 #include <dtkComposer/dtkComposerTransmitterReceiver.h>
 
-#include <dtkCore/dtkAbstractDataFactory.h>
+#include <medAbstractDataFactory.h>
 //#include <dtkCore/dtkAbstractProcess.h>
 
 
@@ -34,10 +34,10 @@ public:
 
 public:
     dtkComposerTransmitterReceiver<QString> receiver_filename;
-    dtkComposerTransmitterReceiver<medAbstractDataImage> receiver_image;
+    dtkComposerTransmitterReceiver<medAbstractImageData> receiver_image;
 
 public:
-    dtkComposerTransmitterEmitter<medAbstractDataImage> emitter_image;
+    dtkComposerTransmitterEmitter<medAbstractImageData> emitter_image;
 };
 
 // /////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ bool medComposerNodeImage::isAbstractData(void) const
 
 QString medComposerNodeImage::abstractDataType(void) const
 {
-    return "medAbstractDataImage";
+    return "medAbstractImageData";
 }
 
 void medComposerNodeImage::run(void)
@@ -83,7 +83,7 @@ void medComposerNodeImage::run(void)
 
         bool read = false;
 
-        QList<QString> readers = dtkAbstractDataFactory::instance()->readers();
+        QList<QString> readers = medAbstractDataFactory::instance()->readers();
 
         if ( readers.size() == 0 ) {
             qDebug() <<  "No image readers found";
@@ -94,7 +94,7 @@ void medComposerNodeImage::run(void)
         dtkSmartPointer<dtkAbstractDataReader> tempdataReader = NULL;
 
         for (int i=0; i<readers.size(); i++) {
-            tempdataReader = dtkAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
+            tempdataReader = medAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
             if (tempdataReader->canRead(filename)) {
                 /*d->lastSuccessfulReaderDescription = dataReader->identifier();*/
                 tempdataReader->enableDeferredDeletion(false);
@@ -106,7 +106,7 @@ void medComposerNodeImage::run(void)
         if(d->dataReader)
         {
             read = d->dataReader->read(filename);
-            d->emitter_image.setData(dynamic_cast<medAbstractDataImage *>(d->dataReader->data()));
+            d->emitter_image.setData(dynamic_cast<medAbstractImageData *>(d->dataReader->data()));
 
             if(read)
                 qDebug() << "Read success";
@@ -117,7 +117,7 @@ void medComposerNodeImage::run(void)
         }
 
     } else  if (!d->receiver_image.isEmpty()) {
-        medAbstractDataImage *image = d->receiver_image.data();
+        medAbstractImageData *image = d->receiver_image.data();
         d->emitter_image.setData(image);
     } else {
         qDebug() << Q_FUNC_INFO << " No port connected";
@@ -127,7 +127,7 @@ void medComposerNodeImage::run(void)
 
 QString medComposerNodeImage::type(void)
 {
-    return "medAbstractDataImage";
+    return "medAbstractImageData";
 }
 
 QString medComposerNodeImage::titleHint(void)

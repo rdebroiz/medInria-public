@@ -17,7 +17,7 @@
 #include <dtkComposer/dtkComposerTransmitterEmitter.h>
 #include <dtkComposer/dtkComposerTransmitterReceiver.h>
 
-#include <dtkCore/dtkAbstractProcess.h>
+#include <medAbstractFilteringProcess.h>
 #include <dtkCore/dtkAbstractProcessFactory.h>
 
 #include <medAbstractImageData.h>
@@ -29,7 +29,7 @@
 class medComposerNodeFilteringPrivate
 {
 public:
-    dtkAbstractProcess *filtering;
+    medAbstractFilteringProcess *filtering;
 
 public:
     dtkComposerTransmitterReceiver<medAbstractImageData> receiver_image;
@@ -105,7 +105,7 @@ QString medComposerNodeFiltering::abstractProcessType(void) const
 
 void medComposerNodeFiltering::setProcess(dtkAbstractProcess *process)
 {
-    d->filtering = process;
+    d->filtering = dynamic_cast<medAbstractFilteringProcess*>(process);
 }
 
 dtkAbstractProcess *medComposerNodeFiltering::process(void) const
@@ -131,7 +131,7 @@ void medComposerNodeFiltering::run()
         }
 
 
-        d->filtering->setInput(image);
+        d->filtering->setInputImage(image);
 
         d->index = d->filtering->run();
 

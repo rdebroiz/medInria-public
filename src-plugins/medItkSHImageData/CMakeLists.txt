@@ -109,7 +109,6 @@ target_link_libraries(${PROJECT_NAME}
   ITKIOPNG
   ITKIOStimulate
   ITKIOVTK
-  QVTK
   dtkCore
   dtkLog
   medCore

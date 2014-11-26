@@ -41,7 +41,6 @@ public:
     virtual QImage& thumbnail();
 
 public slots:
-
     void clearAttachedData();
     void addAttachedData( medAttachedData * data );
     void removeAttachedData( medAttachedData * data );

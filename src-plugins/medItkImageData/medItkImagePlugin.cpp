@@ -12,31 +12,8 @@
 =========================================================================*/
 
 #include <medItkImagePlugin.h>
-#include <medItkChar3ImageData.h>
-#include <medItkChar4ImageData.h>
-#include <medItkUChar4ImageData.h>
-#include <medItkUChar3ImageData.h>
-#include <medItkShort3ImageData.h>
-#include <medItkShort4ImageData.h>
-#include <medItkUShort3ImageData.h>
-#include <medItkUShort4ImageData.h>
-#include <medItkInt3ImageData.h>
-#include <medItkInt4ImageData.h>
-#include <medItkLong4ImageData.h>
-#include <medItkUInt4ImageData.h>
-#include <medItkULong4ImageData.h>
-#include <medItkUInt3ImageData.h>
-#include <medItkLong3ImageData.h>
-#include <medItkULong3ImageData.h>
-#include <medItkFloat3ImageData.h>
-#include <medItkFloat4ImageData.h>
-#include <medItkDouble4ImageData.h>
-#include <medItkDouble3ImageData.h>
-#include <medItkVectorUChar3ImageData.h>
-#include <medItkVectorFloat3ImageData.h>
-#include <medItkVectorDouble3ImageData.h>
-#include <medItkRgb3ImageData.h>
-#include <medItkRgba3ImageData.h>
+#include <medItkImageData.h>
+
 
 #include <medVtkViewItk4DScalarImageInteractor.h>
 #include <medVtkViewItk4DScalarImageInteractor.h>
@@ -107,31 +84,7 @@ medItkImagePlugin::~medItkImagePlugin()
 
 bool medItkImagePlugin::initialize()
 {
-    if(!medItkChar3ImageData::registered()) { dtkWarn() << "Unable to register medItkChar3ImageData type"; }
-    if(!medItkChar4ImageData::registered()) { dtkWarn() << "Unable to register medItkChar4ImageData type"; }
-    if(!medItkInt4ImageData::registered()) { dtkWarn() << "Unable to register medItkInt4ImageData type"; }
-    if(!medItkLong4ImageData::registered()) { dtkWarn() << "Unable to register medItkLong4ImageData type"; }
-    if(!medItkUChar4ImageData::registered()) { dtkWarn() << "Unable to register medItkUChar4ImageData type"; }
-    if(!medItkUChar3ImageData::registered()) { dtkWarn() << "Unable to register medItkUChar3ImageData type"; }
-    if(!medItkShort3ImageData::registered()) { dtkWarn() << "Unable to register medItkShort3ImageData type"; }
-    if(!medItkShort4ImageData::registered()) { dtkWarn() << "Unable to register medItkShort4ImageData type"; }
-    if(!medItkUShort3ImageData::registered()) { dtkWarn() << "Unable to register medItkUShort3ImageData type"; }
-    if(!medItkUShort4ImageData::registered()) { dtkWarn() << "Unable to register medItkUShort4ImageData type"; }
-    if(!medItkUInt4ImageData::registered()) { dtkWarn() << "Unable to register medItkUInt4ImageData type"; }
-    if(!medItkULong4ImageData::registered()) { dtkWarn() << "Unable to register medItkULong4ImageData type"; }
-    if(!medItkInt3ImageData::registered()) { dtkWarn() << "Unable to register medItkInt3ImageData type"; }
-    if(!medItkUInt3ImageData::registered()) { dtkWarn() << "Unable to register medItkUInt3ImageData type"; }
-    if(!medItkLong3ImageData::registered()) { dtkWarn() << "Unable to register medItkLong3ImageData type"; }
-    if(!medItkULong3ImageData::registered()) { dtkWarn() << "Unable to register medItkULong3ImageData type"; }
-    if(!medItkFloat3ImageData::registered()) { dtkWarn() << "Unable to register medItkFloat3ImageData type"; }
-    if(!medItkFloat4ImageData::registered()) { dtkWarn() << "Unable to register medItkFloat4ImageData type"; }
-    if(!medItkDouble3ImageData::registered()) { dtkWarn() << "Unable to register medItkDouble3ImageData type"; }
-    if(!medItkDouble4ImageData::registered()) { dtkWarn() << "Unable to register medItkDouble4ImageData type"; }
-    if(!medItkVectorUChar3ImageData::registered()) { dtkWarn() << "Unable to register medItkVectorUChar3ImageData type"; }
-    if(!medItkVectorFloat3ImageData::registered()) { dtkWarn() << "Unable to register medItkVectorFloat3ImageData type"; }
-    if(!medItkVectorDouble3ImageData::registered()) { dtkWarn() << "Unable to register medItkVectorDouble3ImageData type"; }
-    if(!medItkRgb3ImageData::registered()) { dtkWarn() << "Unable to register medItkRgb3ImageData type"; }
-    if(!medItkRgba3ImageData::registered()) { dtkWarn() << "Unable to register medItkRgba3ImageData type"; }
+    if(!medItkImageData::registered()) { dtkWarn() << "Unable to register medItkImageData type"; }
 
     if(!medVtkViewItkScalarImageInteractor::registered()) { dtkWarn() << "Unable to register medVtkViewItkScalarImageInteractor"; }
     if(!medVtkViewItk4DScalarImageInteractor::registered()) { dtkWarn() << "Unable to register medVtkViewItk4DScalarImageInteractor"; }

@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -1522,37 +1522,37 @@ medClutEditor::~medClutEditor(void)
 
 void medClutEditor::setData(medAbstractData *data)
 {
-    if ( data == NULL ) {
-        this->deleteTable();
-        d->dtk_data = data;
-    }
+//    if ( data == NULL ) {
+//        this->deleteTable();
+//        d->dtk_data = data;
+//    }
 
-    if ( data == d->dtk_data )
-        return;
+//    if ( data == d->dtk_data )
+//        return;
 
-    if (medAbstractImageData *image =
-        dynamic_cast<medAbstractImageData *>(data)) {
+//    if (medAbstractImageData *image =
+//        dynamic_cast<medAbstractImageData *>(data)) {
 
-        if ( d->histogram != NULL )
-            delete d->histogram;
+//        if ( d->histogram != NULL )
+//            delete d->histogram;
 
-        d->histogram = new medClutEditorHistogram();
-        d->scene->addItem( d->histogram );
-        int min_range = image->minRangeValue();
-        int max_range = image->maxRangeValue();
-        QMap<qreal, qreal> bins;
+//        d->histogram = new medClutEditorHistogram();
+//        d->scene->addItem( d->histogram );
+//        int min_range = image->minRangeValue();
+//        int max_range = image->maxRangeValue();
+//        QMap<qreal, qreal> bins;
 
-        for ( int i = min_range; i <= max_range; ++i ) {
-            qreal count = static_cast< qreal >(
-                image->scalarValueCount( i - min_range ) );
-            bins.insert( static_cast< qreal >( i ), count );
-        }
-        d->histogram->setValues( bins );
+//        for ( int i = min_range; i <= max_range; ++i ) {
+//            qreal count = static_cast< qreal >(
+//                image->scalarValueCount( i - min_range ) );
+//            bins.insert( static_cast< qreal >( i ), count );
+//        }
+//        d->histogram->setValues( bins );
 
-        this->initializeTable();
+//        this->initializeTable();
 
-        d->dtk_data = image;
-    }
+//        d->dtk_data = image;
+//    }
 }
 
 void medClutEditor::setView(medAbstractImageView *view, bool force)

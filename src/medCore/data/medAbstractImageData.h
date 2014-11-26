@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -24,32 +24,43 @@ class MEDCORE_EXPORT medAbstractImageData: public medAbstractData
     Q_OBJECT
 
 public:
-    typedef std::type_info PixId;
     typedef std::vector < std::vector <double> > MatrixType;
+    typedef std::vector <double> SizeType;
+    enum ComponentType
+    {
+        UCHAR,
+        CHAR,
+        UINT,
+        INT,
+        FLOAT,
+        DOUBLE
+    };
 
-             medAbstractImageData();
-             medAbstractImageData(const medAbstractImageData& other);
+    medAbstractImageData();
     virtual ~medAbstractImageData();
 
-    void *image();
+    virtual void* image() const {}
+    virtual void setImage(void *image) {Q_UNUSED(image);}
 
-    virtual int   dimension() const;
-    virtual const PixId& PixelType() const;
-    virtual MatrixType orientationMatrix();
+    int dimension() const;
+    ComponentType componentType() const;
+    unsigned int numberOfComponent() const;
+    MatrixType orientationMatrix() const;
+    SizeType size() const;
 
-    virtual int xDimension();
-    virtual int yDimension();
-    virtual int zDimension();
-    virtual int tDimension();
+    struct medAbstractImageDataMembers
+    {
+        ComponentType componentType;
+        MatrixType orientationMatrix;
+        unsigned int dimension;
+        unsigned int numberOfComponent;
+        SizeType size;
+        void* image;
+    };
+    void setImageDataMembers(medAbstractImageDataMembers *m);
 
-    virtual int minRangeValue();
-    virtual int maxRangeValue();
-
-    virtual int scalarValueCount(int value);
-    virtual int scalarValueMinCount();
-    virtual int scalarValueMaxCount();
-
-    static const char* PixelMeaningMetaData;
+private:
+    medAbstractImageDataMembers *members;
 };
 
 Q_DECLARE_METATYPE(medAbstractImageData)

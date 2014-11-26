@@ -27,6 +27,8 @@
 #include <vtkImageActor.h>
 #include <vtkImageProperty.h>
 
+#include <itkImage.h>
+
 #include <medVtkViewBackend.h>
 #include <medAbstractData.h>
 #include <medViewFactory.h>
@@ -55,7 +57,7 @@ public:
     medStringListParameter *lutParam;
     medStringListParameter *presetParam;
     medBoolParameter *enableWindowLevelParameter;
-    medIntParameter *slicingParameter;
+    QPointer<medIntParameter> slicingParameter;
 
     medDoubleParameter *windowParameter;
     medDoubleParameter *levelParameter;
@@ -87,18 +89,7 @@ medVtkViewItkScalarImageInteractor::~medVtkViewItkScalarImageInteractor()
 
 QStringList medVtkViewItkScalarImageInteractor::dataHandled()
 {
-    QStringList d = QStringList() << "medItkChar3ImageData"
-                                  << "medItkUChar3ImageData"
-                                  << "medItkShort3ImageData"
-                                  << "medItkUShort3ImageData"
-                                  << "medItkInt3ImageData"
-                                  << "medItkUInt3ImageData"
-                                  << "medItkLong3ImageData"
-                                  << "medItkULong3ImageData"
-                                  << "medItkFloat3ImageData"
-                                  << "medItkDouble3ImageData"
-                                  << "medItkRgb3ImageData"
-                                  << "medItkRgba3ImageData";
+    QStringList d = QStringList() << "medItkImageData";
     return  d;
 }
 
@@ -153,19 +144,7 @@ void medVtkViewItkScalarImageInteractor::setInputData(medAbstractData *data)
     if(!d->imageData)
         return;
 
-    if (!(SetViewInput<itk::Image<char,3> >("medItkChar3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<unsigned char,3> >("medItkUChar3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<short,3> >("medItkShort3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<unsigned short,3> >("medItkUShort3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<int,3> >("medItkInt3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<unsigned,3> >("medItkUInt3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<long,3> >("medItkLong3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<unsigned long,3> >("medItkULong3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<float,3> >("medItkFloat3ImageData", data , d->view->layer(data)) ||
-          SetViewInput<itk::Image<double,3> >("medItkDouble3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<itk::RGBPixel<unsigned char>,3> >("medItkRgb3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<itk::RGBAPixel<unsigned char>,3> >("medItkRgba3ImageData", data, d->view->layer(data)) ||
-          SetViewInput<itk::Image<itk::Vector<unsigned char,3>,3> >("medItkImageDataVector3", data, d->view->layer(data))))
+    if (!(SetViewInput(d->imageData, d->view->layer(data))))
     {
         qDebug() << "Unable to add data: " << data->identifier() << " to view " << this->identifier();
         return;
@@ -186,16 +165,17 @@ void medVtkViewItkScalarImageInteractor::removeData()
 }
 
 
-template <typename IMAGE>
-bool medVtkViewItkScalarImageInteractor::SetViewInput(const char* type, medAbstractData* data, int layer)
+bool medVtkViewItkScalarImageInteractor::SetViewInput(medAbstractImageData* data, int layer)
 {
-    if (data->identifier() != type)
-        return false;
+    itk::Object* itkObject = (itk::Object*)(data->image());
+    qDebug() << itkObject->GetNameOfClass();
 
-    if (IMAGE* image = dynamic_cast<IMAGE*>((itk::Object*)(data->data())))
+    itk::Image<float,3>* i = dynamic_cast<itk::Image<float,3> *>(itkObject);
+
+    if (i)
     {
-        d->view2d->SetITKInput(image, layer);
-        d->view3d->SetITKInput(image, layer);
+        d->view2d->SetITKInput(i, layer);
+        d->view3d->SetITKInput(i, layer);
         return true;
     }
     return false;
@@ -249,11 +229,11 @@ void medVtkViewItkScalarImageInteractor::initParameters(medAbstractImageData* da
     // slice orientation may differ from view orientation. Adapt slider range accordingly.
     int orientationId = d->view2d->GetSliceOrientation();
     if (orientationId==vtkImageView2D::SLICE_ORIENTATION_XY)
-        d->slicingParameter->setRange(0, d->imageData->zDimension()-1);
+        d->slicingParameter->setRange(0, d->imageData->size()[2]-1);
     else if (orientationId==vtkImageView2D::SLICE_ORIENTATION_XZ)
-        d->slicingParameter->setRange (0, d->imageData->yDimension()-1);
+        d->slicingParameter->setRange (0, d->imageData->size()[1]-1);
     else if (orientationId==vtkImageView2D::SLICE_ORIENTATION_YZ)
-        d->slicingParameter->setRange (0, d->imageData->xDimension()-1);
+        d->slicingParameter->setRange (0, d->imageData->size()[0]-1);
 
     connect(d->slicingParameter, SIGNAL(valueChanged(int)), this, SLOT(moveToSlice(int)));
 
@@ -425,6 +405,9 @@ QString medVtkViewItkScalarImageInteractor::preset() const
 
 QWidget* medVtkViewItkScalarImageInteractor::buildToolBarWidget()
 {
+    if(d->slicingParameter.isNull())
+        return new QWidget;
+
     d->slicingParameter->getSlider()->setOrientation(Qt::Horizontal);
     return d->slicingParameter->getSlider();
 }
@@ -573,6 +556,9 @@ void medVtkViewItkScalarImageInteractor::update()
 
 void medVtkViewItkScalarImageInteractor::updateWidgets()
 {
+    if(d->slicingParameter.isNull())
+        return;
+
     if(!d->view->is2D())
         d->slicingParameter->getSlider()->setEnabled(false);
     else

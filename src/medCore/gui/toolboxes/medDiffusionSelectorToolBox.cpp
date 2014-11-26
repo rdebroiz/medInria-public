@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -119,10 +119,10 @@ medDiffusionSelectorToolBox::medDiffusionSelectorToolBox(QWidget *parent, Select
     QLabel *inputDescriptionLabel = new QLabel(mainPage);
     inputDescriptionLabel->setText(tr("Input image:"));
     inputLayout->addWidget(inputDescriptionLabel);
-    
+
     d->chooseInput = new QComboBox(mainPage);
     d->chooseInput->addItem(tr("Please drop an image"));
-	d->chooseInput->setToolTip(tr("Browse available images for processing"));
+    d->chooseInput->setToolTip(tr("Browse available images for processing"));
     d->chooseInput->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     inputLayout->addWidget(d->chooseInput);
     d->mainLayout->addLayout(inputLayout);
@@ -247,16 +247,16 @@ void medDiffusionSelectorToolBox::addInputImage(medAbstractImageData *data)
         return;
 
     this->setEnabled(true);
-    
+
     QUuid dataId = QUuid::createUuid();
     if ((d->chooseInput->count() == 1)&&(d->chooseInput->itemData(0) == QVariant()))
         d->chooseInput->removeItem(0);
-    
+
     d->inputsMap[dataId.toString()] = data;
     d->chooseInput->addItem(data->metadata(medMetaDataKeys::SeriesDescription.key()),dataId.toString());
     d->chooseInput->setToolTip(data->metadata(medMetaDataKeys::SeriesDescription.key()));
     d->chooseInput->setCurrentIndex(d->chooseInput->count() - 1);
-    
+
     if (d->selectorType == Estimation)
         this->checkInputGradientDirections();
 }
@@ -265,8 +265,8 @@ void medDiffusionSelectorToolBox::clearInputs()
 {
     d->chooseInput->clear();
     d->chooseInput->addItem(tr("Please drop an image"));
-	d->chooseInput->setToolTip(tr("Browse available images for processing"));
-    
+    d->chooseInput->setToolTip(tr("Browse available images for processing"));
+
     d->inputsMap.clear();
 
     if (d->selectorType == Estimation)
@@ -283,7 +283,7 @@ void medDiffusionSelectorToolBox::checkInputGradientDirections()
     QString dataId = d->chooseInput->itemData(d->chooseInput->currentIndex()).toString();
     if (dataId == "")
         return;
-    
+
     if (!d->inputsMap[dataId])
         return;
 
@@ -327,7 +327,7 @@ void medDiffusionSelectorToolBox::setInputGradientFile()
         fileName = gradientFileDialog->selectedFiles().first();
         gradientsInImageCoordinates = gradientsInImageCoordinatesCheckBox->isChecked();
     }
-    
+
     delete gradientFileDialog;
 
     if (fileName.isEmpty())
@@ -374,14 +374,14 @@ void medDiffusionSelectorToolBox::setInputGradientFile()
         gradientList.append (s_gz);
         i++;
     }
-    
-    if (input->tDimension()==gradientList.count()/3)
+
+    if (input->size()[3] == gradientList.count()/3)
     {
         input->setMetaData ("DiffusionGradientList", gradientList);
         d->gradientFileLabel->setText(fileName);
         d->gradientFileLabel->setToolTip(fileName);
     }
-    else if (input->tDimension()==gradientList.count()/3+1)
+    else if (input->size()[3] == gradientList.count()/3+1)
     {
         // add the null gradient in this case
         gradientList.push_front("0.0");
@@ -395,7 +395,7 @@ void medDiffusionSelectorToolBox::setInputGradientFile()
     {
         QString gradCount, imDims;
         gradCount.setNum(gradientList.count()/3);
-        imDims.setNum(input->tDimension());
+        imDims.setNum(input->size()[3]);
         medMessageController::instance()->showError("Mismatch between gradient length (" +gradCount + ") and image dimension (" + imDims + ").",3000);
     }
 }
@@ -404,7 +404,7 @@ void medDiffusionSelectorToolBox::createProcess()
 {
     QString inputId = d->chooseInput->itemData(d->chooseInput->currentIndex()).toString();
     medAbstractImageData *input = d->inputsMap[inputId];
-    
+
     if (!input)
         return;
 
@@ -446,7 +446,7 @@ void medDiffusionSelectorToolBox::setProcessParameters(medAbstractDiffusionProce
 {
     QString inputId = d->chooseInput->itemData(d->chooseInput->currentIndex()).toString();
     medAbstractImageData *input = d->inputsMap[inputId];
-    
+
     process->setInputImage(input);
     d->currentToolBox->setProcessParameters(process);
 }

@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -36,7 +36,7 @@ public:
     medDataIndex index;
 
     QMap<int, QString> volumeIdToImageFile;
-    
+
     QUuid uuid;
 };
 
@@ -84,7 +84,7 @@ QString medAbstractDatabaseImporter::file ( void )
 /**
 * Returns if pocess has been cancelled.
 **/
-bool medAbstractDatabaseImporter::isCancelled ( void )   
+bool medAbstractDatabaseImporter::isCancelled ( void )
 {
     return d->isCancelled;
 }
@@ -92,7 +92,7 @@ bool medAbstractDatabaseImporter::isCancelled ( void )
 /**
 * Returns true if process is indexing without importing.
 **/
-bool medAbstractDatabaseImporter::indexWithoutImporting ( void )   
+bool medAbstractDatabaseImporter::indexWithoutImporting ( void )
 {
     return d->indexWithoutImporting;
 }
@@ -100,7 +100,7 @@ bool medAbstractDatabaseImporter::indexWithoutImporting ( void )
 /**
 * Returns a QMap linking volume id to image file.
 **/
-QMap<int, QString> medAbstractDatabaseImporter::volumeIdToImageFile ( void )  
+QMap<int, QString> medAbstractDatabaseImporter::volumeIdToImageFile ( void )
 {
     return d->volumeIdToImageFile;
 }
@@ -121,7 +121,7 @@ QString medAbstractDatabaseImporter::callerUuid()
 {
     return d->uuid;
 }
-    
+
 /**
 * Runs the import process based on the input file
 * or directory given in the constructor
@@ -385,12 +385,12 @@ void medAbstractDatabaseImporter::importFile ( void )
         QFileInfo aggregatedFileNameFileInfo ( aggregatedFileName );
         QString pathToStoreThumbnails = aggregatedFileNameFileInfo.dir().path() + "/" + aggregatedFileNameFileInfo.completeBaseName() + "/";
         index = this->populateDatabaseAndGenerateThumbnails ( imagemedData, pathToStoreThumbnails );
-        
+
         if(!d->uuid.isNull())
         {
             emit dataImported(index, d->uuid);
         }
-        else 
+        else
         {
             emit dataImported(index);
         }
@@ -407,15 +407,15 @@ void medAbstractDatabaseImporter::importFile ( void )
     }
 
     d->index = index;
-    
+
     emit progressed ( 100 );
     emit success ( );
 }
 
 void medAbstractDatabaseImporter::importData()
-{   
+{
     QMutexLocker locker ( &d->mutex );
-     
+
     if ( !d->data )
     {
         emit failure ( );
@@ -424,24 +424,24 @@ void medAbstractDatabaseImporter::importData()
     }
 
     populateMissingMetadata(d->data, "EmptySerie");
-    
+
     if ( !d->data->hasMetaData ( medMetaDataKeys::FilePaths.key() ) )
         d->data->addMetaData ( medMetaDataKeys::FilePaths.key(), QStringList() << "generated with medInria" );
-        
+
 
     QString size ="";
     if ( medAbstractImageData *imagedata = dynamic_cast<medAbstractImageData*> ( d->data) )
-        size = QString::number ( imagedata->zDimension() );
+        size = QString::number ( imagedata->size()[2] );
     d->data->addMetaData ( medMetaDataKeys::Size.key(), size );
 
     QString patientName = medMetaDataKeys::PatientName.getFirstValue(d->data).simplified();
     QString birthDate   = medMetaDataKeys::BirthDate.getFirstValue(d->data);
     QString seriesId    = medMetaDataKeys::SeriesID.getFirstValue(d->data);
-        
+
     QString patientId  = getPatientID(patientName, birthDate);
 
     d->data->setMetaData ( medMetaDataKeys::PatientID.key(), QStringList() << patientId );
- 
+
     bool writeSuccess = true;
     QString     thumb_dir;
 
@@ -479,11 +479,11 @@ void medAbstractDatabaseImporter::importData()
         {
             d->data->setMetaData ( "FileName", imageFileName );
         }
-        
+
          QFileInfo   seriesInfo ( imageFileName );
          thumb_dir = seriesInfo.dir().path() + "/" + seriesInfo.completeBaseName() + "/";
     }
-    
+
 
     // Now, populate the database
    medDataIndex index = this->populateDatabaseAndGenerateThumbnails (  d->data, thumb_dir );
@@ -495,7 +495,7 @@ void medAbstractDatabaseImporter::importData()
         emit dataImported(index);
     else
         emit dataImported(index,d->uuid);
-    
+
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -689,7 +689,8 @@ dtkSmartPointer<dtkAbstractDataReader> medAbstractDatabaseImporter::getSuitableR
     dtkSmartPointer<dtkAbstractDataReader> dataReader;
     for (int i=0; i<readers.size(); i++) {
         dataReader = medAbstractDataFactory::instance()->readerSmartPointer(readers[i]);
-        if (dataReader->canRead(filename)) {
+        if (dataReader->canRead(filename))
+        {
             dataReader->enableDeferredDeletion(false);
             return dataReader;
         }
@@ -775,9 +776,9 @@ medAbstractData* medAbstractDatabaseImporter::tryReadImages ( const QStringList&
     if ( dataReader )
     {
         bool readSuccessful = false;
-        if ( readOnlyImageInformation )
-            readSuccessful = dataReader->readInformation ( filesPaths );
-        else
+//        if ( readOnlyImageInformation )
+//            readSuccessful = dataReader->readInformation ( filesPaths );
+//        else
             readSuccessful = dataReader->read ( filesPaths );
 
         if (readSuccessful)
@@ -915,7 +916,7 @@ void medAbstractDatabaseImporter::addAdditionalMetaData ( medAbstractData* imDat
     QStringList size;
     if ( medAbstractImageData *imageData = dynamic_cast<medAbstractImageData*> ( imData ) )
     {
-        size << QString::number ( imageData->zDimension() );
+//        size << QString::number ( imageData->zDimension() );
     }
     else
     {

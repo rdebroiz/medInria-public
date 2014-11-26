@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -23,7 +23,8 @@ public:
     static medAbstractDataFactory *instance();
 
     template <typename dataType>
-    bool registerDataType() {
+    bool registerDataType()
+    {
         return dtkAbstractDataFactory::registerDataType(dataType::staticIdentifier(),
                                                         create<dataType>);
     }

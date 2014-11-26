@@ -15,118 +15,47 @@
 
 #include <QtGui>
 
-// /////////////////////////////////////////////////////////////////
-// medAbstractImageDataPrivate
-// /////////////////////////////////////////////////////////////////
 
-//  Unneeded in this case.
 
-// /////////////////////////////////////////////////////////////////
-// medAbstractImageData
-// /////////////////////////////////////////////////////////////////
-
-const char* medAbstractImageData::PixelMeaningMetaData = "PixelMeaning";
-
-medAbstractImageData::medAbstractImageData(void) : medAbstractData()
+medAbstractImageData::medAbstractImageData() : medAbstractData()
 {
     qDebug() << "constructing medAbstractImageData";
+    members = 0;
 }
 
-medAbstractImageData::medAbstractImageData(const medAbstractImageData& other): medAbstractData(other)
-{
-}
-
-medAbstractImageData::~medAbstractImageData(void)
+medAbstractImageData::~medAbstractImageData()
 {
     qDebug() << "deleting medAbstractImageData";
-}
-
-void *medAbstractImageData::image(void)
-{
-    return this->data();
+    delete members;
 }
 
 int medAbstractImageData::dimension() const
 {
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
+    members->dimension;
 }
 
-const medAbstractImageData::PixId& medAbstractImageData::PixelType() const
+medAbstractImageData::ComponentType medAbstractImageData::componentType() const
 {
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return typeid(void);
+    members->componentType;
 }
 
-medAbstractImageData::MatrixType medAbstractImageData::orientationMatrix()
+unsigned int medAbstractImageData::numberOfComponent() const
 {
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return MatrixType();
+    members->numberOfComponent;
 }
 
-int medAbstractImageData::xDimension(void)
+medAbstractImageData::MatrixType medAbstractImageData::orientationMatrix() const
 {
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
+    members->orientationMatrix;
 }
 
-int medAbstractImageData::yDimension(void)
+medAbstractImageData::SizeType medAbstractImageData::size() const
 {
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
+    members->size;
 }
 
-int medAbstractImageData::zDimension(void)
+void medAbstractImageData::setImageDataMembers(medAbstractImageDataMembers *m)
 {
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
-}
-
-int medAbstractImageData::tDimension(void)
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
-}
-
-int medAbstractImageData::minRangeValue(void)
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
-}
-
-int medAbstractImageData::maxRangeValue(void)
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
-}
-
-int medAbstractImageData::scalarValueCount(int value)
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-    DTK_UNUSED(value);
-
-    return 0;
-}
-
-int medAbstractImageData::scalarValueMinCount(void)
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
-}
-
-int medAbstractImageData::scalarValueMaxCount(void)
-{
-    DTK_DEFAULT_IMPLEMENTATION;
-
-    return 0;
+    members = m;
+    this->setImage(m->image);
 }

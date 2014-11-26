@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -53,10 +53,7 @@ bool medItkImageDataWriterBase::write_image(const QString& path,const char* type
     typename Image::Pointer image = dynamic_cast<Image*>((itk::Object*)(this->data()->output()));
     if (image.IsNull())
         return false;
-    if (medData->hasMetaData(medAbstractImageData::PixelMeaningMetaData)) {
-        itk::MetaDataDictionary& dict = image->GetMetaDataDictionary();
-        itk::EncapsulateMetaData(dict,"intent_name",medData->metadata(medAbstractImageData::PixelMeaningMetaData));
-    }
+
     typename itk::ImageFileWriter<Image>::Pointer writer = itk::ImageFileWriter <Image>::New();
     writer->SetImageIO (this->io);
     writer->SetFileName(path.toAscii().constData());

@@ -138,15 +138,15 @@ void medAbstractData::invokeModified()
 
 QImage& medAbstractData::thumbnail()
 {
-    this->retain();
-    if(d->thumbnail == QImage())
-    {
-        if (QThread::currentThread() != QApplication::instance()->thread())
-            QMetaObject::invokeMethod(this, "generateThumbnail", Qt::BlockingQueuedConnection);
-        else
-            this->generateThumbnail();
-    }
-    this->release();
+//    this->retain();
+//    if(d->thumbnail == QImage())
+//    {
+//        if (QThread::currentThread() != QApplication::instance()->thread())
+//            QMetaObject::invokeMethod(this, "generateThumbnail", Qt::BlockingQueuedConnection);
+//        else
+//            this->generateThumbnail();
+//    }
+//    this->release();
 
     return d->thumbnail;
 }

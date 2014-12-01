@@ -19,7 +19,6 @@ project(medLog)
 
 # find dtk
 find_package(dtk REQUIRED)
-include(${dtk_USE_FILE})
 
 # find itk
 find_package(ITK REQUIRED)

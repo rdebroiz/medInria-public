@@ -13,7 +13,10 @@
 
 #include <medDataManager.h>
 
-#include <QDebug>
+#include <QtCore/QDebug>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QGridLayout>
 
 #include <medAbstractDataFactory.h>
 #include <medDatabaseController.h>

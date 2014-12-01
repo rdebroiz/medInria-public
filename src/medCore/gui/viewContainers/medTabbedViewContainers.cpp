@@ -13,8 +13,12 @@
 
 #include <medTabbedViewContainers.h>
 
-#include <QtCore>
-#include <QShortcut>
+
+#include <QtWidgets/QShortcut>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QTabBar>
 
 #include <medViewContainer.h>
 #include <medViewContainerSplitter.h>

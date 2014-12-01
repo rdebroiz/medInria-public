@@ -13,8 +13,8 @@
 
 #pragma once
 
-#include <QtGui>
-#include <QUuid>
+#include <QtCore/QUuid>
+#include <QtWidgets/QTabWidget>
 
 #include <medCoreExport.h>
 

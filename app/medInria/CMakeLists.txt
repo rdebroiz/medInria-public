@@ -102,7 +102,7 @@ endif()
 ## Add Exe
 ## #############################################################################
 
-qt4_add_resources(${PROJECT_NAME}_QRC 
+qt5_add_resources(${PROJECT_NAME}_QRC
   ${${PROJECT_NAME}_QRC}
   )
 
@@ -122,11 +122,8 @@ endif()
 ## #############################################################################
 
 target_link_libraries(${PROJECT_NAME}
-  ${QT_LIBRARIES}
-  dtkCore
-  dtkScript
-  dtkGui
-  dtkVr
+  dtkCoreSupport
+  dtkGuiSupport
   medCore
   medPacs
   )

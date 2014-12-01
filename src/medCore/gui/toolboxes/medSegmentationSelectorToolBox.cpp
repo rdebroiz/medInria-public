@@ -13,13 +13,14 @@
 
 #include <medSegmentationSelectorToolBox.h>
 
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QComboBox>
+
 #include <medToolBoxFactory.h>
 #include <medToolBoxTab.h>
 #include <medSegmentationAbstractToolBox.h>
 #include <medToolBoxHeader.h>
 #include <medViewEventFilter.h>
-
-#include <QtGui>
 
 
 class medSegmentationSelectorToolBoxPrivate

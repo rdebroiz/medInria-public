@@ -13,10 +13,12 @@
 
 #pragma once
 
-#include <QtGui/QTreeWidget>
+#include <QtWidgets/QTreeWidget>
+
+#include <medMoveCommandItem.h>
 
 #include <medPacsExport.h>
-#include <medMoveCommandItem.h>
+
 
 class medPacsWidgetPrivate;
 

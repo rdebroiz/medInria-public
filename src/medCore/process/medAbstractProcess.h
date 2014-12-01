@@ -13,18 +13,18 @@
 
 #pragma once
 
-#include <dtkCore/dtkAbstractProcess.h>
+#include <dtkCore/dtkAbstractProcess>
 
 #ifdef DTK_BUILD_COMPOSER
-#include <dtkComposer/dtkComposerTransmitter.h>
-#include <dtkComposer/dtkComposerTransmitterReceiver.h>
+#include <dtkComposer/dtkComposerTransmitter>
+#include <dtkComposer/dtkComposerTransmitterReceiver>
 #endif
 
 #include <medAbstractData.h>
 #include <medAbstractImageData.h>
+#include <medAbstractJob.h>
 
 #include <medCoreExport.h>
-#include <medAbstractJob.h>
 
 class medAbstractProcessPrivate;
 

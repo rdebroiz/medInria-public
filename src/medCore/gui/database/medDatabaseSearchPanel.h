@@ -13,6 +13,10 @@
 
 #pragma once
 
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
+
 #include <medToolBox.h>
 #include <medCoreExport.h>
 

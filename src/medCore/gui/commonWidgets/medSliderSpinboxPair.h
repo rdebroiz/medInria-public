@@ -13,8 +13,11 @@
 
 #pragma once
 
-#include <medCoreExport.h>
-#include <QtGui>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QHBoxLayout>
+
 #include <medCoreExport.h>
 
 class MEDCORE_EXPORT medSliderSpinboxPair: public QWidget {

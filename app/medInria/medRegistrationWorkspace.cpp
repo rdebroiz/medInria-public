@@ -13,7 +13,9 @@
 
 #include <medRegistrationWorkspace.h>
 
-#include <dtkCore/dtkAbstractProcessFactory.h>
+#include <QtWidgets/QLabel>
+
+#include <dtkCore/dtkAbstractProcessFactory>
 
 #include <medMetaDataKeys.h>
 #include <medProcessSelectorToolBox.h>
@@ -22,15 +24,11 @@
 #include <medViewContainer.h>
 #include <medAbstractData.h>
 #include <medDataManager.h>
-
 #include <medJobManager.h>
-
 #include <medAbstractView.h>
-#include <medAbstractLayeredView.h>
-
+#include <medAbstractLayeredView.h>dtk main line.
 #include <medViewParameterGroup.h>
 #include <medLayerParameterGroup.h>
-
 #include <medAbstractApplyTransformationProcess.h>
 #include <medTriggerParameter.h>
 #include <medViewContainerSplitter.h>

@@ -13,11 +13,11 @@
 
 #pragma once
 
-#include <dtkCore/dtkAbstractFactory.h>
+#include <dtkCoreSupport/dtkAbstractFactory>
 
 #include <medCoreExport.h>
 
-#include <QStringList>
+#include <QtCore/QStringList>
 
 #include <medAbstractView.h>
 #include <medAbstractViewNavigator.h>

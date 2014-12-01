@@ -12,9 +12,12 @@
 =========================================================================*/
 
 #include <medToolBoxContainer.h>
-#include <medToolBox.h>
 
-#include <QtGui>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLayout>
+
+#include <medToolBox.h>
 
 class medToolBoxContainerPrivate
 {

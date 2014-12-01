@@ -22,6 +22,16 @@ macro(set_exe_install_rules
 #
 ################################################################################
 
+qt5_use_modules(${target} Declarative)
+qt5_use_modules(${target} Core)
+qt5_use_modules(${target} Gui)
+qt5_use_modules(${target} Quick)
+qt5_use_modules(${target} Widgets)
+qt5_use_modules(${target} Sql)
+qt5_use_modules(${target} Network)
+qt5_use_modules(${target} Xml)
+qt5_use_modules(${target} OpenGL)
+
 install(TARGETS ${target}
   RUNTIME DESTINATION bin
   BUNDLE  DESTINATION bin
@@ -50,6 +60,7 @@ if (APPLE)
   set(${target}_RESOURCE_DIR
     ${EXECUTABLE_OUTPUT_PATH}/${target}.app/Contents/Resources
     )
+
   add_custom_command(TARGET ${target} POST_BUILD
     COMMAND ${CMAKE_COMMAND} ARGS -E make_directory ${${target}_RESOURCE_DIR}
     COMMAND ${CMAKE_COMMAND} ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/resources/${target}.icns ${${target}_RESOURCE_DIR}

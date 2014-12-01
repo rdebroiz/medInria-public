@@ -15,7 +15,12 @@
 
 #include <medCoreExport.h>
 
-#include <QtGui>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QPoint>
+#include <QtWidgets/QWidget>
+
+
 
 class dtkAbstractView;
 class medAbstractData;

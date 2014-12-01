@@ -14,9 +14,9 @@
 #pragma once
 
 #include <QObject>
-#include <QVector2D>
-#include <QVector3D>
-#include <QVector4D>
+#include <QtGui/QVector2D>
+#include <QtGui/QVector3D>
+#include <QtGui/QVector4D>
 
 #include <medCoreExport.h>
 

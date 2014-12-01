@@ -13,8 +13,9 @@
 
 #pragma once
 
+#include <QtWidgets/QWidget>
+
 #include <medCoreExport.h>
-#include <QWidget>
 
 class medSettingsWidgetPrivate;
 

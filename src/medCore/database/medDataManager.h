@@ -14,9 +14,9 @@
 #pragma once
 
 
-#include <QObject>
-#include <QPixmap>
-#include <QUuid>
+#include <QtCore/QObject>
+#include <QtGui/QPixmap>
+#include <QtCore/QUuid>
 
 #include <medCoreExport.h>
 #include <medDataIndex.h>

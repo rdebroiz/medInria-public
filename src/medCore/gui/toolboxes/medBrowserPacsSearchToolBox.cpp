@@ -13,7 +13,10 @@
 
 #include <medBrowserPacsSearchToolBox.h>
 
-#include <QtGui>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 
 class medBrowserPacsSearchToolBoxPrivate
 {

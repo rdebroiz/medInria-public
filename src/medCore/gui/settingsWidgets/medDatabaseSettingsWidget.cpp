@@ -12,9 +12,13 @@
 =========================================================================*/
 
 #include <medDatabaseSettingsWidget.h>
-#include <QWidget>
-#include <QtGui>
-#include <QtCore>
+
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMessageBox>
 
 #include <medStorage.h>
 #include <medSettingsManager.h>

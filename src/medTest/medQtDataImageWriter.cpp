@@ -12,11 +12,14 @@
 =========================================================================*/
 
 #include <medQtDataImageWriter.h>
-#include <medQtDataImage.h>
 
+#include <QtGui/QImageWriter>
+
+#include <dtkLog/dtkLog.h>
+
+#include <medQtDataImage.h>
 #include <medAbstractData.h>
 #include <medAbstractDataFactory.h>
-#include <dtkLog/dtkLog.h>
 
 namespace {
     // Used to sort formats in order of priority, highest first.

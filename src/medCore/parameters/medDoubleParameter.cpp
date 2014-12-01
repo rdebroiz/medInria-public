@@ -13,9 +13,9 @@
 
 #include <medDoubleParameter.h>
 
-#include <QDoubleSpinBox>
-#include <QSlider>
-#include <QLabel>
+#include <QtWidgets/QDoubleSpinBox>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QLabel>
 #include <QDebug>
 
 #include <cmath>

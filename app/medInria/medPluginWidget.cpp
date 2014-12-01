@@ -13,15 +13,19 @@
 
 #include <medPluginWidget.h>
 
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
+
+#include <dtkCoreSupport/dtkAbstractProcessFactory>
+#include <dtkCoreSupport/dtkAbstractViewFactory>
+#include <dtkCoreSupport/dtkPlugin>
+#include <dtkGuiSupport/dtkAboutPlugin>
+
 #include <medPluginManager.h>
-
 #include <medAbstractDataFactory.h>
-#include <dtkCore/dtkAbstractProcessFactory.h>
-#include <dtkCore/dtkAbstractViewFactory.h>
-#include <dtkCore/dtkPlugin.h>
-#include <dtkGui/dtkAboutPlugin.h>
-
-#include <QtGui>
 
 
 ////////////////////////////////////////////////////////////////////////////////

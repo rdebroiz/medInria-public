@@ -11,13 +11,21 @@
 
 =========================================================================*/
 
+#include <medDiffusionSelectorToolBox.h>
+
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QCheckBox>
+
+#include <dtkCoreSupport/dtkAbstractProcessFactory>
+
 #include <medAbstractDataFactory.h>
 #include <medAbstractDiffusionProcess.h>
-#include <dtkCore/dtkAbstractProcessFactory.h>
-
 #include <medAbstractImageData.h>
 #include <medPluginManager.h>
-
 #include <medDropSite.h>
 #include <medDataManager.h>
 #include <medToolBoxTab.h>
@@ -25,9 +33,7 @@
 #include <medToolBoxHeader.h>
 #include <medMessageController.h>
 #include <medMetaDataKeys.h>
-
-#include "medDiffusionSelectorToolBox.h"
-#include "medDiffusionAbstractToolBox.h"
+#include <medDiffusionAbstractToolBox.h>
 
 class medDiffusionSelectorToolBoxPrivate
 {

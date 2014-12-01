@@ -13,7 +13,11 @@
 
 #include <medAbstractLayeredViewInteractor.h>
 
-#include <QAbstractButton>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStyleOption>
+#include <QtWidgets/QAbstractButton>
+#include <QtWidgets/QPushButton>
+
 
 #include <medAbstractLayeredView.h>
 #include <medAbstractParameter.h>

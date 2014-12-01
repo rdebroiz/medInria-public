@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include <QLabel>
+#include <QtWidgets/QLabel>
 
 #include <medCoreExport.h>
 

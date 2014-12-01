@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <QFrame>
+#include <QtWidgets/QFrame>
 
 #include <medCoreExport.h>
 

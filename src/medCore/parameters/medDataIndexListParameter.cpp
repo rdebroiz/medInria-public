@@ -13,7 +13,7 @@
 
 #include <medDataIndexListParameter.h>
 #include <medDataIndex.h>
-#include <QLabel>
+#include <QtWidgets/QLabel>
 
 class medDataListIndexParameterPrivate
 {

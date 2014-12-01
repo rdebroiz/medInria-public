@@ -15,7 +15,7 @@
 
 #include <medCoreExport.h>
 
-#include <QtGui>
+#include <QtWidgets/QTreeView>
 
 class medDataIndex;
 class medDatabaseModel;

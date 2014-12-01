@@ -11,7 +11,7 @@
 #
 ################################################################################
 
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 2.8.11)
 
 project(MEDINRIA)
 
@@ -101,13 +101,20 @@ endif()
 ## Find package
 ## #############################################################################
 
-find_package(Qt4 REQUIRED)
-include(${QT_USE_FILE})
+# Find the QtWidgets library
+# TODO some of them are certainly usless...
+find_package(Qt5Core        REQUIRED)
+find_package(Qt5Quick       REQUIRED)
+find_package(Qt5Network     REQUIRED)
+find_package(Qt5Gui         REQUIRED)
+find_package(Qt5Xml         REQUIRED)
+find_package(Qt5Declarative REQUIRED)
+find_package(Qt5OpenGL      REQUIRED)
+find_package(Qt5Sql         REQUIRED)
 
 
 find_package(dtk REQUIRED)
-include(${dtk_USE_FILE})
-
+include_directories(${dtk_INCLUDE_DIRS})
 
 ## #############################################################################
 ## Qt Automoc

@@ -13,7 +13,13 @@
 
 #include <medActionsToolBox.h>
 
-#include <QtGui>
+#include <QtCore/QList>
+#include <QtCore/QMultiMap>
+#include <QtGui/QIcon>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QHBoxLayout>
 
 #include <medDataManager.h>
 #include <medAbstractDbController.h>

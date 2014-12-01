@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <QInputDialog>
+#include <QtWidgets/QInputDialog>
 
 class medLoadLUTDialog : public QInputDialog
 {

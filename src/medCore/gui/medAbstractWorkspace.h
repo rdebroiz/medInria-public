@@ -13,8 +13,7 @@
 
 #pragma once
 
-#include <QtCore>
-#include <QtGui>
+#include <QtCore/QObject>
 
 #include <medCoreExport.h>
 

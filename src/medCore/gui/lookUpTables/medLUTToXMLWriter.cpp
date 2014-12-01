@@ -13,8 +13,9 @@
 
 #include <medLUTToXMLWriter.h>
 
-#include <QXmlStreamWriter>
-#include <QStringList>
+#include <QtCore/QXmlStreamWriter>
+#include <QtCore/QStringList>
+#include <QtCore/QDebug>
 
 class medLUTToXMLWriterPrivate{
 public:

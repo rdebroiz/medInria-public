@@ -13,6 +13,9 @@
 
 #include <medAbstractImageView.h>
 
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QPushButton>
+
 #include <medAbstractData.h>
 #include <medAbstractImageViewInteractor.h>
 #include <medAbstractImageViewNavigator.h>

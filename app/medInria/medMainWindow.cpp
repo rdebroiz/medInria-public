@@ -13,27 +13,27 @@
 
 #include <medMainWindow.h>
 
-#include <QtGui>
+#include <QtGui/QPainter>
+#include <QtGui/QImageWriter>
+#include <QtGui/QCloseEvent>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QShortcut>
+#include <QtWidgets/QMessageBox>
 
 #include <medBrowserArea.h>
 #include <medWorkspaceArea.h>
 #include <medHomepageArea.h>
-
 #include <medTabbedViewContainers.h>
-
 #include <medSettingsManager.h>
 #include <medSettingsEditor.h>
-
 #include <medStatusBar.h>
 #include <medQuickAccessMenu.h>
 #include <medSaveModifiedDialog.h>
 #include <medEmptyDbWarning.h>
-
 #include <medDatabaseNonPersistentController.h>
 #include <medDatabaseController.h>
-
 #include <medJobManager.h>
-
 #include <medWorkspaceFactory.h>
 #include <medAbstractWorkspace.h>
 #include <medVisualizationWorkspace.h>
@@ -47,21 +47,21 @@
 //--------------------------------------------------------------------------
 // medMainWindowStyle
 
-class medMainWindowStyle : public QPlastiqueStyle
-{
-public:
-    void drawPrimitive ( PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = 0 ) const
-    {
-        switch ( element )
-        {
-        case PE_FrameFocusRect:
-            break;
-        default:
-            QPlastiqueStyle::drawPrimitive ( element, option, painter, widget );
-            break;
-        }
-    }
-};
+//class medMainWindowStyle : public QPlastiqueStyle
+//{
+//public:
+//    void drawPrimitive ( PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = 0 ) const
+//    {
+//        switch ( element )
+//        {
+//        case PE_FrameFocusRect:
+//            break;
+//        default:
+//            QPlastiqueStyle::drawPrimitive ( element, option, painter, widget );
+//            break;
+//        }
+//    }
+//};
 
 //--------------------------------------------------------------------------
 // medMainWindow
@@ -424,7 +424,7 @@ void medMainWindow::captureScreenshot()
                                                     QDir::home().absolutePath(),
                                                     QString(), 0, QFileDialog::HideNameFilterDetails);
 
-    QByteArray format = fileName.right(fileName.lastIndexOf('.')).toUpper().toAscii();
+    QByteArray format = fileName.right(fileName.lastIndexOf('.')).toUpper().toLatin1();
     if ( ! QImageWriter::supportedImageFormats().contains(format) )
         format = "PNG";
 

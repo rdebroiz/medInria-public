@@ -13,8 +13,9 @@
 
 #include <medPacsSelector.h>
 
-#include <QtGui>
-#include <QListWidget>
+#include <QtCore/QSettings>
+#include <QtWidgets/QListWidget>
+#include <QtWidgets/QFormLayout>
 
 
 class medToolBoxPacsSelectorPrivate

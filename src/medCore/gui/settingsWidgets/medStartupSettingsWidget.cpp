@@ -12,9 +12,10 @@
 =========================================================================*/
 
 #include <medStartupSettingsWidget.h>
-#include <QWidget>
-#include <QtGui>
-#include <QtCore>
+
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QFormLayout>
 
 #include <medSettingsManager.h>
 

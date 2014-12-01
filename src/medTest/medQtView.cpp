@@ -13,12 +13,12 @@
 
 #include <medQtView.h>
 
+#include <QtWidgets/QLabel>
+
 #include <medViewFactory.h>
 #include <medAbstractData.h>
-
 #include <medAbstractNavigator.h>
 #include <medAbstractViewNavigator.h>
-
 #include <medAbstractLayeredViewNavigator.h>
 #include <medAbstractLayeredViewInteractor.h>
 

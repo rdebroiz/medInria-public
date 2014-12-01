@@ -13,7 +13,7 @@
 
 #include <medStatusBar.h>
 
-#include <QtCore>
+#include <QtGui/QResizeEvent>
 
 class medStatusBarPrivate
 {

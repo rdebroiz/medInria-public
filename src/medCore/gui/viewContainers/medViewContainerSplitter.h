@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <QSplitter>
+#include <QtWidgets/QSplitter>
 
 #include <medCoreExport.h>
 

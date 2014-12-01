@@ -13,7 +13,8 @@
 
 #include <medButton.h>
 
-#include <QtGui>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QHBoxLayout>
 
 class medButtonPrivate
 {

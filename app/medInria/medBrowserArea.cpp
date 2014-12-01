@@ -17,8 +17,8 @@
 
 #include <QtGui>
 
-#include <dtkCore/dtkGlobal.h>
-#include <dtkGui/dtkFinder.h>
+#include <dtkCoreSupport/dtkGlobal.h>
+#include <dtkGuiSupport/dtkFinder.h>
 
 #include <medMessageController.h>
 #include <medJobManager.h>

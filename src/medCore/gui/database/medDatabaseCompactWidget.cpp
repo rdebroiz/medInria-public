@@ -13,13 +13,13 @@
 
 #include "medDatabaseCompactWidget.h"
 
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLabel>
+
 #include <medDatabaseView.h>
 #include <medDatabasePreview.h>
-
 #include <medDataIndex.h>
 
-
-#include <QVBoxLayout>
 
 
 class medDatabaseCompactWidgetPrivate

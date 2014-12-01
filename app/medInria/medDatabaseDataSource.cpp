@@ -13,7 +13,7 @@
 
 #include "medDatabaseDataSource.h"
 
-#include <dtkCore/dtkSmartPointer>
+#include <QtWidgets/QVBoxLayout>
 
 #include <medDataManager.h>
 #include <medDatabaseSearchPanel.h>

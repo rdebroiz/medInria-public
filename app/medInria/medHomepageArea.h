@@ -13,7 +13,9 @@
 
 #pragma once
 
-#include <QtGui>
+#include <QtWidgets/QWidget>
+
+#include <QtCore/QParallelAnimationGroup>
 
 class medHomepageAreaPrivate;
 

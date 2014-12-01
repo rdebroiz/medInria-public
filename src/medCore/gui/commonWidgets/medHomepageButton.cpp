@@ -13,6 +13,8 @@
 
 #include <medHomepageButton.h>
 
+#include <QtWidgets/QStyle>
+
 //medHomepagePushButton in the quick access menu
 medQuickAccessPushButton::medQuickAccessPushButton ( QWidget * parent )
 {

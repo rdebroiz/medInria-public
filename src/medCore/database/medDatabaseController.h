@@ -13,11 +13,12 @@
 
 #pragma once
 
-#include <QSqlDatabase>
-#include <QSqlQuery>
+#include <medAbstractDbController.h>
+
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
 
 #include <medCoreExport.h>
-#include <medAbstractDbController.h>
 
 class medAbstractData;
 class medDatabaseControllerPrivate;

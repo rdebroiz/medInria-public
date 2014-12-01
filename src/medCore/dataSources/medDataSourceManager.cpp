@@ -12,10 +12,12 @@
 =========================================================================*/
 
 #include <medDataSourceManager.h>
-#include <dtkCore>
 
-#include <QList>
-#include <QUuid>
+#include <QtCore/QList>
+#include <QtCore/QUuid>
+
+#include <dtkCoreSupport/dtkSmartPointer>
+
 #include <medAbstractDataSource.h>
 #include <medAbstractDataSourceFactory.h>
 #include <medDataManager.h>

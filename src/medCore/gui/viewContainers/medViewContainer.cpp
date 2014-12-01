@@ -13,11 +13,20 @@
 
 #include <medViewContainer.h>
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QPushButton>
-#include <QUuid>
-#include <QFileDialog>
+#include <QtCore/QUuid>
+#include <QtGui/QFocusEvent>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDragLeaveEvent>
+#include <QtGui/QDragMoveEvent>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QAction>
+
 
 #include <medViewContainerManager.h>
 #include <medAbstractView.h>

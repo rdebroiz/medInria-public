@@ -13,9 +13,11 @@
 
 #include "medCompositeParameter.h"
 
-#include <QtGui>
-#include <QPair>
-
+#include <QtCore/QPair>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QSpinBox>
 
 class medCompositeParameterPrivate
 {

@@ -13,8 +13,8 @@
 
 #include <medIntParameter.h>
 
-#include <QSpinBox>
-#include <QSlider>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QSlider>
 
 class medIntParameterPrivate
 {

@@ -11,11 +11,15 @@
 
 =========================================================================*/
 
-#include <dtkCore/dtkGlobal.h>
-
 #include <medMessageController.h>
 
-#include <dtkLog/dtkLog.h>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLayout>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QApplication>
+
+#include <dtkCoreSupport/dtkGlobal>
+#include <dtkLog/dtkLog>
 
 // /////////////////////////////////////////////////////////////////
 // medMessage

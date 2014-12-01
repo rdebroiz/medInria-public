@@ -13,8 +13,7 @@
 
 #pragma once
 
-#include <dtkCore/dtkAbstractData.h>
-
+#include <dtkCoreSupport/dtkAbstractData>
 #include <medCoreExport.h>
 
 class medAbstractDataPrivate;

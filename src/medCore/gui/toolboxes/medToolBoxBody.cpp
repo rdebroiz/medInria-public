@@ -12,6 +12,9 @@
 =========================================================================*/
 
 #include <medToolBoxBody.h>
+
+#include <QtWidgets/QGridLayout>
+
 #include <medToolBoxTab.h>
 
 class medToolBoxBodyPrivate

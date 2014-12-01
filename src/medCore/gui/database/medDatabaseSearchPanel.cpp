@@ -13,7 +13,11 @@
 
 #include <medDatabaseSearchPanel.h>
 
-#include <QtGui>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
 
 class medDatabaseSearchPanelPrivate
 {

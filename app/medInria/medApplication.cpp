@@ -17,10 +17,10 @@
 
 #include <QtGui>
 
-#include <dtkCore/dtkGlobal.h>
+#include <dtkCoreSupport/dtkGlobal.h>
 #include <dtkLog/dtkLog.h>
-#include <dtkCore/dtkAbstractDataFactory.h>
-#include <dtkCore/dtkAbstractData.h>
+#include <dtkCoreSupport/dtkAbstractDataFactory.h>
+#include <dtkCoreSupport/dtkAbstractData.h>
 
 #include <medPluginManager.h>
 
@@ -84,6 +84,7 @@ medApplication::medApplication(int & argc, char**argv) :
     // set style
     medStyleSheetParser parser(dtkReadFile(":/medInria.qss"));
     this->setStyleSheet(parser.result());
+    this->setStyle("fusion");
 
     //  Redirect msgs to the logs
     connect(medPluginManager::instance(), SIGNAL(loadError(const QString &)),

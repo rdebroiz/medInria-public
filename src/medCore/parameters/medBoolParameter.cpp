@@ -13,10 +13,10 @@
 
 #include <medBoolParameter.h>
 
-#include <QIcon>
-#include <QPushButton>
-#include <QCheckBox>
-#include <QRadioButton>
+#include <QtGui/QIcon>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QRadioButton>
 
 class medBoolParameterPrivate
 {

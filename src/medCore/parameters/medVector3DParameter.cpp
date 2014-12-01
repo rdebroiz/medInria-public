@@ -12,7 +12,7 @@
 =========================================================================*/
 
 #include "medVector3DParameter.h"
-#include <QVector3D>
+#include <QtGui/QVector3D>
 
 class medVector3DParameterPrivate
 {

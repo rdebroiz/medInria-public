@@ -12,5 +12,9 @@
 ################################################################################
 
 add_subdirectory(medInria)
-add_subdirectory(medPluginGenerator)
+
+option(MEDINRIA_BUILD_TOOLS "Build tools" OFF)
+if(MEDINRIA_BUILD_TOOLS)
+  add_subdirectory(medPluginGenerator)
+endif()
 

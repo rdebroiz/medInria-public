@@ -13,9 +13,9 @@
 
 #pragma once
 
-#include <medCoreExport.h>
 #include <medSettingsWidget.h>
-#include <QWidget>
+
+#include <medCoreExport.h>
 
 class medSystemSettingsWidgetPrivate;
 

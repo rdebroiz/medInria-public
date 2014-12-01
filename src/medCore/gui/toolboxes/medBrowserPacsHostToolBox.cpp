@@ -13,7 +13,11 @@
 
 #include <medBrowserPacsHostToolBox.h>
 
-#include <QtGui>
+#include <QtCore/QSettings>
+#include <QtGui/QValidator>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
 
 #include <iostream>
 

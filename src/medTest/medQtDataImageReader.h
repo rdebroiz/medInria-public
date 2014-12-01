@@ -13,9 +13,11 @@
 
 #pragma once
 
-#include <medTestExport.h>
+#include <dtkCoreSupport/dtkAbstractDataReader>
 
-#include <dtkCore/dtkAbstractDataReader.h>
+#include <QtGui/QImageReader>
+
+#include <medTestExport.h>
 
 class dtkAbstractDataImage;
 

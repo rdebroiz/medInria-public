@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <QtGui>
+#include <QtWidgets/QWidget>
 
 
 class medBrowserAreaPrivate;

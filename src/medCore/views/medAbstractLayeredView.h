@@ -17,7 +17,7 @@
 
 #include <medCoreExport.h>
 
-#include <dtkCore/dtkSmartPointer.h>
+#include <dtkCoreSupport/dtkSmartPointer>
 
 #include <medAbstractLayeredViewInteractor.h>
 #include <medAbstractLayeredViewNavigator.h>

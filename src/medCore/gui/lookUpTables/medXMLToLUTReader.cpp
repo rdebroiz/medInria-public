@@ -13,8 +13,11 @@
 
 #include <medXMLToLUTReader.h>
 
-#include <QXmlStreamReader>
-#include <QStringList>
+#include <QtCore/QXmlStreamReader>
+#include <QtCore/QStringList>
+#include <QtCore/QDebug>
+
+
 
 class medXMLToLUTReaderPrivate{
 public:

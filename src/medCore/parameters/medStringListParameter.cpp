@@ -13,7 +13,7 @@
 
 #include <medStringListParameter.h>
 
-#include <QComboBox>
+#include <QtWidgets/QComboBox>
 #include <QDebug>
 
 

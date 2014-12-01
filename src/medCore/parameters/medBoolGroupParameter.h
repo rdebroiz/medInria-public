@@ -17,7 +17,7 @@
 
 #include <medCoreExport.h>
 
-#include <QBoxLayout>
+#include <QtWidgets/QBoxLayout>
 
 class QWidget;
 

@@ -70,7 +70,7 @@ endif()
 ## add library
 ## #############################################################################
 
-qt4_add_resources(${PROJECT_NAME}_QRC
+qt5_add_resources(${PROJECT_NAME}_QRC
   ${${PROJECT_NAME}_QRC}
   )
 
@@ -86,7 +86,8 @@ add_library(${PROJECT_NAME} SHARED
 ## #############################################################################
 set(LINK_LIBRARIES
     dtkCore
-    dtkGui
+    dtkCoreSupport
+    dtkGuiSupport
     dtkLog
     )
 

@@ -11,10 +11,15 @@
 
 =========================================================================*/
 
+#include <medCompositeDataSetImporterSelectorToolBox.h>
+
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QPushButton>
+
 #include <medMessageController.h>
 #include <medToolBoxFactory.h>
 #include <medToolBoxHeader.h>
-#include <medCompositeDataSetImporterSelectorToolBox.h>
 #include <medCompositeDataSetImporterAbstractToolBox.h>
 
 class medCompositeDataSetImporterSelectorToolBoxPrivate

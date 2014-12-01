@@ -13,10 +13,8 @@
 
 #include <medSystemSettingsWidget.h>
 
-#include <QWidget>
-#include <QtGui>
-#include <QDir>
-#include <QtCore>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QFormLayout>
 
 #include <medPluginManager.h>
 #include <medSettingsManager.h>

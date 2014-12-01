@@ -15,7 +15,7 @@
 
 #include <medCoreExport.h>
 
-#include <QtGui>
+#include <QtWidgets/QFrame>
 
 class medToolBoxHeaderPrivate;
 class medButton;

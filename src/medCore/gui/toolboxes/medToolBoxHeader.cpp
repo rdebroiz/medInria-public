@@ -12,9 +12,13 @@
 =========================================================================*/
 
 #include <medToolBoxHeader.h>
-#include <medButton.h>
 
-#include <dtkCore/dtkGlobal.h>
+#include <QtGui/QPainter>
+#include <QtWidgets/QBoxLayout>
+
+#include <dtkCoreSupport/dtkGlobal>
+
+#include <medButton.h>
 
 class medToolBoxHeaderPrivate
 {

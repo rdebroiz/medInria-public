@@ -19,7 +19,7 @@
 #include <QtSql>
 
 #include <medAbstractData.h>
-#include <dtkCore/dtkSmartPointer.h>
+#include <dtkCoreSupport/dtkSmartPointer.h>
 
 #include <medAbstractJob.h>
 #include <medDataIndex.h>

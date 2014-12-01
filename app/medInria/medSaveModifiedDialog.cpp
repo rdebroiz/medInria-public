@@ -11,13 +11,15 @@
 
 =========================================================================*/
 
+#include <medSaveModifiedDialog.h>
+
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
+
 #include <medDatabaseNonPersistentController.h>
 #include <medDatabaseNonPersistentItem.h>
 #include <medDataIndex.h>
-
-#include <QtGui>
-
-#include <medSaveModifiedDialog.h>
 
 class medSaveModifiedDialogPrivate
 {

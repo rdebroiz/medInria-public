@@ -13,14 +13,16 @@
 
 #include <medAbstractData.h>
 
+#include <QtWidgets/QApplication>
+
+#include <dtkCoreSupport/dtkSmartPointer>
+
 #include <medDataIndex.h>
 #include <medAttachedData.h>
 #include <medAbstractLayeredView.h>
 #include <medViewFactory.h>
 #include <medAbstractImageView.h>
 #include <medDatabaseThumbnailHelper.h>
-
-#include <dtkCore/dtkSmartPointer.h>
 
 class medAbstractDataPrivate
 {

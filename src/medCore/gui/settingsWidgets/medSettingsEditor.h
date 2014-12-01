@@ -13,9 +13,10 @@
 
 #pragma once
 
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QTabWidget>
+
 #include <medCoreExport.h>
-#include <QWidget>
-#include <QTabWidget>
 
 class medSettingsEditorPrivate;
 

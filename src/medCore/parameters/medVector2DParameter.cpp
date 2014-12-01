@@ -12,7 +12,7 @@
 =========================================================================*/
 
 #include "medVector2DParameter.h"
-#include <QVector2D>
+#include <QtGui/QVector2D>
 
 class medVector2DParameterPrivate
 {

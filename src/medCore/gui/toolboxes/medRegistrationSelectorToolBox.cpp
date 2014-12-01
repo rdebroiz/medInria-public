@@ -13,32 +13,32 @@
 
 #include <medRegistrationSelectorToolBox.h>
 
-#include <dtkCore/dtkAbstractViewFactory.h>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QMessageBox>
+
+#include <dtkCoreSupport/dtkAbstractProcessFactory>
+#include <dtkCoreSupport/dtkAbstractProcess>
+#include <dtkCoreSupport/dtkAbstractViewInteractor>
+#include <dtkCoreSupport/dtkSmartPointer>
+
 #include <medAbstractDataFactory.h>
 #include <medAbstractData.h>
-#include <dtkCore/dtkAbstractProcessFactory.h>
-#include <dtkCore/dtkAbstractProcess.h>
-#include <dtkCore/dtkAbstractViewInteractor.h>
-#include <dtkCore/dtkSmartPointer.h>
-
 #include <medDataManager.h>
 #include <medJobManager.h>
 #include <medMessageController.h>
-
 #include <medAbstractView.h>
 #include <medAbstractImageView.h>
 #include <medAbstractEstimateTransformationProcess.h>
-
 #include <medAbstractImageData.h>
 #include <medToolBoxTab.h>
 #include <medToolBoxFactory.h>
 #include <medToolBoxHeader.h>
 #include <medProgressionStack.h>
-
 #include <medRegistrationAbstractToolBox.h>
-
-
-#include <QtGui>
 
 class medRegistrationSelectorToolBoxPrivate
 {

@@ -13,7 +13,9 @@
 
 #include <medPoolIndicator.h>
 
-#include <QtGui>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtGui/QPixmap>
 
 class medPoolIndiactorPrivate
 {

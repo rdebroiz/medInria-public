@@ -12,7 +12,7 @@
 ################################################################################
 
 macro(set_lib_install_rules
-  project_name
+  target
   headers_list
   )
 
@@ -24,12 +24,23 @@ macro(set_lib_install_rules
 #
 ################################################################################
 
+qt5_use_modules(${target} Declarative)
+qt5_use_modules(${target} Core)
+qt5_use_modules(${target} Gui)
+qt5_use_modules(${target} Quick)
+qt5_use_modules(${target} Widgets)
+qt5_use_modules(${target} Sql)
+qt5_use_modules(${target} Network)
+qt5_use_modules(${target} Xml)
+qt5_use_modules(${target} OpenGL)
+
+
 set(MEDINRIA_BINARY_DIR
-  ${${project_name}_BINARY_DIR}/lib
+  ${${target}_BINARY_DIR}/lib
   ${MEDINRIA_BINARY_DIR}
   )
 
-install(TARGETS ${project_name}
+install(TARGETS ${target}
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -42,9 +53,9 @@ install(TARGETS ${project_name}
 
 if(${ARGC} GREATER 1)
   set(headers ${ARGV})
-  list(REMOVE_ITEM headers ${project_name})
+  list(REMOVE_ITEM headers ${target})
   install(FILES ${headers}
-    DESTINATION include/${project_name}
+    DESTINATION include/${target}
     )
 endif()
 

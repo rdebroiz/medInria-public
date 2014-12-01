@@ -13,9 +13,11 @@
 
 #pragma once
 
-#include <QtGui/QMainWindow>
-#include <QUuid>
-#include <QUrl>
+#include <QtWidgets/QMainWindow>
+
+#include <QtCore/QUuid>
+#include <QtCore/QUrl>
+
 class medDataIndex;
 class medMainWindowPrivate;
 

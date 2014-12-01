@@ -13,15 +13,16 @@
 
 #pragma once
 
-#include <medCoreExport.h>
-#include <QtGui>
-
 #include <medAbstractParameterGroup.h>
 
+#include <QtWidgets/QPushButton>
+
+#include <medCoreExport.h>
+
+class QListWidgetItem;
+class QPaintEvent;
 
 class medLinkMenuPrivate;
-
-
 class MEDCORE_EXPORT medLinkMenu : public QPushButton
 {
     Q_OBJECT

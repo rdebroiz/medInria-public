@@ -12,16 +12,24 @@
 =========================================================================*/
 
 #include <medDatabaseView.h>
+
+#include <QtCore/QSortFilterProxyModel>
+#include <QtCore/QAbstractItemModel>
+#include <QtGui/QFontMetrics>
+#include <QtGui/QPen>
+#include <QtGui/QPainter>
+#include <QtWidgets/QStyledItemDelegate>
+#include <QtWidgets/QHeaderView>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMessageBox>
+
 #include <medDataManager.h>
 #include <medAbstractDatabaseItem.h>
 #include <medAbstractDbController.h>
 #include <medDatabaseEditItemDialog.h>
-
 #include <medAbstractDataFactory.h>
 
-#include <QSortFilterProxyModel>
-#include <QAbstractItemModel>
-#include <QFontMetrics>
 
 class NoFocusDelegate : public QStyledItemDelegate
 {

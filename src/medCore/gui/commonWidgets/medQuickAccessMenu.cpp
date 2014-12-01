@@ -12,6 +12,17 @@
 =========================================================================*/
 
 #include <medQuickAccessMenu.h>
+
+#include <QtGui/QFocusEvent>
+#include <QtGui/QKeyEvent>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
+
 #include <medWorkspaceFactory.h>
 #include <medSettingsManager.h>
 

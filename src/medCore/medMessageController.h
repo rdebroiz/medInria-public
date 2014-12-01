@@ -13,8 +13,9 @@
 
 #pragma once
 
-#include <QtCore>
-#include <QtGui>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QProgressBar>
 
 #include <medCoreExport.h>
 

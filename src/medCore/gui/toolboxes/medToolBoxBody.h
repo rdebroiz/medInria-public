@@ -15,8 +15,7 @@
 
 #include <medCoreExport.h>
 
-#include <QtGui>
-
+#include <QtWidgets/QFrame>
 class medToolBoxBodyPrivate;
 class medToolBoxTab;
 

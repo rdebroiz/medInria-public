@@ -13,8 +13,11 @@
 
 #include <medAbstractWorkspace.h>
 
-#include <QUuid>
-#include <QWidgetAction>
+#include <QtCore/QUuid>
+#include <QtWidgets/QWidgetAction>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QVBoxLayout>
 
 #include <medDataIndex.h>
 #include <medSettingsManager.h>

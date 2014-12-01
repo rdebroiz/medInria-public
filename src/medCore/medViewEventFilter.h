@@ -18,11 +18,14 @@
 // /////////////////////////////////////////////////////////////////
 
 
-#include <dtkCore/dtkAbstractObject.h>
+#include <dtkCoreSupport/dtkAbstractObject>
 
 #include <medCoreExport.h>
 
 //Forward declarations
+class QGraphicsSceneMouseEvent;
+class QMouseEvent;
+
 class medAbstractView;
 class medAbstractViewScene;
 class medSegmentationSelectorToolBox;

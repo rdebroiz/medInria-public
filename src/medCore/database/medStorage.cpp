@@ -15,8 +15,8 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
+#include <QtCore/QStandardPaths>
 
-#include <QtGui/QDesktopServices>
 #include <medSettingsManager.h>
 
 QString medStorage::m_dataLocation = NULL;
@@ -56,11 +56,12 @@ QString medStorage::dataLocation(void)
         if ( vDbLoc.isEmpty() )
         {
 #ifdef Q_WS_MAC
-            vDbLoc = QString(QDesktopServices::storageLocation(QDesktopServices::DataLocation))
+            vDbLoc = QString(QStandardPaths::standardLocations(QDesktopServices::DataLocation).first())
                 .remove(QCoreApplication::applicationName())
                 .append(QCoreApplication::applicationName());
 #else
-            vDbLoc = QString(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+            vDbLoc = QString(QStandardPaths::standardLocations(QStandardPaths::DataLocation).first());
+            //TODO not really sure of what i'm doing here...
 #endif
         }
         setDataLocation(vDbLoc);

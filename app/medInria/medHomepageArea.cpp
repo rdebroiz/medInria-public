@@ -12,10 +12,20 @@
 =========================================================================*/
 
 #include <medHomepageArea.h>
+
+#include <QtGui/QDesktopServices>
+#include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QTextBrowser>
+
+
 #ifdef MEDINRIA_HAS_REVISIONS
     #include <medRevisions.h>
 #endif
-
 #include <medHomepageButton.h>
 #include <medAbstractWorkspace.h>
 #include <medToolBoxFactory.h>

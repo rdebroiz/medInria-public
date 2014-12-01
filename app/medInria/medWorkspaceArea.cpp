@@ -14,14 +14,17 @@
 #include "medWorkspaceArea.h"
 #include "medWorkspaceArea_p.h"
 
+#include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QPushButton>
+
+#include <dtkCoreSupport/dtkGlobal>
+//#include <dtkVr/dtkVrHeadRecognizer.h>
+//#include <dtkVr/dtkVrGestureRecognizer.h>
 
 #include <medAbstractDataFactory.h>
 #include <medAbstractData.h>
-#include <dtkCore/dtkGlobal.h>
-
-#include <dtkVr/dtkVrHeadRecognizer.h>
-#include <dtkVr/dtkVrGestureRecognizer.h>
-
 #include <medAbstractDbController.h>
 #include <medSettingsManager.h>
 #include <medDataIndex.h>
@@ -33,22 +36,17 @@
 #include <medAbstractImageView.h>
 #include <medViewContainerSplitter.h>
 #include <medViewContainer.h>
-
 #include <medDatabaseNonPersistentController.h>
 #include <medDatabaseController.h>
-
 #include <medToolBox.h>
 #include <medToolBoxContainer.h>
 #include <medViewContainer.h>
 #include <medWorkspaceFactory.h>
 #include <medTabbedViewContainers.h>
-
 #include "medDatabaseDataSource.h"
 #include "medDataSourceManager.h"
 #include <medParameterGroupManager.h>
 
-#include <QtGui>
-#include <QGLWidget>
 
 
 medWorkspaceArea::medWorkspaceArea(QWidget *parent) : QWidget(parent), d(new medWorkspaceAreaPrivate)

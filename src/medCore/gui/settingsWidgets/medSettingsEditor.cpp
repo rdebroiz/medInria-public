@@ -14,10 +14,8 @@
 #include <medSettingsEditor.h>
 
 
-#include <QtGui>
-#include <QWidget>
 
-#include <dtkGui/dtkSettingsEditor.h>
+#include <dtkGuiSupport/dtkSettingsEditor>
 
 #include <medMessageController.h>
 #include <medSystemSettingsWidget.h>

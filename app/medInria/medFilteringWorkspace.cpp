@@ -13,7 +13,7 @@
 
 #include <medFilteringWorkspace.h>
 
-#include <dtkCore/dtkAbstractProcessFactory.h>
+#include <QtWidgets/QLabel>
 
 #include <medMetaDataKeys.h>
 #include <medProcessSelectorToolBox.h>
@@ -23,15 +23,11 @@
 #include <medFilteringAbstractToolBox.h>
 #include <medAbstractData.h>
 #include <medDataManager.h>
-
 #include <medJobManager.h>
-
 #include <medAbstractView.h>
 #include <medAbstractLayeredView.h>
-
 #include <medViewParameterGroup.h>
 #include <medLayerParameterGroup.h>
-
 #include <medAbstractFilteringProcess.h>
 #include <medTriggerParameter.h>
 #include <medViewContainerSplitter.h>

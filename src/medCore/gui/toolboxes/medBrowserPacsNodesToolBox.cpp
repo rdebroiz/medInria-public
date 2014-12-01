@@ -13,7 +13,17 @@
 
 #include <medBrowserPacsNodesToolBox.h>
 
-#include <QSettings>
+#include <QtCore/QSettings>
+#include <QtGui/QIntValidator>
+#include <QtGui/QValidator>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QTableWidget>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QFormLayout>
+
+
 
 class medBrowserPacsNodesToolBoxPrivate
 {

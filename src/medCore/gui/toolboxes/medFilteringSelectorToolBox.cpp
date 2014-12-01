@@ -12,15 +12,16 @@
 =========================================================================*/
 
 #include <medFilteringSelectorToolBox.h>
-#include <medFilteringAbstractToolBox.h>
 
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QVBoxLayout>
+
+#include <medFilteringAbstractToolBox.h>
 #include <medToolBoxFactory.h>
 #include <medDropSite.h>
 #include <medToolBoxHeader.h>
-
 #include <medDataManager.h>
 #include <medAbstractView.h>
-
 #include <medAbstractData.h>
 
 

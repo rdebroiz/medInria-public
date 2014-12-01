@@ -13,14 +13,14 @@
 
 #pragma once
 
-#include <medTestExport.h>
+#include <dtkCoreSupport/dtkAbstractDataWriter>
 
-#include <dtkCore/dtkAbstractDataWriter.h>
+#include <medTestExport.h>
 
 /** A concrete implementation of a dtkAbstractDataWriter for use in testing. */
 class MEDTEST_EXPORT medQtDataImageWriter : public dtkAbstractDataWriter
 {
-    Q_OBJECT;
+    Q_OBJECT
 public:
     medQtDataImageWriter();
     virtual ~medQtDataImageWriter();

@@ -14,7 +14,7 @@
 #include <medDatabaseExporter.h>
 
 #include <medAbstractData.h>
-#include <dtkCore/dtkAbstractDataWriter.h>
+#include <dtkCoreSupport/dtkAbstractDataWriter>
 #include <medAbstractDataFactory.h>
 
 class medDatabaseExporterPrivate

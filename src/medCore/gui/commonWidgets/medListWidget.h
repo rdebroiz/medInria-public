@@ -13,9 +13,9 @@
 
 #pragma once
 
+#include <QtWidgets/QListWidget>
+
 #include <medCoreExport.h>
-#include <QtGui>
-#include <QDebug>
 
 /**
   * QListWidget doesn't seem to be able to resize itself to its content

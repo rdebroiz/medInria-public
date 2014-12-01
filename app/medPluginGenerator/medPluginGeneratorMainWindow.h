@@ -13,7 +13,8 @@
 
 #pragma once
 
-#include <QtGui>
+#include <QtCore>
+#include <QtWidgets>
 
 class medPluginGeneratorMainWindowPrivate;
 

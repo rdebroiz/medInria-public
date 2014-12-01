@@ -16,8 +16,6 @@
 #include <medAbstractParameterGroup.h>
 #include <medViewParameterGroup.h>
 #include <medLayerParameterGroup.h>
-
-#include <QApplication>
 #include <medAbstractWorkspace.h>
 
 

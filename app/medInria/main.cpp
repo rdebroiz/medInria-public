@@ -12,16 +12,13 @@
 =========================================================================*/
 
 #include <QtGui>
-#include <QtOpenGL>
+#include <QtOpenGL/QtOpenGL>
 #include <QtDebug>
-#include <qdebug.h>
+
+
 #include <medMainWindow.h>
 #include <medApplication.h>
 #include <medSplashScreen.h>
-
-
-#include <dtkCore>
-
 #include <medPluginManager.h>
 #include <medDataIndex.h>
 #include <medDatabaseController.h>
@@ -71,7 +68,7 @@ int main(int argc,char* argv[]) {
 
     // this needs to be done before creating the QApplication object, as per the
     // Qt doc, otherwise there are some edge cases where the style is not fully applied
-    QApplication::setStyle("plastique");
+    QApplication::setStyle("fusion");
     medApplication application(argc,argv);
     medSplashScreen splash(QPixmap(":/pixmaps/medInria-splash.png"));
     setlocale(LC_NUMERIC, "C");
@@ -98,25 +95,25 @@ int main(int argc,char* argv[]) {
     medSettingsManager* mnger = medSettingsManager::instance();
 
     QStringList posargs;
-    for (int i=1;i<application.argc();++i) {
-        const QString arg = application.argv()[i];
-        if (arg.startsWith("--")) {
-            bool valid_option = false;
-            const QStringList options = (QStringList()
-                    << "--fullscreen"
-                    << "--no-fullscreen"
-                    << "--wall"
-                    << "--tracker"
-                    << "--stereo"
-                    << "--view");
-            for (QStringList::const_iterator opt=options.constBegin();opt!=options.constEnd();++opt)
-                if (arg.startsWith(*opt))
-                    valid_option = true;
-            if (!valid_option) { qDebug() << "Ignoring unknown option " << arg; }
-            continue;
-        }
-        posargs.append(arg);
-    }
+//    for (int i=1;i<application.argc();++i) {
+//        const QString arg = application.argv()[i];
+//        if (arg.startsWith("--")) {
+//            bool valid_option = false;
+//            const QStringList options = (QStringList()
+//                    << "--fullscreen"
+//                    << "--no-fullscreen"
+//                    << "--wall"
+//                    << "--tracker"
+//                    << "--stereo"
+//                    << "--view");
+//            for (QStringList::const_iterator opt=options.constBegin();opt!=options.constEnd();++opt)
+//                if (arg.startsWith(*opt))
+//                    valid_option = true;
+//            if (!valid_option) { qDebug() << "Ignoring unknown option " << arg; }
+//            continue;
+//        }
+//        posargs.append(arg);
+//    }
 
     const bool DirectView = dtkApplicationArgumentsContain(&application,"--view") || posargs.size()!=0;
     int runningMedInria = 0;

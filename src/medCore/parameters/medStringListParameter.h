@@ -14,7 +14,8 @@
 #pragma once
 
 #include <medAbstractParameter.h>
-#include <QIcon>
+
+#include <QtGui/QIcon>
 
 #include <medCoreExport.h>
 

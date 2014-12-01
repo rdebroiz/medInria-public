@@ -13,11 +13,18 @@
 
 #include <medDatabaseEditItemDialog.h>
 
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QDateEdit>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QApplication>
+
 #include <medDataIndex.h>
 #include <medAbstractDatabaseItem.h>
-
-#include <QtGui>
-
 
 class medDatabaseEditItemDialogPrivate
 {

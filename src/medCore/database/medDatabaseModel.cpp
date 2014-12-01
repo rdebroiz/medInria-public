@@ -11,11 +11,8 @@
 
 =========================================================================*/
 
-#include <QtGui>
-#include <QtCore>
-#include <QtSql>
 
-#include <dtkCore/dtkGlobal.h>
+#include <dtkCoreSupport/dtkGlobal.h>
 #include <dtkLog/dtkLog.h>
 
 #include <medDatabaseController.h>
@@ -510,6 +507,7 @@ bool medDatabaseModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 
 void medDatabaseModel::repopulate(void)
 {
+    beginResetModel();
     beginRemoveRows(QModelIndex(),0,rowCount());
     if (rowCount() > 0)
         this->removeRows(0, this->rowCount(QModelIndex()), QModelIndex());
@@ -519,7 +517,7 @@ void medDatabaseModel::repopulate(void)
     populate(d->root);
     endInsertRows();
 
-    reset();
+    endResetModel();
 }
 
 //! Model population.

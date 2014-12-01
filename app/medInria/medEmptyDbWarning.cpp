@@ -13,9 +13,14 @@
 
 #include <medEmptyDbWarning.h>
 
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+
 #include<medSettingsManager.h>
 
-#include <QtGui>
 
 class medEmptyDbWarningPrivate
 {

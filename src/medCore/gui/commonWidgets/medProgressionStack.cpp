@@ -13,8 +13,9 @@
 
 #include <medProgressionStack.h>
 
-#include <QtCore>
-#include <QtGui>
+#include <QtWidgets/QWidget>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QVBoxLayout>
 
 #include <medAbstractJob.h>
 #include <medMessageController.h>

@@ -11,16 +11,27 @@
 
 =========================================================================*/
 
-#include <medAbstractData.h>
-#include <medAbstractImageData.h>
-#include <dtkCore/dtkAbstractView.h>
-#include <medAbstractImageView.h>
-#include <medStorage.h>
 #include <medClutEditor.h>
 
 #include <math.h>
 #include <limits>
 
+#include <dtkCoreSupport/dtkAbstractView>
+
+#include <QtGui/QWheelEvent>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
+#include <QtWidgets/QColorDialog>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QPushButton>
+
+#include <medAbstractData.h>
+#include <medAbstractImageData.h>
+#include <medAbstractImageView.h>
+#include <medStorage.h>
 #include <medLUTToXMLWriter.h>
 #include <medXMLToLUTReader.h>
 #include <medSaveLUTDialog.h>

@@ -12,7 +12,14 @@
 =========================================================================*/
 
 #include <medSplashScreen.h>
-#include <dtkCore/dtkPlugin.h>
+
+#include <dtkCoreSupport/dtkPlugin>
+
+#include <QtGui/QPixmap>
+#include <QtGui/QPainter>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QDesktopWidget>
+
 #include <medPluginManager.h>
 
 class medSplashScreenPrivate {

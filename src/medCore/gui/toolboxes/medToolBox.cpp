@@ -11,19 +11,21 @@
 
 =========================================================================*/
 
-#include <medAbstractData.h>
-
-#include <medAbstractView.h>
-
 #include <medToolBox.h>
+
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QDialog>
+#include <QtWidgets/QPushButton>
+
+#include <dtkCoreSupport/dtkGlobal>
+#include <dtkCoreSupport/dtkPlugin>
+#include <dtkGuiSupport/dtkAboutPlugin>
+
 #include <medToolBoxHeader.h>
 #include <medToolBoxBody.h>
 #include <medToolBoxTab.h>
 #include <medButton.h>
 
-#include <dtkCore/dtkGlobal.h>
-#include <dtkCore/dtkPlugin>
-#include <dtkGui/dtkAboutPlugin.h>
 
 class medToolBoxPrivate
 {
@@ -50,7 +52,6 @@ medToolBox::medToolBox(QWidget *parent) : QWidget(parent), d(new medToolBoxPriva
     d->isContextVisible = false;
     d->aboutPluginVisibility = false;
     d->plugin= NULL;
-
 
     d->layout = new QVBoxLayout(this);
     d->layout->setContentsMargins(0, 0, 0, 0);

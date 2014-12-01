@@ -13,7 +13,7 @@
 
 #include <medLayoutChooser.h>
 
-#include <QtGui>
+#include <QtWidgets/QHeaderView>
 
 class medLayoutChooserPrivate
 {

@@ -13,8 +13,8 @@
 
 #include <medTriggerParameter.h>
 
-#include <QIcon>
-#include <QPushButton>
+#include <QtGui/QIcon>
+#include <QtWidgets/QPushButton>
 
 class medTriggerParameterPrivate
 {

@@ -13,6 +13,16 @@
 
 #include <medLinkMenu.h>
 
+#include <QtGui/QPaintEvent>
+#include <QtGui/QPainter>
+#include <QtGui/QColor>
+#include <QtWidgets/QGraphicsDropShadowEffect>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QColorDialog>
+
+
 #include <medListWidget.h>
 #include <medSettingsManager.h>
 
@@ -128,8 +138,10 @@ medLinkMenu::medLinkMenu(QWidget * parent) : QPushButton(parent), d(new medLinkM
     d->newGroupEdit->installEventFilter(this);
     d->saveAsPresetButton->installEventFilter(this);
     d->presetList->installEventFilter(this);
-    if(qApp->activeWindow())
-      qApp->activeWindow()->installEventFilter(this);
+
+    //TODO FIX this.
+//    if(qApp->activeWindow())
+//      qApp->activeWindow()->installEventFilter(this);
 }
 
 medLinkMenu::~medLinkMenu()
@@ -489,10 +501,11 @@ bool medLinkMenu::eventFilter(QObject *object, QEvent *event)
             hideMenus();
         }
     }
-    else if(object == qApp->activeWindow() && event->type() == QEvent::Move)
-    {
-        hideMenus();
-    }
+    //TODO FIx this as well.
+//    else if(object == qApp->activeWindow() && event->type() == QEvent::Move)
+//    {
+//        hideMenus();
+//    }
     else if(object == d->presetList && event->type() == QEvent::Leave)
     {
         d->presetList->clearSelection();

@@ -13,10 +13,11 @@
 
 #pragma once
 
-#include <medCoreExport.h>
 #include <medHomepageButton.h>
 
-#include <QtGui>
+#include <medCoreExport.h>
+
+class QFrame;
 
 class MEDCORE_EXPORT medQuickAccessMenu : public QWidget
 {

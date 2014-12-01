@@ -50,8 +50,8 @@ include_directories(${${PROJECT_NAME}_INCLUDE_DIRS})
 ## Add Exe
 ## #############################################################################
 
-qt4_wrap_ui(${PROJECT_NAME}_UI ${${PROJECT_NAME}_UI})
-qt4_add_resources(${PROJECT_NAME}_QRC ${${PROJECT_NAME}_QRC})
+qt5_wrap_ui(${PROJECT_NAME}_UI ${${PROJECT_NAME}_UI})
+qt5_add_resources(${PROJECT_NAME}_QRC ${${PROJECT_NAME}_QRC})
 
 if (APPLE)
   set(DEPLOYMENT_SYSTEM MACOSX_BUNDLE)
@@ -69,7 +69,8 @@ add_executable(${PROJECT_NAME} ${DEPLOYMENT_SYSTEM}
 ## #############################################################################
 
 target_link_libraries(${PROJECT_NAME}
-  ${QT_LIBRARIES}
+  Qt5::Core
+  Qt5::Widgets
   )
 
 

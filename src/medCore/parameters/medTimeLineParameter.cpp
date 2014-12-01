@@ -15,9 +15,18 @@
 
 #include <math.h>       // floor
 
-#include <QtGui>
+#include <dtkCoreSupport/dtkSignalBlocker>
 
-#include <dtkCore/dtkSignalBlocker.h>
+#include <QtCore/QTimeLine>
+#include <QtCore/QPointer>
+#include <QtGui/QIcon>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QCheckBox>
 
 #include <medIntParameter.h>
 #include <medBoolParameter.h>

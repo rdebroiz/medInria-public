@@ -13,11 +13,13 @@
 
 #pragma once
 
-#include <medCoreExport.h>
-
 #include <medAnnotationData.h>
 
-#include <QVector3D>
+#include <QtGui/QVector3D>
+#include <QtGui/QColor>
+#include <QtWidgets/QFormLayout>
+
+#include <medCoreExport.h>
 
 /** Defines a set of seed points that may be attached to a data
  * One of the points may be in a selected state.

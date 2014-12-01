@@ -13,16 +13,19 @@
 
 #include "medDatabasePreview.h"
 
+#include <QtGui/QPixmap>
+#include <QtGui/QDrag>
+#include <QtGui/QMouseEvent>
+#include <QtWidgets/QGraphicsScene>
+#include <QtWidgets/QGraphicsPixmapItem>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QGraphicsSceneMouseEvent>
+
 #include <medDataIndex.h>
 #include <medAbstractDbController.h>
 #include <medDatabaseController.h>
 #include <medDatabaseNonPersistentController.h>
 #include <medDataManager.h>
-
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QPixmap>
-
 #include <medDatabaseThumbnailHelper.h>
 
 class medDatabasePreviewStaticScenePrivate
@@ -81,9 +84,11 @@ void medDatabasePreviewStaticScene::addImage(const medDataIndex &index)
         return;
 
     QGraphicsPixmapItem *pixmap = new QGraphicsPixmapItem;
-    pixmap->setPixmap(medDataManager::instance()->thumbnail(index));
-    pixmap->scale(d->baseWidth / pixmap->boundingRect().width(),
+    QPixmap pix = medDataManager::instance()->thumbnail(index);
+    pix = pix.scaled(d->baseWidth / pixmap->boundingRect().width(),
                   d->baseHeight / pixmap->boundingRect().height());
+
+    pixmap->setPixmap(pix);
     this->addItem(pixmap);
 
     switch(nbItem)

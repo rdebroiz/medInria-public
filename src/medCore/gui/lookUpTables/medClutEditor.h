@@ -13,9 +13,10 @@
 
 #pragma once
 
-#include <medCoreExport.h>
+#include <QtWidgets/QGraphicsView>
+#include <QtWidgets/qgraphicsitem.h> //It seems that filename is needed for Q_INTERFACES and moc tool :-(
 
-#include <QtGui>
+#include <medCoreExport.h>
 
 class medAbstractData;
 class medAbstractImageView;
@@ -31,7 +32,6 @@ class medClutEditorVertexPrivate;
 class medClutEditorVertex : public QObject, public QGraphicsItem
 {
     Q_OBJECT
-
     Q_INTERFACES(QGraphicsItem)
 
 public:

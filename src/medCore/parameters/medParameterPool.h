@@ -14,9 +14,9 @@
 #pragma once
 
 #include <QObject>
-#include <QColor>
-#include <QVector2D>
-#include <QLabel>
+#include <QtGui/QColor>
+#include <QtGui/QVector2D>
+#include <QtWidgets/QLabel>
 
 #include <medCoreExport.h>
 

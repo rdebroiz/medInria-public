@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <dtkCore/dtkAbstractDataFactory.h>
+#include <dtkCoreSupport/dtkAbstractDataFactory>
 #include <medAbstractData.h>
 
 

@@ -13,12 +13,12 @@
 
 #include <medBoolGroupParameter.h>
 
-#include <QIcon>
-#include <QPushButton>
-#include <QCheckBox>
-#include <QRadioButton>
-#include <QButtonGroup>
-#include <QLabel>
+#include <QtGui/QIcon>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QRadioButton>
+#include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QLabel>
 
 #include <medBoolParameter.h>
 

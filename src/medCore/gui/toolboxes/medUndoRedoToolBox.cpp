@@ -13,6 +13,12 @@
 
 #include <medUndoRedoToolBox.h>
 
+#include <QtGui/QIcon>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QListWidget>
+#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QHBoxLayout>
+
 #include <medAbstractUndoRedoProcess.h>
 #include <medToolBoxFactory.h>
 

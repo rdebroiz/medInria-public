@@ -13,24 +13,19 @@
 
 #include <medProcessSelectorToolBox.h>
 
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QVBoxLayout>
 
-#include <medAbstractData.h>
-#include <dtkCore/dtkSmartPointer.h>
+#include <dtkCoreSupport/dtkSmartPointer>
 
 #include <medDataManager.h>
-
+#include <medAbstractData.h>
 #include <medAbstractView.h>
 #include <medAbstractImageView.h>
 #include <medAbstractImageData.h>
-
 #include <medToolBoxTab.h>
 #include <medToolBoxFactory.h>
 #include <medToolBoxHeader.h>
-
-#include <medRegistrationAbstractToolBox.h>
-
-
-#include <QtGui>
 
 class medProcessSelectorToolBoxPrivate
 {

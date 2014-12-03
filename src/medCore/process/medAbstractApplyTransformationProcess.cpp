@@ -13,6 +13,8 @@
 
 #include <medAbstractApplyTransformationProcess.h>
 
+#include <QtWidgets/QPushButton>
+
 #include <medAbstractImageData.h>
 #include <medToolBox.h>
 #include <medDataSourceDialog.h>

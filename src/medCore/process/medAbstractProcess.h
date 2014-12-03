@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include <dtkCore/dtkAbstractProcess>
+#include <dtkCoreSupport/dtkAbstractProcess>
 
 #ifdef DTK_BUILD_COMPOSER
 #include <dtkComposer/dtkComposerTransmitter>

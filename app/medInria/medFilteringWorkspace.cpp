@@ -15,6 +15,8 @@
 
 #include <QtWidgets/QLabel>
 
+#include <dtkCoreSupport/dtkAbstractProcessFactory>
+
 #include <medMetaDataKeys.h>
 #include <medProcessSelectorToolBox.h>
 #include <medTabbedViewContainers.h>

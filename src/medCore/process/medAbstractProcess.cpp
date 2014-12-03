@@ -13,6 +13,10 @@
 
 #include <medAbstractProcess.h>
 
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QPushButton>
+
 #include <medAbstractParameter.h>
 #include <medToolBox.h>
 #include <medTriggerParameter.h>

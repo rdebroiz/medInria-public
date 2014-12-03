@@ -64,8 +64,20 @@ foreach(dir ${ARGV})
     ${dir}/*.txx
     )
   set(${project_name}_TEMPLATES
-    ${SOURCES}
+    ${TEMPLATES}
     ${${project_name}_TEMPLATES}
+    )
+
+## #############################################################################
+## List all json files and add them to {${project_name}_TEMPLATE
+## #############################################################################
+
+  file(GLOB JSON
+    ${dir}/*.json
+    )
+  set(${project_name}_JSON
+    ${JSON}
+    ${${project_name}_JSON}
     )
 
 
@@ -77,6 +89,7 @@ foreach(dir ${ARGV})
     ${${project_name}_HEADERS}
     ${${project_name}_SOURCES}
     ${${project_name}_TEMPLATES}
+    ${${project_name}_JSON}
     ${${project_name}_CFILES}
     )
 

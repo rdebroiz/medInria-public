@@ -14,10 +14,12 @@
 #pragma once
 
 #include <dtkCoreSupport/dtkAbstractView>
+
 #include <medCoreExport.h>
 
 class medAbstractViewPrivate;
 
+class QUndoStack;
 class medViewBackend;
 class medAbstractData;
 class medAbstractViewNavigator;

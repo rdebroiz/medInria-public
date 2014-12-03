@@ -99,7 +99,6 @@ if(DTK_BUILD_COMPOSER)
 endif()
 
 target_link_libraries(${PROJECT_NAME}
-    ${QT_LIBRARIES}
     ${LINK_LIBRARIES}
     )
 

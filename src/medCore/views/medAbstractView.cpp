@@ -15,6 +15,7 @@
 
 #include <QtCore/QPair>
 #include <QtGui/QMouseEvent>
+#include <QtWidgets/QUndoStack>
 
 #include <dtkCoreSupport/dtkSmartPointer>
 

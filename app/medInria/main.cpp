@@ -11,10 +11,9 @@
 
 =========================================================================*/
 
-#include <QtGui>
-#include <QtOpenGL/QtOpenGL>
-#include <QtDebug>
-
+#include <QtCore/QDebug>
+#include <QtOpenGL/QGLFormat>
+#include <QtWidgets/QMessageBox>
 
 #include <medMainWindow.h>
 #include <medApplication.h>
@@ -69,11 +68,12 @@ int main(int argc,char* argv[]) {
     // this needs to be done before creating the QApplication object, as per the
     // Qt doc, otherwise there are some edge cases where the style is not fully applied
     QApplication::setStyle("fusion");
-    medApplication application(argc,argv);
+    medApplication application(argc, argv);
     medSplashScreen splash(QPixmap(":/pixmaps/medInria-splash.png"));
     setlocale(LC_NUMERIC, "C");
 
-    if (dtkApplicationArgumentsContain(&application, "-h") || dtkApplicationArgumentsContain(&application, "--help")) {
+    if (dtkApplicationArgumentsContain(&application, "-h") || dtkApplicationArgumentsContain(&application, "--help"))
+    {
         qDebug() << "Usage: medInria [--fullscreen|--no-fullscreen] [--stereo] "
         #ifdef ACTIVATE_WALL_OPTION
         "[--wall] [--tracker=URL] "
@@ -85,52 +85,64 @@ int main(int argc,char* argv[]) {
     // Do not show the splash screen in debug builds because it hogs the
     // foreground, hiding all other windows. This makes debugging the startup
     // operations difficult.
+#ifndef NDEBUG
+    bool showSplash = true;
+#else
+    bool showSplash = false;
+#endif
 
-    #if !defined(_DEBUG)
-    bool show_splash = true;
-    #else
-    bool show_splash = false;
-    #endif
-
+    // intanciation of settings manager
     medSettingsManager* mnger = medSettingsManager::instance();
 
+    // parse comand line arguments
     QStringList posargs;
-//    for (int i=1;i<application.argc();++i) {
-//        const QString arg = application.argv()[i];
-//        if (arg.startsWith("--")) {
-//            bool valid_option = false;
-//            const QStringList options = (QStringList()
-//                    << "--fullscreen"
-//                    << "--no-fullscreen"
-//                    << "--wall"
-//                    << "--tracker"
-//                    << "--stereo"
-//                    << "--view");
-//            for (QStringList::const_iterator opt=options.constBegin();opt!=options.constEnd();++opt)
-//                if (arg.startsWith(*opt))
-//                    valid_option = true;
-//            if (!valid_option) { qDebug() << "Ignoring unknown option " << arg; }
-//            continue;
-//        }
-//        posargs.append(arg);
-//    }
+    foreach (QString arg, application.arguments())
+    {
+        if (arg.startsWith("--"))
+        {
+            bool valid_option = false;
+            const QStringList options = (QStringList()
+                    << "--fullscreen"
+                    << "--no-fullscreen"
+                    << "--wall"
+                    << "--tracker"
+                    << "--stereo"
+                    << "--view");
 
-    const bool DirectView = dtkApplicationArgumentsContain(&application,"--view") || posargs.size()!=0;
-    int runningMedInria = 0;
-    if (DirectView) {
-        show_splash = false;
-        for (QStringList::const_iterator i=posargs.constBegin();i!=posargs.constEnd();++i) {
-            const QString& message = QString("/open ")+*i;
+            for (QStringList::const_iterator opt=options.constBegin();opt!=options.constEnd();++opt)
+                if (arg.startsWith(*opt))
+                    valid_option = true;
+
+            if (!valid_option)
+                qDebug() << "Ignoring unknown option " << arg;
+
+            continue;
+        }
+        posargs << arg;
+    }
+
+    // Check QtSingleApplication already exist.
+    // Pipe the comand line args if it is the case.
+    const bool directView = dtkApplicationArgumentsContain(&application,"--view") || !posargs.isEmpty();
+    bool runningMedInria = false;
+    if (directView)
+    {
+        showSplash = false;
+        foreach(QString posarg, posargs)
+        {
+            const QString& message = QString("/open ") + posarg;
             runningMedInria = application.sendMessage(message);
         }
-    } else {
-        runningMedInria = application.sendMessage("");
     }
+    else
+        runningMedInria = application.sendMessage("");
 
     if (runningMedInria)
         return 0;
 
-    if (show_splash) {
+    // Show the splach screen
+    if (showSplash)
+    {
         QObject::connect(medPluginManager::instance(),SIGNAL(loadError(const QString&)),
                          &application,SLOT(redirectMessageToSplash(const QString&)) );
         QObject::connect(medPluginManager::instance(),SIGNAL(loaded(QString)),
@@ -141,9 +153,9 @@ int main(int argc,char* argv[]) {
         splash.showMessage("Loading plugins...");
     }
 
+
     //  DATABASE INITIALISATION.
     //  First compare the current with the new data location
-
     QString currentLocation = medStorage::dataLocation();
 
     //  If the user configured a new location for the database in the settings editor, we'll need to move it
@@ -167,27 +179,34 @@ int main(int argc,char* argv[]) {
         }
     }
     // END OF DATABASE INITIALISATION
+
+    // Plugins initialisation
     medPluginManager::instance()->initialize();
 
-    //Use Qt::WA_DeleteOnClose attribute to be sure to always have only one closeEvent.
+
+    // Main window instanciation.
     medMainWindow *mainwindow = new medMainWindow;
+    //Use Qt::WA_DeleteOnClose attribute to be sure to always have only one closeEvent.
     mainwindow->setAttribute(Qt::WA_DeleteOnClose, true);
 
-    if (DirectView)
-        mainwindow->setStartup(medMainWindow::WorkSpace,posargs);
+    // Setup the gui accordingly to application args.
+    if (directView)
+        mainwindow->setStartup(medMainWindow::WorkSpace, posargs);
 
+    // Detrermine if set fullscreen or not.
     bool fullScreen = medSettingsManager::instance()->value("startup", "fullscreen", false).toBool();
-
     const bool hasFullScreenArg   = application.arguments().contains("--fullscreen");
     const bool hasNoFullScreenArg = application.arguments().contains("--no-fullscreen");
     const bool hasWallArg         = application.arguments().contains("--wall");
-
-    const int conflict = static_cast<int>(hasFullScreenArg)+static_cast<int>(hasNoFullScreenArg)+ static_cast<int>(hasWallArg);
+    const int conflict = static_cast<int>(hasFullScreenArg)
+            + static_cast<int>(hasNoFullScreenArg)
+            + static_cast<int>(hasWallArg);
 
     if (conflict>1)
         dtkWarn() << "Conflicting command line parameters between --fullscreen, --no-fullscreen and -wall. Ignoring.";
     else {
-        if (hasWallArg) {
+        if (hasWallArg)
+        {
             mainwindow->setWallScreen(true);
             fullScreen = false;
         }
@@ -198,11 +217,12 @@ int main(int argc,char* argv[]) {
         if (hasNoFullScreenArg)
             fullScreen = false;
     }
-
     mainwindow->setFullScreen(fullScreen);
 
 
-    if(application.arguments().contains("--stereo")) {
+    // Useless bunch of things for experiments guys.
+    if(application.arguments().contains("--stereo"))
+    {
        QGLFormat format;
        format.setAlpha(true);
        format.setDoubleBuffer(true);
@@ -211,10 +231,12 @@ int main(int argc,char* argv[]) {
        QGLFormat::setDefaultFormat(format);
     }
 
-    if (show_splash)
+    if (showSplash)
         splash.finish(mainwindow);
 
-    if (medPluginManager::instance()->plugins().isEmpty()) {
+    // Check i we are able to load at least one plugin.
+    if (medPluginManager::instance()->plugins().isEmpty())
+    {
         QMessageBox::warning(mainwindow,
                              QObject::tr("No plugin loaded"),
                              QObject::tr("Warning : no plugin loaded successfully."));
@@ -226,10 +248,10 @@ int main(int argc,char* argv[]) {
 
     application.setActivationWindow(mainwindow);
     application.setMainWindow(mainwindow);
-
+    // See begining of the file.
     forceShow(*mainwindow);
 
-    //  Start main loop.
+    // Start main loop.
     const int status = application.exec();
 
     medPluginManager::instance()->uninitialize();

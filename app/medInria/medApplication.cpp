@@ -51,10 +51,10 @@
 #include <medTestWorkspace.h>
 
 #include <medProcessLayer.h>
-#include <medAbstractArithmeticOperationProcess.h>
-
 #include <medGuiLayer.h>
-#include <medAbstractArea.h>
+
+#include <medHomepageArea.h>
+#include <medBrowserArea.h>
 
 class medApplicationPrivate
 {
@@ -143,12 +143,12 @@ void medApplication::redirectMessageToSplash(const QString &message)
 
 void medApplication::open(const medDataIndex & index)
 {
-    d->mainWindow->open(index);
+//    d->mainWindow->open(index);
 }
 
 void medApplication::open(QString path)
 {
-    d->mainWindow->open(path);
+//    d->mainWindow->open(path);
 }
 
 void medApplication::initialize()
@@ -196,6 +196,9 @@ void medApplication::initialize()
     medProcessLayer::pluginManager::initialize(defaultPath);
 
     // gui layer:
-    medGuiLayer::area::pluginManager().setVerboseLoading(true);
     medGuiLayer::area::pluginManager().initialize(defaultPath);
+    medGuiLayer::area::pluginFactory().record(medHomepageArea::staticMetaObject.className(),
+                                              medHomepageAreaCreator);
+    medGuiLayer::area::pluginFactory().record(medBrowserArea::staticMetaObject.className(),
+                                              medBrowserAreaCreator);
 }

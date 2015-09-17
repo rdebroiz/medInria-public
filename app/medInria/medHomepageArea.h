@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -16,9 +16,10 @@
 #include <QtGui>
 #include <QtWidgets>
 
-class medHomepageAreaPrivate;
+#include <medAbstractArea.h>
 
-class medHomepageArea : public QWidget
+class medHomepageAreaPrivate;
+class medHomepageArea : public medAbstractArea
 {
 Q_OBJECT
 public:
@@ -26,10 +27,12 @@ public:
     virtual ~medHomepageArea();
 
     void initPage();
-
     QParallelAnimationGroup * getAnimation();
+    void resizeEvent(QResizeEvent * event);
 
-    void resizeEvent( QResizeEvent * event );
+    virtual QString title() const {return "HomePage";}
+    virtual QString description() const {return "Caca prout";}
+    virtual QIcon icon()  const {return QIcon(":icons/home.png");}
 
 public slots:
     void onShowBrowser();
@@ -62,4 +65,8 @@ private:
     medHomepageAreaPrivate * d;
 };
 
+inline medAbstractArea* medHomepageAreaCreator(void)
+{
+    return new medHomepageArea();
+}
 

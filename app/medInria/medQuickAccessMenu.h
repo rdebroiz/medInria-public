@@ -18,7 +18,10 @@
 
 #include <QtGui>
 
-class MEDCORE_EXPORT medQuickAccessMenu : public QWidget
+class medAbstractArea;
+
+class medQuickAccessMenuPrivate;
+class medQuickAccessMenu : public QWidget
 {
   Q_OBJECT
 public:
@@ -32,33 +35,23 @@ public:
 
     void switchToCurrentlySelected ();
 
+    void addArea(medAbstractArea* area);
+
 protected:
     void focusOutEvent(QFocusEvent * event);
-
     void mouseMoveEvent (QMouseEvent * event);
-
     void keyPressEvent ( QKeyEvent * event );
     void keyReleaseEvent ( QKeyEvent * event );
-
-    void createHorizontalQuickAccessMenu();
-    void createVerticalQuickAccessMenu();
 
     void mouseSelectWidget(unsigned int identifier);
 
 signals:
     void menuHidden();
-    void homepageSelected();
-    void browserSelected();
     void areaSelected(QString);
-    void workspaceSelected(QString);
 
 private:
-    int currentSelected;
+    medQuickAccessMenuPrivate *d;
 
-    QList <medHomepagePushButton *> buttonsList;
-
-    //! Frame for alt-tab like shortcut access menu
-    QFrame *backgroundFrame;
 };
 
 

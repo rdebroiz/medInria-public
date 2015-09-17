@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -16,18 +16,24 @@
 #include <QtGui>
 #include <QtWidgets>
 
+#include <medAbstractArea.h>
+
 class medBrowserAreaPrivate;
 class medAbstractDataSource;
 class medToolBox;
 class medJobItem;
 
-class medBrowserArea : public QWidget
+class medBrowserArea : public medAbstractArea
 {
     Q_OBJECT
 
 public:
      medBrowserArea(QWidget *parent = 0);
     ~medBrowserArea();
+
+     virtual QString title() const {return "Browser";}
+     virtual QString description() const {return "Pipi caca";}
+     virtual QIcon icon() const {return QIcon(":icons/folder.png");}
 
 public slots:
     void onSourceIndexChanged(int index);
@@ -52,3 +58,8 @@ protected:
 private:
     medBrowserAreaPrivate *d;
 };
+
+inline medAbstractArea* medBrowserAreaCreator(void)
+{
+    return new medBrowserArea();
+}

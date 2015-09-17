@@ -28,4 +28,5 @@ public:
 
     virtual QString title() const = 0;
     virtual QString description() const = 0;
+    virtual QIcon icon() const = 0;
 };

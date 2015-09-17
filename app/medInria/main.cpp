@@ -26,6 +26,8 @@
 #include <medSettingsManager.h>
 #include <medStorage.h>
 
+#include <medHomepageArea.h>
+
 void forceShow(medMainWindow& mainwindow )
 {
     //Idea and code taken from the OpenCOR project, Thanks Allan for the code!
@@ -180,8 +182,8 @@ int main(int argc,char* argv[])
     medMainWindow *mainwindow = new medMainWindow;
     mainwindow->setAttribute(Qt::WA_DeleteOnClose, true);
 
-    if (DirectView)
-        mainwindow->setStartup(medMainWindow::WorkSpace,posargs);
+//    if (DirectView)
+//        mainwindow->setUp(medHomepageArea::staticMetaObject.className(), posargs);
 
     bool fullScreen = medSettingsManager::instance()->value("startup", "fullscreen", false).toBool();
 
@@ -193,11 +195,8 @@ int main(int argc,char* argv[])
 
     if (conflict>1)
         dtkWarn() << "Conflicting command line parameters between --fullscreen, --no-fullscreen and -wall. Ignoring.";
-    else {
-        if (hasWallArg) {
-            mainwindow->setWallScreen(true);
-            fullScreen = false;
-        }
+    else
+    {
 
         if (hasFullScreenArg)
             fullScreen = true;
@@ -206,7 +205,7 @@ int main(int argc,char* argv[])
             fullScreen = false;
     }
 
-    mainwindow->setFullScreen(fullScreen);
+//    mainwindow->setFullScreen(fullScreen);
 
 
     if(application.arguments().contains("--stereo")) {

@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -47,7 +47,8 @@ public:
     QParallelAnimationGroup * animation;
 };
 
-medHomepageArea::medHomepageArea ( QWidget * parent ) : QWidget ( parent ), d ( new medHomepageAreaPrivate )
+medHomepageArea::medHomepageArea(QWidget * parent): medAbstractArea(parent),
+    d(new medHomepageAreaPrivate)
 {
     //Setup navigation widget (with buttons for accessing available workspaces)
     d->navigationWidget = new QWidget ( this );
@@ -159,18 +160,18 @@ medHomepageArea::medHomepageArea ( QWidget * parent ) : QWidget ( parent ), d ( 
     medInriaLabel2->setPixmap ( medLogo );
 
     QTextEdit * aboutTextEdit = new QTextEdit(this);
-    
+
     QString aboutText = QString(tr("<br/><br/>"
                       "medInria %1 is a medical imaging platform developed at "
                       "Inria<br/><br/>"
                       "<center>Inria, Copyright 2013</center>"))
                       .arg(qApp->applicationVersion());
-    
+
 #ifdef MEDINRIA_HAS_REVISIONS
     aboutText += QString::fromLocal8Bit(REVISIONS);
 #endif
 
-    
+
     aboutTextEdit->setHtml (aboutText);
     aboutTextEdit->setFocusPolicy ( Qt::NoFocus );
 

@@ -28,7 +28,7 @@
 
 #include <medHomepageArea.h>
 
-void forceShow(medMainWindow& mainwindow )
+void forceShow(medMainWindow& mainwindow)
 {
     //Idea and code taken from the OpenCOR project, Thanks Allan for the code!
 
@@ -227,13 +227,14 @@ int main(int argc,char* argv[])
     }
 
     // Handle file associations open requests that were not handled in the application
-    QObject::connect(&application,SIGNAL(messageReceived(const QString&)),
-                     mainwindow,SLOT(processNewInstanceMessage(const QString&)));
+//    QObject::connect(&application,SIGNAL(messageReceived(const QString&)),
+//                     mainwindow,SLOT(processNewInstanceMessage(const QString&)));
 
     application.setMainWindow(mainwindow);
 
-    forceShow(*mainwindow);
+//    forceShow(*mainwindow);
 
+    mainwindow->show();
     //  Start main loop.
     const int status = application.exec();
 

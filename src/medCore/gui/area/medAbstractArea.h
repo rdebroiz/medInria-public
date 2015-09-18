@@ -28,5 +28,10 @@ public:
 
     virtual QString title() const = 0;
     virtual QString description() const = 0;
+
     virtual QIcon icon() const = 0;
+//    virtual QPixmap altTabPixmap() const =0;
+
+//    virtual QWidget* centralWidget() const = 0;
+//    virtual QWidget* statusBarWidget() const = 0;
 };

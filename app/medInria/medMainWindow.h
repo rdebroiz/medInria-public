@@ -23,6 +23,13 @@ public:
     medMainWindow(QWidget *parent = 0);
    ~medMainWindow();
 
+protected:
+    virtual void closeEvent(QCloseEvent *event);
+
+private:
+    void _restoreSettings();
+    void _saveSettings();
+
 private:
     medMainWindowPrivate *d;
 

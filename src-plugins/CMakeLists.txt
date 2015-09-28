@@ -46,7 +46,7 @@ set(PLUGIN_LIST
   legacy/itkDataTensorImage                                              ON
   legacy/medSegmentation                                                 ON
   legacy/itkFilters                                                      ON
-  legacy/qtdcmDataSource                                                 ON
+  legacy/qtdcmDatasource                                                 ON
   legacy/itkDataSHImage                                                  ON
   legacy/undoRedoRegistration                                            ON
   legacy/itkProcessRegistrationDiffeomorphicDemons                       ON

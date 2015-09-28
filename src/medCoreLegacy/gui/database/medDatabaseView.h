@@ -57,17 +57,6 @@ signals:
     void exportData(const medDataIndex &index);
     void dataRemoved(const medDataIndex &index);
 
-public slots:
-
-    virtual void onViewSelectedItemRequested();
-    virtual void onExportSelectedItemRequested();
-    virtual void onRemoveSelectedItemRequested();
-    virtual void onSaveSelectedItemRequested();
-    void onOpeningFailed(const medDataIndex& index);
-    void onCreatePatientRequested();
-    void onCreateStudyRequested();
-    void onEditRequested();
-
 protected slots:
     virtual void updateContextMenu(const QPoint&);
     virtual void onItemDoubleClicked(const QModelIndex& index);

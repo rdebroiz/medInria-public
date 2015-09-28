@@ -51,7 +51,7 @@ public:
                 loadedDataObjectTracker.remove(i);
     }
 
-    medAbstractDbController* controllerForDataSource(int id) {
+    medAbstractDbController* controllerForDatasource(int id) {
         if (dbController->dataSourceId() == id)
             return dbController;
         else if (nonPersDbController->dataSourceId() == id)
@@ -206,7 +206,7 @@ void medDataManager::exportData(medAbstractData* data)
     exportDialog->setLayout(gridbox);
 
     // Set a default filename based on the series's description
-    medAbstractDbController * dbController = d->controllerForDataSource(data->dataIndex().dataSourceId());
+    medAbstractDbController * dbController = d->controllerForDatasource(data->dataIndex().dataSourceId());
     if (dbController) {
         QString defaultName = dbController->metaData(data->dataIndex(), medMetaDataKeys::SeriesDescription);
         defaultName += typesHandled->itemData(typesHandled->currentIndex(), Qt::UserRole+1).toString();
@@ -242,7 +242,7 @@ QList<medDataIndex> medDataManager::moveStudy(const medDataIndex& indexStudy, co
 {
     Q_D(medDataManager);
     QList<medDataIndex> newIndexList;
-    medAbstractDbController * dbc = d->controllerForDataSource(indexStudy.dataSourceId());
+    medAbstractDbController * dbc = d->controllerForDatasource(indexStudy.dataSourceId());
     if (!dbc) {
         return newIndexList;
     }
@@ -260,7 +260,7 @@ QList<medDataIndex> medDataManager::moveStudy(const medDataIndex& indexStudy, co
 medDataIndex medDataManager::moveSerie(const medDataIndex& indexSerie, const medDataIndex& toStudy)
 {
     Q_D(medDataManager);
-    medAbstractDbController * dbc = d->controllerForDataSource(indexSerie.dataSourceId());
+    medAbstractDbController * dbc = d->controllerForDatasource(indexSerie.dataSourceId());
     if (!dbc) {
         return medDataIndex();
     }
@@ -276,10 +276,10 @@ medDataIndex medDataManager::moveSerie(const medDataIndex& indexSerie, const med
     return newIndex;
 }
 
-medAbstractDbController *medDataManager::controllerForDataSource(int dataSourceId)
+medAbstractDbController *medDataManager::controllerForDatasource(int dataSourceId)
 {
     Q_D(medDataManager);
-    return d->controllerForDataSource(dataSourceId);
+    return d->controllerForDatasource(dataSourceId);
 }
 
 void medDataManager::exportDialog_updateSuffix(int index)
@@ -350,7 +350,7 @@ QUuid medDataManager::makePersistent(medAbstractData* data)
 bool medDataManager::setMetadata(const medDataIndex& index, const QString& key, const QString& value)
 {
     Q_D(medDataManager);
-    medAbstractDbController * dbc = d->controllerForDataSource( index.dataSourceId() );
+    medAbstractDbController * dbc = d->controllerForDatasource( index.dataSourceId() );
 
     if(dbc->setMetaData( index, key, value )) {
         emit metadataModified(index, key, value);
@@ -364,7 +364,7 @@ bool medDataManager::setMetadata(const medDataIndex& index, const QString& key, 
 void medDataManager::removeData(const medDataIndex& index)
 {
     Q_D(medDataManager);
-    medAbstractDbController * dbc = d->controllerForDataSource(index.dataSourceId());
+    medAbstractDbController * dbc = d->controllerForDatasource(index.dataSourceId());
     if (dbc) {
         dbc->remove(index);
     }
@@ -383,7 +383,7 @@ void medDataManager::removeFromNonPersistent(medDataIndex indexImported, QUuid u
 QPixmap medDataManager::thumbnail(const medDataIndex & index)
 {
     Q_D(medDataManager);
-    medAbstractDbController* dbc = d->controllerForDataSource(index.dataSourceId());
+    medAbstractDbController* dbc = d->controllerForDatasource(index.dataSourceId());
 
     QPixmap pix;
     // dbc is NULL when called from the importer, as data is not imported yet

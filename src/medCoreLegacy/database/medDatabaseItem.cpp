@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -25,7 +25,11 @@ public:
     medDataIndex index;
 };
 
-medDatabaseItem::medDatabaseItem(medDataIndex index, const QList<QVariant>& attributes, const QList<QVariant>& data, medAbstractDatabaseItem *parent) : d(new medDatabaseItemPrivate)
+medDatabaseItem::medDatabaseItem(medDataIndex index,
+                                 const QList<QVariant>& attributes,
+                                 const QList<QVariant>& data,
+                                 medAbstractDatabaseItem *parent) :
+    d(new medDatabaseItemPrivate)
 {
     d->index = index;
     d->attrData = attributes;
@@ -186,12 +190,12 @@ QVariant medDatabaseItem::value(int column)
 
 QList<QVariant> medDatabaseItem::attributes()
 {
-    return d->attrData;       
+    return d->attrData;
 }
 
 QList<QVariant> medDatabaseItem::values()
 {
-    return d->itemData;  
+    return d->itemData;
 }
 
 /**
@@ -211,7 +215,7 @@ int medDatabaseItem::rowOf(medAbstractDatabaseItem *child) const
 {
     int row = 0;
     bool found = false;
-    
+
     foreach(medDatabaseItem *item, d->childItems)
     {
         if(item==child)
@@ -221,10 +225,10 @@ int medDatabaseItem::rowOf(medAbstractDatabaseItem *child) const
         }
         else row++;
     }
-    
+
     if(!found)
         row = -1;
-    
+
     return row;
-    
+
 }

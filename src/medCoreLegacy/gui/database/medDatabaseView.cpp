@@ -4,7 +4,7 @@
 
  Copyright (c) INRIA 2013 - 2014. All rights reserved.
  See LICENSE.txt for details.
- 
+
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
   PURPOSE.
@@ -56,7 +56,7 @@ void NoFocusDelegate::paint(QPainter* painter, const QStyleOptionViewItem & opti
             item = static_cast<medAbstractDatabaseItem *>(index.internalPointer());
 
         if(item)
-        {               
+        {
             if(index.column()>0)
             {
                 QPen pen;
@@ -65,10 +65,10 @@ void NoFocusDelegate::paint(QPainter* painter, const QStyleOptionViewItem & opti
                 painter->drawLine(option.rect.x(), option.rect.y(), option.rect.x(), (option.rect.y()+option.rect.height()));
             }
             if (m_indexes.contains(item->dataIndex()))
-                // items that failed to open will have a pinkish background               
+                // items that failed to open will have a pinkish background
                 painter->fillRect(option.rect, QColor("#FF3333"));
 
-            medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(item->dataIndex().dataSourceId());
+            medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(item->dataIndex().dataSourceId());
             if ( dbc ) {
                 if(!dbc->isPersistent())
                 {
@@ -147,7 +147,7 @@ medDatabaseView::medDatabaseView(QWidget *parent) : QTreeView(parent), d(new med
     d->addPatientAction->setIconVisibleInMenu(true);
     d->addPatientAction->setIcon(QIcon(":icons/user_add.png"));
     connect(d->addPatientAction, SIGNAL(triggered()), this, SLOT(onCreatePatientRequested()));
-    
+
     d->addStudyAction = new QAction(tr("New Study"), this);
     d->addStudyAction->setIconVisibleInMenu(true);
     d->addStudyAction->setIcon(QIcon(":icons/page_add.png"));
@@ -180,8 +180,8 @@ void medDatabaseView::setModel(QAbstractItemModel *model)
     QTreeView::setModel(model);
 
     this->expandAll();
-    
-    
+
+
     this->header()->setMinimumSectionSize(60);
     this->header()->resizeSections(QHeaderView::ResizeToContents);
     this->collapseAll();
@@ -190,7 +190,7 @@ void medDatabaseView::setModel(QAbstractItemModel *model)
     //connect( this->selectionModel(), SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)), SLOT(onSelectionChanged(const QModelIndex&, const QModelIndex&)));
 
     connect( this->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)), this, SLOT(onSelectionChanged(const QItemSelection&, const QItemSelection&)) );
-    
+
     connect( model, SIGNAL(dataChanged ( const QModelIndex &, const QModelIndex & )),
              this, SLOT( setCurrentIndex(QModelIndex)));
 }
@@ -221,7 +221,7 @@ void medDatabaseView::updateContextMenu(const QPoint& point)
             d->contextMenu->addAction(d->viewAction);
             d->contextMenu->addAction(d->exportAction);
             d->contextMenu->addAction(d->removeAction);
-            if( !(medDataManager::instance()->controllerForDataSource(item->dataIndex().dataSourceId())->isPersistent()) )
+            if( !(medDataManager::instance()->controllerForDatasource(item->dataIndex().dataSourceId())->isPersistent()) )
                 d->contextMenu->addAction(d->saveAction);
         }
         else if (item->dataIndex().isValidForStudy())
@@ -229,7 +229,7 @@ void medDatabaseView::updateContextMenu(const QPoint& point)
             d->contextMenu->addAction(d->editAction);
             d->editAction->setIcon(QIcon(":icons/page_edit.png"));
             d->contextMenu->addAction(d->removeAction);
-            if( !(medDataManager::instance()->controllerForDataSource(item->dataIndex().dataSourceId())->isPersistent()) )
+            if( !(medDataManager::instance()->controllerForDatasource(item->dataIndex().dataSourceId())->isPersistent()) )
                 d->contextMenu->addAction(d->saveAction);
         }
         else if (item->dataIndex().isValidForPatient())
@@ -238,7 +238,7 @@ void medDatabaseView::updateContextMenu(const QPoint& point)
             d->contextMenu->addAction(d->editAction);
             d->editAction->setIcon(QIcon(":icons/user_edit.png"));
             d->contextMenu->addAction(d->removeAction);
-            if( !(medDataManager::instance()->controllerForDataSource(item->dataIndex().dataSourceId())->isPersistent()) )
+            if( !(medDataManager::instance()->controllerForDatasource(item->dataIndex().dataSourceId())->isPersistent()) )
                 d->contextMenu->addAction(d->saveAction);
         }
     }
@@ -274,11 +274,6 @@ void medDatabaseView::onViewSelectedItemRequested(void)
 
     if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
         item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
-
-    if (item && (item->dataIndex().isValidForSeries()))
-    {
-        emit open(item->dataIndex ());
-    }
 }
 
 /** Exports the currently selected item. */
@@ -297,8 +292,7 @@ void medDatabaseView::onExportSelectedItemRequested(void)
     if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
         item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
 
-    if(item)
-        emit exportData(item->dataIndex());
+
 }
 
 void medDatabaseView::onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
@@ -308,7 +302,7 @@ void medDatabaseView::onSelectionChanged(const QItemSelection& selected, const Q
         emit noPatientOrSeriesSelected();
         return;
     }
-        
+
     // so far we only allow single selection
     QModelIndex index = selected.indexes()[0];
 
@@ -348,25 +342,17 @@ void medDatabaseView::onRemoveSelectedItemRequested( void )
             tr("Are you sure you want to continue?\n""This cannot be undone."),
             QMessageBox::Yes, QMessageBox::No, QMessageBox::NoButton);
 
-    if( reply == QMessageBox::Yes )
+    if(reply == QMessageBox::Yes)
     {
         QModelIndexList indexes = this->selectedIndexes();
         if(!indexes.count())
             return;
 
         QModelIndex index = indexes.at(0);
-
         medAbstractDatabaseItem *item = NULL;
 
         if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
             item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
-
-        if (item)
-        {
-            // Copy the data index, because the data item may cease to be valid.
-            medDataIndex index = item->dataIndex();
-            medDataManager::instance()->removeData(index);
-        }
     }
 }
 
@@ -383,23 +369,12 @@ void medDatabaseView::onSaveSelectedItemRequested(void)
 
     if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
         item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
-
-    if (item)
-    {
-        // Copy the data index, because the data item may cease to be valid.
-        medDataIndex index = item->dataIndex();
-        medDataManager::instance()->makePersistent(medDataManager::instance()->retrieveData(index));
-        qDebug() << "DEBUG : onMenuSaveClicked() after storeNonPersistentSingleDataToDatabase";
-        qDebug() << "DEBUG : index" << index;
-    }
 }
 
 /** Creates a new patient */
 void medDatabaseView::onCreatePatientRequested(void)
 {
     QModelIndexList indexes = this->selectedIndexes();
-
-    bool isPersistent = true;
 
     if(indexes.count() > 0)
     {
@@ -409,50 +384,6 @@ void medDatabaseView::onCreatePatientRequested(void)
 
         if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
             item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
-
-        if (item)
-        {
-            isPersistent = medDataManager::instance()->controllerForDataSource(
-                               item->dataIndex().dataSourceId() )->isPersistent();
-        }
-    }
-
-    QString patientName = "new patient";
-    QString birthdate = "";
-    QString gender = "";
-
-    QList<QString> ptAttributes;
-    ptAttributes << medMetaDataKeys::PatientName.label();
-    ptAttributes << medMetaDataKeys::BirthDate.label();
-    ptAttributes << medMetaDataKeys::Gender.label();
-
-    QList<QVariant> ptValues;
-    ptValues << patientName;
-    ptValues << QString("");
-    ptValues << QChar();
-
-    medDatabaseEditItemDialog editDialog(ptAttributes, ptValues, this, true, isPersistent);
-
-    int res =  editDialog.exec();
-
-    if(res == QDialog::Accepted)
-    {
-        patientName = editDialog.value(medMetaDataKeys::PatientName.label()).toString();
-        birthdate = editDialog.value(medMetaDataKeys::BirthDate.label()).toString();
-        gender = editDialog.value(medMetaDataKeys::Gender.label()).toString();
-
-        // TODO: Hack to be able to create patient using medAbstractData
-        // Need to be rethought
-        medAbstractData* medData = new medAbstractData();
-
-        QString generatedPatientID = QUuid::createUuid().toString().replace ( "{","" ).replace ( "}","" );
-
-        medData->addMetaData ( medMetaDataKeys::PatientName.key(), QStringList() << patientName );
-        medData->addMetaData ( medMetaDataKeys::PatientID.key(), QStringList() << generatedPatientID );
-        medData->addMetaData ( medMetaDataKeys::BirthDate.key(), QStringList() << birthdate );
-        medData->addMetaData ( medMetaDataKeys::Gender.key(), QStringList() << gender );
-
-        medDataManager::instance()->importData(medData, editDialog.isPersistent());
     }
 }
 
@@ -469,48 +400,6 @@ void medDatabaseView::onCreateStudyRequested(void)
 
     if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
         item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
-
-    if (item)
-    {
-        bool isPersistent = medDataManager::instance()->controllerForDataSource(
-                                item->dataIndex().dataSourceId() )->isPersistent();
-
-        int patientNameIndex = item->attributes().indexOf(medMetaDataKeys::PatientName.key());
-        int birthdateIndex = item->attributes().indexOf(medMetaDataKeys::BirthDate.key());
-        QString patientName = item->data( patientNameIndex ).toString();
-        QString birthdate = item->data( birthdateIndex ).toString();
-  
-        if(birthdate.isNull()) 
-            birthdate="";
-
-        QList<QString> stAttributes;
-        stAttributes << medMetaDataKeys::StudyDescription.label();
-
-        QList<QVariant> stValues;
-        stValues << "new study";
-
-        medDatabaseEditItemDialog editDialog(stAttributes, stValues, this, true, isPersistent);
-
-        int res =  editDialog.exec();
-
-        if(res == QDialog::Accepted)
-        {
-            QString studyName = editDialog.value(medMetaDataKeys::StudyDescription.label()).toString();
-
-            // TODO: Hack to be able to create study using medAbstractData
-            // Need to be rethought
-            medAbstractData* medData = new medAbstractData();
-
-            medData->addMetaData ( medMetaDataKeys::PatientName.key(), QStringList() << patientName );
-            medData->addMetaData ( medMetaDataKeys::BirthDate.key(), QStringList() << birthdate );
-            medData->addMetaData ( medMetaDataKeys::StudyDescription.key(), QStringList() << studyName );
-            
-            medData->addMetaData ( medMetaDataKeys::StudyID.key(), QStringList() << "0" );
-            medData->addMetaData ( medMetaDataKeys::StudyDicomID.key(), QStringList() << "" );
-
-            medDataManager::instance()->importData(medData, editDialog.isPersistent());
-        }
-    }
 }
 
 /** Edits selected item */
@@ -526,39 +415,6 @@ void medDatabaseView::onEditRequested(void)
 
     if(QSortFilterProxyModel *proxy = dynamic_cast<QSortFilterProxyModel *>(this->model()))
         item = static_cast<medAbstractDatabaseItem *>(proxy->mapToSource(index).internalPointer());
-
-    if(item)
-    {        
-        QList<QVariant> attributes = item->attributes();
-        QList<QVariant> values = item->values();
-        QList<QString> labels;
-        
-        foreach(QVariant attrib, attributes)
-        {
-            const medMetaDataKeys::Key* key =  medMetaDataKeys::Key::fromKeyName(attrib.toString().toStdString().c_str());
-            if(key)
-                labels << key->label();
-            else labels << "";
-        }
-        
-        medDatabaseEditItemDialog editDialog(labels,values,this);
-        
-        int res =  editDialog.exec();
-        medDataIndex index = item->dataIndex();
-
-        if(res == QDialog::Accepted)
-        {
-            int i=0;
-            foreach(QString label, labels)
-            {
-                QVariant data = editDialog.value(label);
-                QVariant variant = item->attribute(i);
-                medDataManager::instance()->setMetadata(index, variant.toString(), data.toString());
-                i++;    
-            }
-        } 
-    }
-
 }
 
 /** Called after having failed to open a file. Will add a visual indicator of the failed file. */
@@ -567,7 +423,6 @@ void medDatabaseView::onOpeningFailed(const medDataIndex& index)
     if (NoFocusDelegate* delegate =
             dynamic_cast<NoFocusDelegate*>(this->itemDelegate()))
     {
-
         delegate->append(index);
     }
 }

@@ -18,48 +18,44 @@
 
 #include <medAbstractArea.h>
 
-class medBrowserAreaPrivate;
-class medAbstractDataSource;
-class medToolBox;
-class medJobItem;
-
 class medBrowserArea : public medAbstractArea
 {
     Q_OBJECT
 
 public:
-     medBrowserArea(QWidget *parent = 0);
+     medBrowserArea(QObject *parent = NULL);
     ~medBrowserArea();
 
      virtual QString title() const {return "Browser";}
      virtual QString description() const {return "Pipi caca";}
      virtual QIcon icon() const {return QIcon(":icons/folder.png");}
-
-public slots:
-    void onSourceIndexChanged(int index);
-
-    /**
-* @brief Adds a medToolBox to the medToolBoxContainer.
-*
-* @param toolbox
-*/
-    void addToolBox(medToolBox *toolbox);
-    /**
-* @brief Removes a medToolBox from the medToolBoxContainer.
-*
-* @param toolbox
-*/
-    void removeToolBox(medToolBox *toolbox);
-
-protected:
-    void setToolBoxesVisible(int index, bool visible);
-    void addDataSource(medAbstractDataSource* dataSource);
-
-private:
-    medBrowserAreaPrivate *d;
+     virtual QPixmap altTabPixmap()  const {return QPixmap(":icons/folder.png");}
+     virtual QWidget* centralWidget()  const;
+     virtual QWidget* statusBarWidget()  const;
 };
 
 inline medAbstractArea* medBrowserAreaCreator(void)
 {
     return new medBrowserArea();
 }
+
+class medAbstractDatasource;
+class medToolBox;
+
+class medBrowserAreaCentralWidgetPrivate;
+class medBrowserAreaCentralWidget: public QWidget
+{
+    Q_OBJECT
+public:
+    medBrowserAreaCentralWidget(QWidget *parent = NULL);
+   ~medBrowserAreaCentralWidget();
+
+protected:
+    void _changeSource(int index);
+    void _addDatasource(medAbstractDatasource* dataSource);
+    void _setToolBoxesVisible(int index, bool visible);
+
+private:
+    medBrowserAreaCentralWidgetPrivate *d;
+
+};

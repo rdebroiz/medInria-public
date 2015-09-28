@@ -23,9 +23,8 @@ list_source_files(${TARGET_NAME}
   process/arithmetic_operation
   process/morphomath_operation
   process/segmentation
-  gui
-  gui/workspace
-  gui/area
+  area
+  datasource
   )
 
 

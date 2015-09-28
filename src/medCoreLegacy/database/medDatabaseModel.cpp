@@ -545,7 +545,7 @@ void medDatabaseModel::populate(medAbstractDatabaseItem *root)
     foreach( const int dataSourceId, dataSources )
     {
 
-        medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(dataSourceId);
+        medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(dataSourceId);
 
         IndexList patientsForSource = dbc->patients();
 
@@ -648,7 +648,7 @@ void medDatabaseModel::updateSerie(const medDataIndex& dataIndex)
 
     QModelIndex index = d->medIndexMap[dataIndex];
     medAbstractDatabaseItem *item = static_cast<medAbstractDatabaseItem *>(index.internalPointer());
-    medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(dataIndex.dataSourceId());
+    medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(dataIndex.dataSourceId());
 
     if(!dbc->contains(dataIndex))
     {
@@ -748,7 +748,7 @@ void medDatabaseModel::updateStudy(const medDataIndex& dataIndex, bool updateChi
     //
     QModelIndex index = d->medIndexMap.value(dataIndex);
     medAbstractDatabaseItem *item = static_cast<medAbstractDatabaseItem *>(index.internalPointer());
-    medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(dataIndex.dataSourceId());
+    medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(dataIndex.dataSourceId());
 
     if(!dbc->contains(dataIndex))
     {
@@ -859,7 +859,7 @@ void medDatabaseModel::updatePatient(const medDataIndex& dataIndex, bool updateC
 {
     QModelIndex index = d->medIndexMap.value(dataIndex);
     medAbstractDatabaseItem *item = static_cast<medAbstractDatabaseItem *>(index.internalPointer());
-    medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(dataIndex.dataSourceId());
+    medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(dataIndex.dataSourceId());
 
     if(!dbc->contains(dataIndex))
     {

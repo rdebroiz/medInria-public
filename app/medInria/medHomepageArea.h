@@ -18,51 +18,36 @@
 
 #include <medAbstractArea.h>
 
-class medHomepageAreaPrivate;
 class medHomepageArea : public medAbstractArea
 {
 Q_OBJECT
 public:
-    medHomepageArea(QWidget * parent = 0);
+    medHomepageArea(QObject * parent = NULL);
     virtual ~medHomepageArea();
 
     void initPage();
-    QParallelAnimationGroup * getAnimation();
-    void resizeEvent(QResizeEvent * event);
 
     virtual QString title() const {return "HomePage";}
     virtual QString description() const {return "Caca prout";}
     virtual QIcon icon()  const {return QIcon(":icons/home.png");}
+    virtual QPixmap altTabPixmap()  const {return QPixmap(":icons/home.png");}
+    virtual QWidget* centralWidget()  const;
+    virtual QWidget* statusBarWidget()  const;
 
 public slots:
-    void onShowBrowser();
-    void onShowWorkspace(QString workspace);
-    void onShowSettings();
-    void onShowAbout();
-    void onShowPlugin();
-    void onShowHelp();
-    void onShowInfo();
+    void showHelp() const;
+
+};
+
+class medHomePageCentralWidget: public QWidget
+{
+    Q_OBJECT
+public:
+    medHomePageCentralWidget(QWidget *parent = NULL);
+    virtual ~medHomePageCentralWidget();
 
 signals:
-    /**
-     * @deprecated Doesn't use the medMainWindow's slots anymore.
-     */
-    void showSettings();
-    /**
-     * @deprecated Doesn't use the medMainWindow's slots anymore.
-     */
-    void showAbout();
-    /**
-     * @deprecated Doesn't use the medMainWindow's slots anymore.
-     */
-    void showHelp();
-
-    void showBrowser();
-    void showViewer();
-    void showWorkspace(QString workspace);
-
-private:
-    medHomepageAreaPrivate * d;
+    void showHelpRequest();
 };
 
 inline medAbstractArea* medHomepageAreaCreator(void)

@@ -50,8 +50,7 @@
 #include <medStyleSheetParser.h>
 #include <medTestWorkspace.h>
 
-#include <medProcessLayer.h>
-#include <medGuiLayer.h>
+#include <medCoreLayer.h>
 
 #include <medHomepageArea.h>
 #include <medBrowserArea.h>
@@ -192,13 +191,13 @@ void medApplication::initialize()
 #endif
     defaultPath = plugins_dir.absolutePath();
 
-    // process layer:
-    medProcessLayer::pluginManager::initialize(defaultPath);
-
-    // gui layer:
-    medGuiLayer::area::pluginManager().initialize(defaultPath);
-    medGuiLayer::area::pluginFactory().record(medHomepageArea::staticMetaObject.className(),
-                                              medHomepageAreaCreator);
-    medGuiLayer::area::pluginFactory().record(medBrowserArea::staticMetaObject.className(),
-                                              medBrowserAreaCreator);
+    // Core layer:
+    medCoreLayer::pluginManager::initialize(defaultPath);
+    // area
+    medCoreLayer::area::pluginFactory().record(medHomepageArea::staticMetaObject.className(),
+                                              medHomepageAreaCreator,
+                                              medGuiLayer::area::pluginFactory().keys().size());
+    medCoreLayer::area::pluginFactory().record(medBrowserArea::staticMetaObject.className(),
+                                              medBrowserAreaCreator,
+                                              medGuiLayer::area::pluginFactory().keys().size());
 }

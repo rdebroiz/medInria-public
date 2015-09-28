@@ -195,7 +195,7 @@ medActionsToolBox::~medActionsToolBox()
 **/
 void medActionsToolBox::patientSelected(const medDataIndex& index)
 {
-    if( !(medDataManager::instance()->controllerForDataSource(index.dataSourceId())->isPersistent()) )
+    if( !(medDataManager::instance()->controllerForDatasource(index.dataSourceId())->isPersistent()) )
         updateButtons("Unsaved Patient");
     else
         updateButtons("Patient");
@@ -208,7 +208,7 @@ void medActionsToolBox::patientSelected(const medDataIndex& index)
 **/
 void medActionsToolBox::seriesSelected(const medDataIndex& index)
 {
-    if( !(medDataManager::instance()->controllerForDataSource(index.dataSourceId())->isPersistent()) )
+    if( !(medDataManager::instance()->controllerForDatasource(index.dataSourceId())->isPersistent()) )
         updateButtons("Unsaved Series");
     else
         updateButtons("Series");

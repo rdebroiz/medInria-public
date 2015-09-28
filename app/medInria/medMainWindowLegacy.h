@@ -1,120 +1,120 @@
-/*=========================================================================
+///*=========================================================================
 
- medInria
+// medInria
 
- Copyright (c) INRIA 2013 - 2014. All rights reserved.
- See LICENSE.txt for details.
+// Copyright (c) INRIA 2013 - 2014. All rights reserved.
+// See LICENSE.txt for details.
 
-  This software is distributed WITHOUT ANY WARRANTY; without even
-  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-  PURPOSE.
+//  This software is distributed WITHOUT ANY WARRANTY; without even
+//  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+//  PURPOSE.
 
-=========================================================================*/
+//=========================================================================*/
 
-#pragma once
+//#pragma once
 
-#include <QtWidgets>
-#include <QUuid>
-#include <QUrl>
-class medDataIndex;
-class medMainWindowLegacyPrivate;
+//#include <QtWidgets>
+//#include <QUuid>
+//#include <QUrl>
+//class medDataIndex;
+//class medMainWindowLegacyPrivate;
 
-class medMainWindowLegacy : public QMainWindow
-{
-    Q_OBJECT
+//class medMainWindowLegacy : public QMainWindow
+//{
+//    Q_OBJECT
 
-public:
+//public:
 
-     enum AreaType
-     {
-         HomePage,
-         Browser,
-         WorkSpace
-     };
+//     enum AreaType
+//     {
+//         HomePage,
+//         Browser,
+//         WorkSpace
+//     };
 
-     medMainWindowLegacy(QWidget *parent = 0);
-    ~medMainWindowLegacy();
+//     medMainWindowLegacy(QWidget *parent = 0);
+//    ~medMainWindowLegacy();
 
-    void restoreSettings();
-    void saveSettings();
-    QWidget* currentArea() const;
+//    void restoreSettings();
+//    void saveSettings();
+//    QWidget* currentArea() const;
 
-    void setStartup(const AreaType areaIndex,const QStringList& filenames);
-    void resizeEvent( QResizeEvent * event );
+//    void setStartup(const AreaType areaIndex,const QStringList& filenames);
+//    void resizeEvent( QResizeEvent * event );
 
-signals:
-    void sliceSelected(int slice);
-    void mainWindowActivated();
-    void mainWindowDeactivated();
+//signals:
+//    void sliceSelected(int slice);
+//    void mainWindowActivated();
+//    void mainWindowDeactivated();
 
 
-public slots:
-    void setWallScreen(const bool full);
-    void setFullScreen(const bool full);
+//public slots:
+//    void setWallScreen(const bool full);
+//    void setFullScreen(const bool full);
 
-    /**
-     * @brief Switches from the Fullscreen mode to the normal mode.
-     *
-     */
-    void toggleFullScreen();
-    void switchToArea(const AreaType areaIndex);
+//    /**
+//     * @brief Switches from the Fullscreen mode to the normal mode.
+//     *
+//     */
+//    void toggleFullScreen();
+//    void switchToArea(const AreaType areaIndex);
 
-    void open(const medDataIndex & index);
-    void open(const QString& path);
+//    void open(const medDataIndex & index);
+//    void open(const QString& path);
 
-    void processNewInstanceMessage(const QString& message);
+//    void processNewInstanceMessage(const QString& message);
 
-private slots:
+//private slots:
 
-    void showWorkspace(QString workspace);
-    void captureScreenshot();
+//    void showWorkspace(QString workspace);
+//    void captureScreenshot();
 
-    void switchToBrowserArea();
-    void switchToWorkspaceArea();
-    void switchToHomepageArea();
+//    void switchToBrowserArea();
+//    void switchToWorkspaceArea();
+//    void switchToHomepageArea();
 
-    void showArea(QString const& area);
+//    void showArea(QString const& area);
 
-    void toggleQuickAccessVisibility();
-    void hideQuickAccess();
-    void showShortcutAccess();
-    void hideShortcutAccess();
+//    void toggleQuickAccessVisibility();
+//    void hideQuickAccess();
+//    void showShortcutAccess();
+//    void hideShortcutAccess();
 
-    void availableSpaceOnStatusBar();
+//    void availableSpaceOnStatusBar();
 
-    /**
-     * @brief Overload existing showFullScreen().
-     *
-     * Allows the update of the fullScreen button.
-     */
-    void showFullScreen();
+//    /**
+//     * @brief Overload existing showFullScreen().
+//     *
+//     * Allows the update of the fullScreen button.
+//     */
+//    void showFullScreen();
 
-    /**
-     * @brief Overload existing showNormal().
-     *
-     * Allows the update of the fullScreen button.
-     */
-    void showNormal();
+//    /**
+//     * @brief Overload existing showNormal().
+//     *
+//     * Allows the update of the fullScreen button.
+//     */
+//    void showNormal();
 
-    /**
-     * @brief Overload existing showMaximized().
-     *
-     * Allows the update of the fullScreen button.
-     */
-    void showMaximized();
+//    /**
+//     * @brief Overload existing showMaximized().
+//     *
+//     * Allows the update of the fullScreen button.
+//     */
+//    void showMaximized();
 
-    void adjustContainersSize();
+//    void adjustContainersSize();
 
-    void open_waitForImportedSignal(medDataIndex,QUuid);
+//    void open_waitForImportedSignal(medDataIndex,QUuid);
 
-protected:
-    void closeEvent(QCloseEvent *event);
-    void mousePressEvent(QMouseEvent * event);
-    int saveModified();
-    bool event(QEvent * e);
+//protected:
+//    void closeEvent(QCloseEvent *event);
+//    void mousePressEvent(QMouseEvent * event);
+//    int saveModified();
+//    bool event(QEvent * e);
 
-private:
-    medMainWindowLegacyPrivate *d;
-};
+//private:
+//    medMainWindowLegacyPrivate *d;
+//};
 
 

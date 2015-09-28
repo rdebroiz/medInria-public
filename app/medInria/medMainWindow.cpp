@@ -18,6 +18,7 @@
 #include <QMenu>
 #include <QHBoxLayout>
 #include <QSpacerItem>
+#include <QPushButton>
 
 #include <medGuiLayer.h>
 #include <medAbstractArea.h>
@@ -26,39 +27,71 @@
 class medMainWindowPrivate
 {
 public:
-    QStackedWidget *centralStack;
 
-    QStatusBar *statusBar;
-    QStackedWidget *statusBarStack;
-
-    QMenu *swichAraeMenu;
 };
 
 medMainWindow::medMainWindow(QWidget *parent): QMainWindow(parent),
     d(new medMainWindowPrivate)
 {
-    d->centralStack = new QStackedWidget;
-    this->setCentralWidget(d->centralStack);
 
-    d->statusBar = new QStatusBar;
-    this->setStatusBar(d->statusBar);
+
+    QWidget *mainWidget = new QWidget;
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->setSpacing(0);
+    mainLayout->setMargin(0);
+
+    this->setCentralWidget(mainWidget);
+    mainWidget->setLayout(mainLayout);
+
+    QStackedWidget* centralStack = new QStackedWidget;
+    mainLayout->addWidget(centralStack);
+
+    QWidget* statusBar = new QWidget;
+    statusBar->setObjectName("medStatusBar");
+    mainLayout->addWidget(statusBar);
     QHBoxLayout *statusBarLayout = new QHBoxLayout;
-    QWidget *permanentStatusBarWidget = new QWidget;
     statusBarLayout->setMargin(0);
-    permanentStatusBarWidget->setLayout(statusBarLayout);
-    d->statusBar->addPermanentWidget(permanentStatusBarWidget);
+    statusBar->setLayout(statusBarLayout);
+    statusBarLayout->addSpacing(5);
 
-    d->swichAraeMenu = new QMenu("Switch area");
-    statusBarLayout->addWidget(d->swichAraeMenu);
-//    QSpacerItem statusBarSpacer()
+    QSignalMapper *centralWidgetSignalMapper = new QSignalMapper(this);
+    connect(centralWidgetSignalMapper, SIGNAL(mapped(QWidget*)),
+            centralStack, SLOT(setCurrentWidget(QWidget*)));
 
-    foreach(QString key, medGuiLayer::area::pluginFactory().keys())
+    QStackedWidget* statusBarStack = new QStackedWidget;
+    QSignalMapper *statusBarSignalMapper = new QSignalMapper(this);
+    connect(statusBarSignalMapper, SIGNAL(mapped(QWidget*)),
+            statusBarStack, SLOT(setCurrentWidget(QWidget*)));
+
+    unsigned int areaIdx = 0;
+    for(QString const& key : medGuiLayer::area::pluginFactory().keys())
     {
+
         medAbstractArea *area = medGuiLayer::area::pluginFactory().create(key);
-        d->centralStack->addWidget(area);
-        d->swichAraeMenu->addAction(area->title());
-//        d->areas.insert(key, area);
+        QWidget * centralWidget = area->centralWidget();
+        QWidget * statusBarWidget = area->statusBarWidget();
+
+        centralStack->addWidget(centralWidget);
+        statusBarStack->addWidget(statusBarWidget);
+        QPushButton *areaSwitcherButton = new QPushButton(area->icon(), area->title() +
+                                                          " | " +
+                                                          QString::number(areaIdx + 1));
+        areaSwitcherButton->setShortcut(Qt::CTRL + Qt::Key_F1 + areaIdx);
+
+        statusBarLayout->addWidget(areaSwitcherButton);
+
+        connect(areaSwitcherButton, SIGNAL(clicked(bool)),
+                centralWidgetSignalMapper, SLOT(map()));
+        connect(areaSwitcherButton, SIGNAL(clicked(bool)),
+                statusBarSignalMapper, SLOT(map()));
+        centralWidgetSignalMapper->setMapping(areaSwitcherButton, centralWidget);
+        statusBarSignalMapper->setMapping(areaSwitcherButton, statusBarWidget);
+
+        ++areaIdx;
     }
+
+    statusBarLayout->addStretch();
+//    statusBarLayout->addWidget(statusBarStack, Qt::AlignRight);
 
     this->_restoreSettings();
 }

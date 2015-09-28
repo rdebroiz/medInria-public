@@ -39,47 +39,44 @@
 #include <medPacsMover.h>
 #include <medPacsWidget.h>
 #include <medCompositeDataSetImporterSelectorToolBox.h>
-#include <medAbstractDataSource.h>
-#include <medDataSourceManager.h>
+#include <medAbstractDatasource.h>
+#include <medDatasourceManager.h>
 
-class medBrowserAreaPrivate
+class medBrowserAreaCentralWidgetPrivate
 {
 public:
 
     medToolBoxContainer *toolboxContainer;
     medBrowserSourceSelectorToolBox *sourceSelectorToolBox;
-
-    QList <medAbstractDataSource *> dataSources;
-
+    QList<medAbstractDatasource *> dataSources;
     QStackedWidget *stack;
 };
 
-
-medBrowserArea::medBrowserArea(QWidget *parent): medAbstractArea(parent),
-    d(new medBrowserAreaPrivate)
+medBrowserAreaCentralWidget::medBrowserAreaCentralWidget(QWidget *parent): QWidget(parent),
+    d(new medBrowserAreaCentralWidgetPrivate)
 {
-
-    d->stack = new QStackedWidget(this);
+    d->stack = new QStackedWidget;
 
     // Source toolbox
-    d->sourceSelectorToolBox = new medBrowserSourceSelectorToolBox(this);
-    connect(d->sourceSelectorToolBox, SIGNAL(indexChanged(int)), this, SLOT(onSourceIndexChanged(int)));
+    d->sourceSelectorToolBox = new medBrowserSourceSelectorToolBox;
+    connect(d->sourceSelectorToolBox, &medBrowserSourceSelectorToolBox::indexChanged,
+            this, &medBrowserAreaCentralWidget::_changeSource);
 
     // Toolbox container
-    d->toolboxContainer = new medToolBoxContainer(this);
+    d->toolboxContainer = new medToolBoxContainer;
     d->toolboxContainer->setObjectName("browserContainerToolbox");
     d->toolboxContainer->setFixedWidth(340);
     d->toolboxContainer->addToolBox(d->sourceSelectorToolBox);
 
     // Layout /////////////////////////////////////////////
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QHBoxLayout *layout = new QHBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(d->toolboxContainer);
     layout->addWidget(d->stack);
 
     // make toolboxes visible
-    onSourceIndexChanged(d->stack->currentIndex());
+    this->_changeSource(d->stack->currentIndex());
 
     //Check if there are already item in the database, otherwise, switch to File system datasource
     QList<medDataIndex> indexes = medDatabaseNonPersistentController::instance()->availableItems();
@@ -90,58 +87,73 @@ medBrowserArea::medBrowserArea(QWidget *parent): medAbstractArea(parent),
     }
 
     //dataSources
-    foreach (medAbstractDataSource *dataSource, medDataSourceManager::instance()->dataSources())
-        addDataSource(dataSource);
- }
-
-medBrowserArea::~medBrowserArea(void)
-{
-    delete d;
-    d = NULL;
+    for(medAbstractDatasource *dataSource : medDatasourceManager::instance()->dataSources())
+        this->_addDatasource(dataSource);
+    this->setLayout(layout);
 }
 
-void medBrowserArea::onSourceIndexChanged(int index)
+medBrowserAreaCentralWidget::~medBrowserAreaCentralWidget()
 {
-    setToolBoxesVisible(d->stack->currentIndex(),false);
-    setToolBoxesVisible(index, true);
+    delete d;
+}
+
+void medBrowserAreaCentralWidget::_changeSource(int index)
+{
+    this->_setToolBoxesVisible(d->stack->currentIndex(), false);
+    this->_setToolBoxesVisible(index, true);
     d->stack->setCurrentIndex(index);
 }
 
-void medBrowserArea::setToolBoxesVisible(int index, bool visible )
+void medBrowserAreaCentralWidget::_addDatasource( medAbstractDatasource* dataSource )
+{
+    d->dataSources.push_back(dataSource);
+    d->stack->addWidget(dataSource->mainViewWidget());
+    d->sourceSelectorToolBox->addTab(dataSource->tabName(),
+                                     dataSource->sourceSelectorWidget(),
+                                     dataSource->description());
+
+    QList<medToolBox*> toolBoxes = dataSource->getToolBoxes();
+    for(medToolBox* toolBox : toolBoxes)
+    {
+        toolBox->setVisible(false);
+        d->toolboxContainer->addToolBox(toolBox);
+    }
+    this->_changeSource(d->stack->currentIndex());
+}
+
+void medBrowserAreaCentralWidget::_setToolBoxesVisible(int index, bool visible )
 {
     if(d->dataSources.isEmpty())
         return;
 
     QList<medToolBox*> toolBoxes = d->dataSources[index]->getToolBoxes();
-    foreach(medToolBox* toolBox, toolBoxes)
+    for(medToolBox* toolBox : toolBoxes)
     {
         if(toolBox->parentWidget())
-          toolBox->setVisible(visible);
+            toolBox->setVisible(visible);
         else toolBox->setVisible(false);
     }
 }
 
-void medBrowserArea::addDataSource( medAbstractDataSource* dataSource )
+medBrowserArea::medBrowserArea(QObject *parent): medAbstractArea(parent)
 {
-    d->dataSources.push_back(dataSource);
-    d->stack->addWidget(dataSource->mainViewWidget());
-    d->sourceSelectorToolBox->addTab(dataSource->tabName(),dataSource->sourceSelectorWidget(),dataSource->description());
 
-    QList<medToolBox*> toolBoxes = dataSource->getToolBoxes();
-    foreach(medToolBox* toolBox, toolBoxes)
-    {
-        toolBox->setVisible(false);
-        d->toolboxContainer->addToolBox(toolBox);
-    }
-    onSourceIndexChanged(d->stack->currentIndex());
 }
 
-void medBrowserArea::addToolBox(medToolBox *toolbox)
+medBrowserArea::~medBrowserArea(void)
 {
-    d->toolboxContainer->addToolBox(toolbox);
+
 }
 
-void medBrowserArea::removeToolBox(medToolBox *toolbox)
+QWidget* medBrowserArea::centralWidget() const
 {
-    d->toolboxContainer->removeToolBox(toolbox);
+    medBrowserAreaCentralWidget *centralWidget = new medBrowserAreaCentralWidget;
+    return centralWidget;
 }
+
+QWidget* medBrowserArea::statusBarWidget() const
+{
+    return new QWidget;
+}
+
+

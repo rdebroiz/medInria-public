@@ -56,7 +56,7 @@ public:
 
     // ------------------------- Compatibility code, to be removed -----------
 
-    medAbstractDbController* controllerForDataSource(int dataSourceId);
+    medAbstractDbController* controllerForDatasource(int dataSourceId);
 
 signals:
     void metadataModified(const medDataIndex& index, const QString& key = "", const QString& value = "");

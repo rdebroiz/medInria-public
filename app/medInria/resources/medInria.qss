@@ -74,11 +74,12 @@ $TAB_HOVER_BACKGROUND                   = qlineargradient(x1: 0, y1: 0, x2: 1, y
 $TAB_PRESSED_BACKGROUND                 = qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 $GREY05, stop: 1 $GREY04);
 $TAB_SELECTED_BACKGROUND                = $GREY04;
 
+
 $SCROLL_BAR_HORIZONTAL_BACKGROUND       = $GREY04;
 $SCROLL_BAR_VERTICAL_BACKGROUND         = $GREY04;
 
-$HOME_PAGE_BUTTON_BACKGROUND            = $GREY03;
-$HOME_PAGE_BUTTON_HOVER_BACKGROUND      = $GREY00;
+$HOMEPAGE_BUTTON_BACKGROUND             = $GREY06;
+$HOMEPAGE_BUTTON_HOVER_BACKGROUND       = $GREY00;
 
 $TOOLBOX_CONTAINER_BACKGROUND           = $GREY01;
 $TOOLBOX_HEADER_BACKGROUND              = qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 $GREY02, stop: 1 $GREY00);
@@ -631,26 +632,6 @@ QProgressBar::chunk
 }
 
 
-/*******************************************************************************
-     QStatusBar
- *******************************************************************************/
-QStatusBar
-{
-    background: $STATUS_BAR_BACKGROUND;
-    min-height: $STATUS_BAR_HEIGHT;
-}
-
-QStatusBar QWidget
-{
-    background: $STATUS_BAR_BACKGROUND;
-    height: $STATUS_BAR_HEIGHT;
-}
-
-QStatusBar::item
-{
-    background: $STATUS_BAR_BACKGROUND;
-}
-
 
 /*******************************************************************************
      QRadioButton
@@ -830,7 +811,7 @@ QToolButton#fullScreenButton:hover,
 QToolButton#screenshotButton:hover,
 QToolButton#quitButton:hover
 {
-    background-color: $HOME_PAGE_BUTTON_HOVER_BACKGROUND;
+    background-color: $HOMEPAGE_BUTTON_HOVER_BACKGROUND;
 }
 
 
@@ -1022,43 +1003,6 @@ QMenu::item:selected
     border-left: 5px solid $MENU_ITEM_HOVER_BACKGROUND; /*magic value !!!*/
     background: $MENU_ITEM_HOVER_BACKGROUND;
     color: $MENU_ITEM_SELECTED_COLOR;
-}
-
-
-/*******************************************************************************
-      medHomepagePushButton
- *******************************************************************************/
-medHomepagePushButton
-{
-    background-color: $HOME_PAGE_BUTTON_BACKGROUND;
-    font-size: $WIDGET_FONTSIZE;
-    border: 2px solid $WIDGET_BACKGROUND;
-}
-
-medHomepagePushButton:hover
-{
-    background-color: $HOME_PAGE_BUTTON_HOVER_BACKGROUND;
-    color: $HOME_PAGE_BUTTON_COLOR;
-}
-
-medHomepagePushButton[selected="true"]
-{
-    border: 2px solid $HIGHLIGHT_COLOR;
-}
-
-
-/*******************************************************************************
-    medHomepageButton
- *******************************************************************************/
-medHomepageButton
-{
-    background-color: $HOME_PAGE_BUTTON_BACKGROUND;
-}
-
-medHomepageButton:hover
-{
-    background-color: $HOME_PAGE_BUTTON_HOVER_BACKGROUND;
-    color: $HOME_PAGE_BUTTON_COLOR;
 }
 
 
@@ -1304,3 +1248,27 @@ medLinkMenu QListWidget::item:selected
     background: $MENU_ITEM_HOVER_BACKGROUND;
     color: $MENU_ITEM_SELECTED_COLOR;
 }
+
+/*******************************************************************************
+     StatusBar
+ *******************************************************************************/
+QWidget#medStatusBar
+{
+    background: $STATUS_BAR_BACKGROUND;
+    min-height: $STATUS_BAR_HEIGHT;
+}
+
+/*******************************************************************************
+     HomePage
+ *******************************************************************************/
+
+QToolButton#medHomePageButton
+{
+    background: $HOMEPAGE_BUTTON_BACKGROUND;
+}
+
+QToolButton#medHomePageButton::hover
+{
+    background: $HOMEPAGE_BUTTON_HOVER_BACKGROUND;
+}
+

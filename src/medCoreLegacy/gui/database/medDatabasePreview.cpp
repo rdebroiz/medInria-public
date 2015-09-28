@@ -261,7 +261,7 @@ void medDatabasePreview::resizeEvent(QResizeEvent *event)
 void medDatabasePreview::showSeriesPreview(const medDataIndex &index)
 {
     d->currentDataType = medDatabasePreview::SERIES;
-    medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(index.dataSourceId());
+    medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(index.dataSourceId());
 
     if (d->staticScene)
         delete d->staticScene;
@@ -281,7 +281,7 @@ void medDatabasePreview::showSeriesPreview(const medDataIndex &index)
 void medDatabasePreview::showStudyPreview(const medDataIndex &index)
 {
     d->currentDataType = medDatabasePreview::STUDY;
-    medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(index.dataSourceId());
+    medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(index.dataSourceId());
 
     if (d->staticScene)
         delete d->staticScene;
@@ -319,7 +319,7 @@ void medDatabasePreview::showStudyPreview(const medDataIndex &index)
 void medDatabasePreview::showPatientPreview(const medDataIndex &index)
 {
     d->currentDataType = medDatabasePreview::PATIENT;
-    medAbstractDbController * dbc = medDataManager::instance()->controllerForDataSource(index.dataSourceId());
+    medAbstractDbController * dbc = medDataManager::instance()->controllerForDatasource(index.dataSourceId());
 
     if (d->staticScene)
         delete d->staticScene;

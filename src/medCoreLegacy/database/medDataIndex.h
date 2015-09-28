@@ -45,7 +45,7 @@ public:
 
     QString asString() const;
 
-    void setDataSourceId (int id) { m_dataSourceId = id; }
+    void setDatasourceId (int id) { m_dataSourceId = id; }
     void setPatientId (int id) { m_patientId = id; }
     void setStudyId   (int id) { m_studyId = id; }
     void setSeriesId  (int id) { m_seriesId = id; }

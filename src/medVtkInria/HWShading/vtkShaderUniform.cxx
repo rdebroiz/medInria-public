@@ -32,7 +32,7 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include <vtkObjectFactory.h>
 
-vtkCxxRevisionMacro (vtkShaderUniform, "$Revision: 540 $");
+
 
 vtkShaderUniform::vtkShaderUniform()
 {

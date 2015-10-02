@@ -93,7 +93,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include <vtkOpenGLExtensionManager.h>
 #include <vtkProperty.h>
 
-vtkCxxRevisionMacro(vtkFiberMapper, "$Revision: 1 $");
+
 vtkStandardNewMacro(vtkFiberMapper);
 
 vtkFiberMapper::vtkFiberMapper()
@@ -103,7 +103,7 @@ vtkFiberMapper::vtkFiberMapper()
   this->ShaderProgramShadow = vtkAnisoLiShadowMapSP::New();
 
   this->ShadowMappingHelper = vtkShadowMappingHelperLines::New();
-  
+
   this->Lighting = true;
   this->Shadowing = true;
   this->ToneShading = false;
@@ -202,7 +202,7 @@ void vtkFiberMapper::Render(vtkRenderer* aren, vtkActor* act)
     {
 
     vtkDebugMacro(<<"Enabling anisotropic lighting shader "
-	<<this->ShaderProgram<<".");
+    <<this->ShaderProgram<<".");
     if (this->Shadowing)
       {
 //      this->ShaderProgramShadow->Link();
@@ -229,7 +229,7 @@ void vtkFiberMapper::Render(vtkRenderer* aren, vtkActor* act)
     //this->ShaderProgram->Activate();
     }
 
-  // set matrix mode for actors 
+  // set matrix mode for actors
   glMatrixMode(GL_MODELVIEW);
 
   this->DrawLines(points, lineStrips, aren, noAbort);
@@ -242,11 +242,11 @@ void vtkFiberMapper::Render(vtkRenderer* aren, vtkActor* act)
 
 //  this->DrawShadowMap();
 
-  // clean up the model view matrix set up by the camera 
+  // clean up the model view matrix set up by the camera
   // Why am I doing this?
 //  glMatrixMode(GL_MODELVIEW);
 //  glPopMatrix();
-  
+
 //  ren->SetActiveCamera(cam);
 //  cam->Render(ren);
 
@@ -265,7 +265,7 @@ void vtkFiberMapper::Render(vtkRenderer* aren, vtkActor* act)
 }
 
 void vtkFiberMapper::DrawLines(vtkPoints* points, vtkCellArray* lineStrips,
-				vtkRenderer* ren, int &noAbort)
+                vtkRenderer* ren, int &noAbort)
 {
   vtkDebugMacro(<<"Drawing lines...");
   assert(lineStrips != NULL);
@@ -289,7 +289,7 @@ void vtkFiberMapper::DrawLines(vtkPoints* points, vtkCellArray* lineStrips,
   short lineID[2];
 
   for(lineStrips->InitTraversal(); noAbort  && lineStrips->GetNextCell(npts, pts);
-	count++)
+    count++)
     {
     lineID[0] = count;
 
@@ -299,7 +299,7 @@ void vtkFiberMapper::DrawLines(vtkPoints* points, vtkCellArray* lineStrips,
     // compute the tangent for the first part and initialize
     // currentPoint as the first point.
     currentPoint = points->GetPoint(pts[0]);
-   
+
     for (i = 1; i < npts; i++)
       {
       lineID[1] = i;
@@ -394,7 +394,7 @@ void vtkFiberMapper::DrawLines(vtkPoints* points, vtkCellArray* lineStrips,
 } // DrawLines
 
 void vtkFiberMapper::RegenerateShadowMap(vtkPoints* points, vtkCellArray* lineStrips,
-				vtkRenderer* ren, int &noAbort)
+                vtkRenderer* ren, int &noAbort)
 {
   vtkDebugMacro(<<"Create camera from light");
 
@@ -563,7 +563,7 @@ void vtkFiberMapper::Initialize(vtkRenderer *r)
 
   vtkOpenGLExtensionManager *extensions=static_cast<vtkOpenGLRenderWindow *>(
     r->GetRenderWindow())->GetExtensionManager();
-  
+
   int supports_GL_VERSION_2_0			= extensions->ExtensionSupported("GL_VERSION_2_0");
   int supports_GL_EXT_framebuffer_object	= extensions->ExtensionSupported("GL_EXT_framebuffer_object");
 

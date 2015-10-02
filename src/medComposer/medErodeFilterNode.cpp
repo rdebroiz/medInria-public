@@ -1,7 +1,5 @@
 // Copyright: INRIA
 
-#pragma once
-
 #include <dtkComposer>
 
 #include "medErodeFilterNode.h"
@@ -13,7 +11,7 @@ class medErodeFilterNodePrivate
 public:
     dtkComposerTransmitterReceiver< double >                    radiusRecv;
     dtkComposerTransmitterReceiver< medAbstractImageData* >     imgRecv;
-    
+
     dtkComposerTransmitterEmitter< medAbstractImageData* >      imgEmt;
 };
 
@@ -23,7 +21,7 @@ medErodeFilterNode::medErodeFilterNode(void) : dtkComposerNodeObject<medAbstract
 
     this->appendReceiver(&d->radiusRecv);
     this->appendReceiver(&d->imgRecv);
-    
+
     this->appendEmitter (&d->imgEmt);
 }
 

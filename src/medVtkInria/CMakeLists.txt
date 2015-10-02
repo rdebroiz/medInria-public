@@ -4,7 +4,7 @@
 #
 # Copyright (c) INRIA 2013 - 2014. All rights reserved.
 # See LICENSE.txt for details.
-# 
+#
 #  This software is distributed WITHOUT ANY WARRANTY; without even
 #  the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 #  PURPOSE.
@@ -69,43 +69,43 @@ shader_to_header(HWShading/shaders/AnisotropicLighting.frag
 shader_to_header(HWShading/shaders/ShadowMapping.vert
   ShadowMappingVertexText
   )
-  
+
 shader_to_header(HWShading/shaders/ShadowMapping.frag
   ShadowMappingFragmentText
   )
-  
+
 shader_to_header(HWShading/shaders/Spotlight.func
   SpotlightFunctionsText
   )
-  
+
 shader_to_header(HWShading/shaders/AnisotropicLighting.func
   AnisotropicLightingFunctionsText
   )
-  
+
 shader_to_header(HWShading/shaders/AnisoLiShadowMap.frag
   AnisotropicLightingShadowMappingFragmentText
   )
-  
+
 shader_to_header(HWShading/shaders/AnisoLiShadowMap.vert
   AnisotropicLightingShadowMappingVertexText
   )
-  
+
 shader_to_header(HWShading/shaders/BuildShadowMap.vert
   BuildShadowMapVertexText
   )
-  
+
 shader_to_header(HWShading/shaders/BuildShadowMap.frag
   BuildShadowMapFragmentText
   )
-  
+
 shader_to_header(HWShading/shaders/BuildShadowMapLines.vert
   BuildShadowMapLinesVertexText
   )
-  
+
 shader_to_header(HWShading/shaders/BuildShadowMapLines.frag
   BuildShadowMapLinesFragmentText
   )
-  
+
 
 ## #############################################################################
 ## include directories.
@@ -131,7 +131,7 @@ if(${PROJECT_NAME}_USE_PRECOMPILED_HEADERS)
   file(GLOB VTKINRIAPCH_H
     vtkInriaPch/*.h
     )
-  
+
   file(GLOB VTKINRIAPCH_CPP
     vtkInriaPch/*.cpp
     )
@@ -165,7 +165,7 @@ add_library(${PROJECT_NAME} SHARED
 ## Link
 ## #############################################################################
 
-target_link_libraries(${PROJECT_NAME}  
+target_link_libraries(${PROJECT_NAME}
   ${OPENGL_LIBRARIES}
   ITKIOImageBase
   ITKIOBMP
@@ -194,7 +194,7 @@ target_link_libraries(${PROJECT_NAME}
   vtkRenderingOpenGL
   vtkRenderingVolumeOpenGL
   #vtkRenderingVolumeOpenGLNew
-  vtkRenderingFreeTypeOpenGL
+#  vtkRenderingFreeTypeOpenGL
   vtkRenderingContextOpenGL
   vtkInteractionWidgets
   vtkInteractionStyle

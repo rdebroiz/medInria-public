@@ -29,7 +29,7 @@ PURPOSE.  See the above copyright notices for more information.
 #include "vtkShaderBaseHandle.h"
 #include <vtkObjectFactory.h>
 
-vtkCxxRevisionMacro (vtkShaderBaseHandle, "$Revision: 540 $");
+
 vtkStandardNewMacro (vtkShaderBaseHandle);
 
 vtkShaderBaseHandle::vtkShaderBaseHandle()

@@ -14,7 +14,7 @@
 #pragma once
 
 #include <medAbstractProcessPresenter.h>
-#include <medAbstractMorphomathOperationProcess.h>
+#include <medAbstractArithmeticOperationProcess.h>
 
 #include <medWidgetsExport.h>
 
@@ -24,24 +24,25 @@ class QPushButton;
 class medViewContainerSplitter;
 class medAbstractData;
 
-class medAbstractMorphomathOperationProcessPresenterPrivate;
-class MEDWIDGETS_EXPORT medAbstractMorphomathOperationProcessPresenter : public medAbstractProcessPresenter
+class medAbstractArithmeticOperationProcessPresenterPrivate;
+class MEDWIDGETS_EXPORT medAbstractArithmeticOperationProcessPresenter : public medAbstractProcessPresenter
 {
     Q_OBJECT
 
 public:
-    medAbstractMorphomathOperationProcessPresenter(medAbstractMorphomathOperationProcess *parent);
-    virtual ~medAbstractMorphomathOperationProcessPresenter();
+    medAbstractArithmeticOperationProcessPresenter(medAbstractArithmeticOperationProcess *parent);
+    virtual ~medAbstractArithmeticOperationProcessPresenter();
 
     virtual QWidget *buildToolBoxWidget();
     virtual medViewContainerSplitter *buildViewContainerSplitter();
 
-    const QScopedPointer<medAbstractMorphomathOperationProcessPresenterPrivate> d;
+    const QScopedPointer<medAbstractArithmeticOperationProcessPresenterPrivate> d;
 
 private slots:
     // TODO RDE - have to be moved later.
     void _importOutput(medAbstractJob::medJobExitStatus jobExitStatus);
-    void _setInputFromContainer(medAbstractData *data);
+    void _setInput1FromContainer(medAbstractData *data);
+    void _setInput2FromContainer(medAbstractData *data);
 
 signals:
     void _outputImported(medAbstractData *);

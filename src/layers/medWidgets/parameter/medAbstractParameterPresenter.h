@@ -27,7 +27,7 @@ class MEDWIDGETS_EXPORT medAbstractParameterPresenter : public QObject
     Q_OBJECT
 
 public:
-    medAbstractParameterPresenter(medAbstractParameter *parent = NULL);
+    medAbstractParameterPresenter(medAbstractParameter *parent);
     virtual ~medAbstractParameterPresenter();
 
     virtual QWidget *buildWidget() = 0;
